@@ -1,0 +1,92 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <link rel="stylesheet" href="Style.css">
+    <meta charset="UTF-8">
+    <title>✧༝◦‥‥◦༝✦</title>
+  </head>
+
+  <body>
+
+<div class="wrapper">
+<div class="banner">
+  <a href="index.html"><img src="Media/logo.png"></a>
+</div>
+
+<div class="container">
+ <ul class="drop-down-menu" >
+        <li><a href="introduce.html" id="1">✦ 網 站 介 紹</a>
+        </li>
+        <li><a href="alien_type.html" id="2">✦ 我 們 是 誰</a>
+        </li>
+        <li onclick="change()" ><a href="form_final.html" id="3">くぁwせfふじこ</a>
+        </li>
+        <li><a href="author.html" id="4">✦ 作 者 介 紹</a>
+        </li>
+        <li><a href="contact.html" id="5">✦ 友 站 連 結</a>
+        </li>
+    </ul>
+  </div>
+
+<div class ="slide-right">
+<div class="contentContact">
+<table>
+  <tr>
+    <td align="center" colspan="2"><font><b>✦ 51區</b></font>
+    </td>
+    <td>
+      <font><a href="https://www.space.com/area-51-what-is-it">✧✧✧這</a></font>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><font><b>✧ 台灣雷爾運動</b></font>
+    </td>
+    <td>
+      <font><a href="https://www.facebook.com/UFO.TRM/">✦裡✦✦</a></font>
+    </td>
+  </tr>
+  <tr>
+  <td align="center" colspan="3"><img src="Media/love.png"></td></tr>
+  </table>
+</div>
+</div>
+</div>
+
+<div class="footer">
+
+  <font color="#Ffffff" size=1>✧✦支 援 Google Chrome / Microsoft Edge | 外 星 人 大 法 好 ！ ✦✧<br>©2022 HsssUEJSU. All rights reserved.</font>
+  
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+
+  function change(){
+
+          $("#1").text("快點 聯絡我們");
+          $("#2").text("我們在 等你唷");
+          $("#3").text("快點快點快點");
+          $("#4").text("快來跟我們玩 ");
+          $("#5").text("快點快點快點");
+
+      };
+
+
+  var img_1 = $("img").get(1);
+
+
+  $(img_1).click(function(){
+
+         $(img_1).attr('src','Media/love2.png');
+
+     });
+
+
+
+</script>
+
+
+</html>

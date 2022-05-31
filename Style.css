@@ -1,0 +1,371 @@
+    html, body {
+    height: 100%;
+    margin: 0;
+    background-color:  #5B00AE;
+    background-image: url(Media/bg.png);
+    background-repeat: repeat;
+
+    }
+
+    img{
+
+    box-shadow:0px 0px 20px #B87070;
+
+    }
+
+    p{
+
+        color:#01B468;
+        text-shadow: 0px 0px 25px #FFE153;
+    }
+
+    /*logo*/
+    .banner{
+
+     position: relative; 
+     margin:0 auto;
+     bottom: 20px;
+     width: 850px;
+     
+    }
+
+    .banner img{
+
+    box-shadow:none;
+
+    }
+
+   .wrapper{
+
+    position: relative;
+
+    left: 0px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    min-height: 100%;
+
+    margin-bottom: -75px; /*隨footer高度需做調整*/
+
+    border-radius: 10px;
+    box-shadow:0px 0px 20px #FFFFAA;
+    background-color: #000;
+
+
+   }
+
+    /*底部*/
+    .footer{
+
+    position: relative;
+
+    margin:0 auto;
+    padding-top: 10px;
+    height: 65px;
+    width: 850px;
+    text-align: center;
+    font-family: 微軟正黑體;
+    background-color:  #02DF82;
+    border-radius: 10px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    opacity: 50%;
+    transition: 0.5s;
+
+    }
+
+    .footer:hover{
+    background-color:  #5B00AE;
+
+    }
+
+
+    /*作者內容*/
+    .contentAlien{
+
+
+    position: relative;
+    top:20px; 
+    left: 10px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    height: 2600px;
+
+    padding-bottom: 50px; /*隨footer高度需做調整*/
+
+    font-family: 微軟正黑體;
+    font-size: 15px;
+
+
+
+    }
+    .contentAlien td { 
+
+    position: relative; 
+    margin:0 auto;
+    left: 0px;
+    right: 0px;
+        
+    border:1px transparent;
+    padding: 50px 50px 50px 120px;
+
+    font-family: 微軟正黑體;
+    color:  #D3A4FF;
+    font-size: 16px;
+    text-align: left;
+    text-shadow: 0px 0px 25px #FFE153;
+    } 
+
+    .contentAlien th {
+
+
+    font-family: 微軟正黑體;
+    color: #FFf;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: 0px 0px 25px  #FFE153;
+
+    }
+
+    /**/
+    .contentEmpty{
+
+    position: relative;
+    top:0px; 
+    bottom:20px;
+    left: 0px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    height: 100px;
+
+    padding-bottom: 50px; /*隨footer高度需做調整*/
+
+
+    font-family: 微軟正黑體;
+    font-size: 16px;
+
+
+    }
+
+    .contentEmpty img{
+
+    box-shadow:none;
+
+    }
+
+
+    /*聯繫內容*/
+    .contentContact{
+
+
+    position: relative;
+    top:20px; 
+    left: 50px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    height: 400px;
+
+    padding-bottom: 50px; /*隨footer高度需做調整*/
+
+    font-family: 微軟正黑體;
+    font-size: 16px;
+
+
+    }
+
+     .contentContact img{
+
+        box-shadow:none;
+
+     }
+
+    .contentContact a{
+
+        color: #79FF79;
+        text-decoration: none;
+
+
+    }
+
+    .contentContact a:hover{
+
+        color: #FFE153;
+
+
+    }
+
+    .contentContact td { 
+
+    position: relative; 
+    margin:0 auto;
+    left: 0px;
+    right: 0px;
+        
+    border:1px transparent;
+    padding: 10px 10px 10px 60px;
+
+    font-family: 微軟正黑體;
+    color: #79FF79;
+    font-size: 16px;
+    text-align: left;
+    text-shadow: 0px 0px 25px #FFE153;
+    } 
+    
+    /*價格內容*/
+
+    .contentIntroduce{
+
+
+    position: relative;
+    top:20px; 
+    left: 20px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    height: 800px;
+
+    padding-bottom: 50px; /*隨footer高度需做調整*/
+
+    font-family: 微軟正黑體;
+    font-size: 16px;
+
+
+    }
+
+    /*作者內容*/
+    .contentAuthor{
+
+
+    position: relative;
+    top:20px; 
+    left: -200px;
+    right: 0px;
+    margin:0 auto;
+    width: 850px;
+    height: 700px;
+
+    padding-bottom: 50px; /*隨footer高度需做調整*/
+
+    font-family: 微軟正黑體;
+    font-size: 16px;
+
+
+    }
+    .contentAuthor td { 
+
+    position: relative; 
+    margin:0 auto;
+    left: 0px;
+    right: 0px;
+        
+    border:1px transparent;
+    padding: 50px 50px 50px 120px;
+
+    font-family: 微軟正黑體;
+    color: #B87070;
+    font-size: 16px;
+    text-shadow: 0px 0px 25px #FFE153;
+    text-align: left;
+    } 
+
+    /**/
+
+    /*目錄*/
+
+    .container{
+
+
+     position: relative;
+     margin:0 auto;
+     width: 850px;
+     height: 80px;
+
+     
+    }
+
+    ul { /* 取消ul預設的內縮及樣式 */
+
+       
+        padding: 0 auto;
+        list-style: none;
+    }
+
+    ul.drop-down-menu {
+
+        border: transparent;
+        font-family: 微軟正黑體;
+        font-size: 16px;
+    }
+
+    ul.drop-down-menu li {
+
+        box-shadow:0px 0px 12px #C1FFE4;
+        margin-right: 5px;
+        border-radius: 10px;
+        border: transparent;
+        position: relative;
+        white-space: nowrap;
+    }
+
+
+    ul.drop-down-menu > li {
+        float: left; /* 只有第一層是靠左對齊*/
+    }
+
+     ul.drop-down-menu a {
+        background-color: #000;
+        border-radius: 6px;
+        color: #D3A4FF;
+        display: block;
+        padding: 0 28px;
+        text-decoration: none;
+        line-height: 40px;
+        transition: 0.5s;
+
+    }
+    ul.drop-down-menu a:hover { /* 滑鼠滑入按鈕變色*/
+        box-shadow:0px 0px 9px #D3A4FF;
+        text-shadow: 0px 0px 25px #FFE153;
+        background-color: #D3A4FF;
+        opacity: 50%;
+        color: #fff;
+    }
+
+    /*動畫*/
+    .slide-right {
+
+     -webkit-animation: slide-right 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) forwards;
+          animation: slide-right 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) forwards;
+    }
+    @-webkit-keyframes slide-right {
+      0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(200px);
+            transform: translateX(200px);
+     }
+    }
+
+  .slide-left {
+    -webkit-animation: slide-left 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+          animation: slide-left 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+    }
+
+
+    @-webkit-keyframes slide-left {
+     0% {
+        -webkit-transform: translateX(150px);
+            transform: translateX(150px);
+    }
+    100% {
+        -webkit-transform: translateX(0px);
+            transform: translateX(0px);
+    }
+    }
+    }
+ 
