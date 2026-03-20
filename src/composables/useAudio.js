@@ -7,15 +7,8 @@ function getContext() {
   return audioCtx
 }
 
-function showAudioToast() {
-  if (initialized) return
+function ensureInitialized() {
   initialized = true
-  const toast = document.createElement('div')
-  toast.textContent = '🔊 已啟用音效'
-  toast.style.cssText = 'position:fixed;top:20px;right:20px;padding:8px 16px;background:rgba(0,255,136,0.15);color:#0f8;border:1px solid #0f8;border-radius:4px;font-size:13px;z-index:99999;transition:opacity 0.5s;pointer-events:none;'
-  document.body.appendChild(toast)
-  setTimeout(() => { toast.style.opacity = '0' }, 1500)
-  setTimeout(() => toast.remove(), 2000)
 }
 
 const ALIEN_SOUNDS = {
@@ -167,7 +160,7 @@ export function useAudio() {
     const config = ALIEN_SOUNDS[alienId]
     if (!config) return
     const ctx = getContext()
-    showAudioToast()
+    ensureInitialized()
     switch (config.type) {
       case 'chord': playChord(ctx, config.notes, config.wave); break
       case 'arpeggio': playArpeggio(ctx, config.notes, config.wave); break
@@ -181,7 +174,7 @@ export function useAudio() {
 
   function playExplosion() {
     const ctx = getContext()
-    showAudioToast()
+    ensureInitialized()
     // Low-frequency burst
     const gain1 = ctx.createGain()
     gain1.connect(ctx.destination)

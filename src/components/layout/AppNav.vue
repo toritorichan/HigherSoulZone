@@ -53,6 +53,9 @@ onMounted(() => {
 
 watch(() => route.path, (newPath) => {
   if (newPath === '/') {
+    // Reset everything back to entrance state
+    garbledTriggered.value = false
+    glitchActive.value = false
     visible.value = false
     setTimeout(() => { visible.value = true }, 2000)
   }
