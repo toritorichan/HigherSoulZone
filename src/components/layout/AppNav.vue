@@ -36,6 +36,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const garbledTriggered = ref(false)
 const glitchActive = ref(false)
@@ -69,6 +72,7 @@ function triggerGarbledEgg() {
     garbledTriggered.value = true
     setTimeout(() => { glitchActive.value = false }, 500)
   }, 400)
+  setTimeout(() => { router.push('/dead') }, 800)
 }
 </script>
 
