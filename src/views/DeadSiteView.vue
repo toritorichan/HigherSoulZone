@@ -21,7 +21,7 @@
       <p ref="messageRef" class="dead__message"></p>
     </div>
 
-    <!-- Reject: scattered "不要" -->
+    <!-- Reject: scattered "不要" in multiple languages -->
     <div
       v-for="(nope, i) in scatteredNopes"
       :key="'nope-' + i"
@@ -29,7 +29,7 @@
       :class="{ 'dead__scattered--drift': nope.drifting, 'dead__scattered--grow': nope.growing }"
       :style="nope.style"
     >
-      不要
+      {{ nope.text }}
     </div>
 
     <div v-if="screenPulse" class="dead__pulse"></div>
@@ -70,10 +70,18 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+const nopeWords = [
+  '不要', '不要', '不要', '不要', '不要',
+  'いやだ', 'やめて', 'NO', 'NO', 'НЕТ',
+  '싫어', '안돼', 'STOP', 'NON', 'NEIN',
+  '不要不要', 'だめ', '嫌だ', '離して',
+]
+
 function generateNopes(count) {
   const items = []
   for (let i = 0; i < count; i++) {
     items.push({
+      text: nopeWords[Math.floor(Math.random() * nopeWords.length)],
       style: {
         top: `${Math.random() * 90}vh`,
         left: `${Math.random() * 90}vw`,
@@ -182,19 +190,37 @@ async function handleReject() {
 
   await wait(300)
 
-  // "你確定嗎？"
-  if (messageRef.value) {
-    messageRef.value.textContent = '你確定嗎？'
-    gsap.to(messageRef.value, { opacity: 1, duration: 0.5 })
+  // Multilingual horror sequence
+  const horrorSequence = [
+    { text: '你確定嗎？', dur: 800 },
+    { text: '本当に？', dur: 600 },
+    { text: 'ARE YOU SURE?', dur: 600 },
+    { text: '정말?', dur: 500 },
+    { text: 'Ты уверен?', dur: 500 },
+  ]
+  for (const msg of horrorSequence) {
+    if (messageRef.value) {
+      messageRef.value.textContent = msg.text
+      gsap.to(messageRef.value, { opacity: 1, duration: 0.2 })
+    }
+    await wait(msg.dur)
+    if (messageRef.value) gsap.set(messageRef.value, { opacity: 0 })
+    await wait(100)
   }
-  await wait(1200)
 
-  // Typewriter: "我們會找到你的"
+  // Typewriter: final threat
   if (messageRef.value) {
     gsap.set(messageRef.value, { opacity: 1 })
     await typewriter(messageRef.value, '我們會找到你的', 150)
   }
-  await wait(1500)
+  await wait(800)
+  if (messageRef.value) {
+    gsap.set(messageRef.value, { opacity: 0 })
+    await wait(200)
+    gsap.set(messageRef.value, { opacity: 1 })
+    await typewriter(messageRef.value, '逃げられないよ', 120)
+  }
+  await wait(1000)
 
   // Fade to black
   screenPulse.value = false

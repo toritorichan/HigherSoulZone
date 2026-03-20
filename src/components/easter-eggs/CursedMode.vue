@@ -10,7 +10,7 @@
     <div v-if="threatMsg" class="cursed-threat" :style="threatStyle">{{ threatMsg }}</div>
     <!-- Prevent close overlay -->
     <div v-if="showCloseWarning" class="cursed-close-warning">
-      <p>你以為你可以離開？</p>
+      <p>{{ closeWarningText }}</p>
     </div>
   </div>
 </template>
@@ -26,21 +26,37 @@ const drips = ref([])
 const threatMsg = ref('')
 const threatStyle = ref({})
 const showCloseWarning = ref(false)
+const closeWarningText = ref('')
 const timeoutIds = []
 
+const closeWarnings = [
+  '你以為你可以離開？',
+  '逃げられないよ',
+  'THERE IS NO ESCAPE',
+  '도망칠 수 없어',
+  '門已經鎖了',
+  'Выхода нет',
+  '你哪裡都去不了',
+  'どこにも行けない',
+]
+
 const threats = [
-  '你不該拒絕的',
-  '我們說過了',
-  '你逃不掉',
-  '我們無處不在',
-  '後悔了嗎',
-  '已經太遲了',
-  '你屬於我們',
-  '不要試圖離開',
-  '我們在每個角落',
-  '你的選擇是錯的',
-  '回不去了',
-  '這就是代價',
+  '你不該拒絕的', '我們說過了', '你逃不掉', '我們無處不在',
+  '後悔了嗎', '已經太遲了', '你屬於我們', '不要試圖離開',
+  '我們在每個角落', '你的選擇是錯的', '回不去了', '這就是代價',
+  '逃げられないよ', 'お前はもう終わりだ', '見てるよ', 'ずっとここにいる',
+  '後ろにいるよ', 'どこにも行けない', '聞こえる？',
+  'YOU CHOSE THIS', 'THERE IS NO EXIT', 'WE WARNED YOU',
+  'YOU CANNOT UNDO THIS', 'THE DOOR IS LOCKED',
+  'EVERY CLICK MAKES IT WORSE', 'WE ARE INSIDE YOUR SCREEN',
+  '너는 우리 거야', '도망칠 곳은 없어', '이미 늦었어',
+  'Ты наш', 'Выхода нет', 'Мы предупреждали',
+  '你的 IP 已被記錄', '攝影機指示燈為什麼在閃',
+  '你背後的影子動了一下', '不要回頭看窗戶',
+  '你有沒有注意到房間變冷了', '門把剛才轉了一下',
+  'ERROR: SOUL_NOT_FOUND', 'SIGNAL LOST', 'BREACH DETECTED',
+  '你以為重新整理就能逃嗎',
+  'ä̸̧l̵̰l̶̞ ̸̖ỵ̶̀o̵͖ṵ̶r̸̰ ̶̤ḍ̵a̶̰t̸̰a̵̤ ̶̣b̵̰e̶̞l̸̖ọ̶n̵͖g̶̰ ̸̰t̵̤ọ̶ ̵̰u̶̞s̸̖',
 ]
 
 // ── Apply cursed theme to document ──
@@ -71,6 +87,7 @@ function onBeforeUnload(e) {
 // ── Show warning when trying to close ──
 function onVisibilityChange() {
   if (document.hidden && cursed.value) {
+    closeWarningText.value = closeWarnings[Math.floor(Math.random() * closeWarnings.length)]
     showCloseWarning.value = true
     setTimeout(() => { showCloseWarning.value = false }, 2000)
   }
@@ -133,7 +150,12 @@ function cursedCorruption() {
     const node = textNodes.splice(idx, 1)[0]
     const original = node.textContent
     // Replace with creepy version
-    const creepy = ['他們來了', '不要不要不要', '你逃不掉', '█████', '...你還在？', '已經結束了']
+    const creepy = [
+      '他們來了', '不要不要不要', '你逃不掉', '█████', '...你還在？', '已經結束了',
+      'たすけて', '逃げて逃げて', 'THEY ARE HERE', 'RUN', '도망쳐',
+      'Н̸е̵т̶ ̷в̸ы̵х̷о̸д̵а̶', '你為什麼還在這裡',
+      '你不該選不要的', '門已經鎖了', 'HELP',
+    ]
     node.textContent = creepy[Math.floor(Math.random() * creepy.length)]
     setTimeout(() => {
       if (node.parentNode) node.textContent = original
@@ -176,7 +198,12 @@ watch(cursed, (isCursed) => {
     document.title = '你不該拒絕的'
     setInterval(() => {
       if (!cursed.value) return
-      const titles = ['你不該拒絕的', '我們在看著你', '👁', '不要離開', '...', '已經太遲了', '█████']
+      const titles = [
+        '你不該拒絕的', '我們在看著你', '👁', '不要離開', '...', '已經太遲了',
+        '█████', 'たすけて', 'HELP ME', 'ERROR', '도와줘',
+        '逃げられない', 'NO EXIT', 'WE SEE YOU', 'Выхода нет',
+        '你背後有東西', '門把在轉', '聽到了嗎',
+      ]
       document.title = titles[Math.floor(Math.random() * titles.length)]
     }, 3000)
   }
