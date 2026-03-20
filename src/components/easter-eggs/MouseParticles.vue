@@ -1,9 +1,11 @@
 <template>
-  <canvas ref="canvasRef" class="particles-canvas"></canvas>
+  <teleport to="body">
+    <canvas ref="canvasRef" class="particles-canvas"></canvas>
+  </teleport>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { useEasterEggStore } from '../../stores/easterEgg'
 
 const store = useEasterEggStore()
@@ -26,7 +28,7 @@ function createParticle(x, y, color = 'white') {
     y,
     vx: (Math.random() - 0.5) * 2,
     vy: (Math.random() - 0.5) * 2,
-    size: 3 + Math.random() * 3,
+    size: 4 + Math.random() * 4,
     opacity: 1,
     color,
   }
@@ -96,14 +98,17 @@ function drawParticle(ctx, p) {
     ctx.shadowColor = p.color
   }
 
-  ctx.shadowBlur = 8
+  ctx.shadowBlur = 12
   ctx.fill()
   ctx.shadowBlur = 0
 }
 
 function animate() {
   const canvas = canvasRef.value
-  if (!canvas) return
+  if (!canvas) {
+    animationId = requestAnimationFrame(animate)
+    return
+  }
 
   const ctx = canvas.getContext('2d')
   canvas.width = window.innerWidth
@@ -135,10 +140,11 @@ function animate() {
   animationId = requestAnimationFrame(animate)
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('mousemove', onMouseMove)
   window.addEventListener('mousedown', onMouseDown)
   window.addEventListener('mouseup', onMouseUp)
+  await nextTick()
   animate()
 })
 
@@ -152,10 +158,13 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .particles-canvas {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 5;
   pointer-events: none;
 }
