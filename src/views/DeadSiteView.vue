@@ -41,6 +41,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import gsap from 'gsap'
 import { useEasterEggStore } from '../stores/easterEgg'
+import { garble, garbleRandom } from '../utils/garble.js'
 
 const router = useRouter()
 const store = useEasterEggStore()
@@ -70,18 +71,16 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const nopeWords = [
-  '不要', '不要', '不要', '不要', '不要',
-  'いやだ', 'やめて', 'NO', 'NO', 'НЕТ',
-  '싫어', '안돼', 'STOP', 'NON', 'NEIN',
-  '不要不要', 'だめ', '嫌だ', '離して',
+const nopeSources = [
+  '不要', 'NO', 'STOP', '停下來', '不要不要不要',
+  '離開', '夠了', '別再來了', '拜託', '放過我',
 ]
 
 function generateNopes(count) {
   const items = []
   for (let i = 0; i < count; i++) {
     items.push({
-      text: nopeWords[Math.floor(Math.random() * nopeWords.length)],
+      text: garbleRandom(nopeSources, 0.5 + Math.random() * 0.4),
       style: {
         top: `${Math.random() * 90}vh`,
         left: `${Math.random() * 90}vw`,
@@ -190,13 +189,13 @@ async function handleReject() {
 
   await wait(300)
 
-  // Multilingual horror sequence
+  // Garbled horror sequence
   const horrorSequence = [
-    { text: '你確定嗎？', dur: 800 },
-    { text: '本当に？', dur: 600 },
-    { text: 'ARE YOU SURE?', dur: 600 },
-    { text: '정말?', dur: 500 },
-    { text: 'Ты уверен?', dur: 500 },
+    { text: garble('你確定嗎？', 0.4), dur: 800 },
+    { text: garble('你確定嗎', 0.6), dur: 600 },
+    { text: garble('ARE YOU SURE?', 0.5), dur: 600 },
+    { text: garble('你確定', 0.8), dur: 500 },
+    { text: garble('確定？', 0.9), dur: 500 },
   ]
   for (const msg of horrorSequence) {
     if (messageRef.value) {
@@ -211,14 +210,14 @@ async function handleReject() {
   // Typewriter: final threat
   if (messageRef.value) {
     gsap.set(messageRef.value, { opacity: 1 })
-    await typewriter(messageRef.value, '我們會找到你的', 150)
+    await typewriter(messageRef.value, garble('我們會找到你的', 0.5), 150)
   }
   await wait(800)
   if (messageRef.value) {
     gsap.set(messageRef.value, { opacity: 0 })
     await wait(200)
     gsap.set(messageRef.value, { opacity: 1 })
-    await typewriter(messageRef.value, '逃げられないよ', 120)
+    await typewriter(messageRef.value, garble('你逃不掉的', 0.6), 120)
   }
   await wait(1000)
 

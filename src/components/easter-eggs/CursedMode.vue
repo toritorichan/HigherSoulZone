@@ -18,6 +18,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useEasterEggStore } from '../../stores/easterEgg'
+import { garble, garbleRandom, garbleNoise } from '../../utils/garble.js'
 
 const store = useEasterEggStore()
 const cursed = computed(() => store.cursedMode)
@@ -29,34 +30,19 @@ const showCloseWarning = ref(false)
 const closeWarningText = ref('')
 const timeoutIds = []
 
-const closeWarnings = [
-  '你以為你可以離開？',
-  '逃げられないよ',
-  'THERE IS NO ESCAPE',
-  '도망칠 수 없어',
-  '門已經鎖了',
-  'Выхода нет',
-  '你哪裡都去不了',
-  'どこにも行けない',
+const closeWarningSources = [
+  '你以為你可以離開？', '逃不掉', '門已經鎖了',
+  '你哪裡都去不了', '關不掉', '我們不會讓你走',
 ]
 
-const threats = [
+const threatSources = [
   '你不該拒絕的', '我們說過了', '你逃不掉', '我們無處不在',
   '後悔了嗎', '已經太遲了', '你屬於我們', '不要試圖離開',
-  '我們在每個角落', '你的選擇是錯的', '回不去了', '這就是代價',
-  '逃げられないよ', 'お前はもう終わりだ', '見てるよ', 'ずっとここにいる',
-  '後ろにいるよ', 'どこにも行けない', '聞こえる？',
-  'YOU CHOSE THIS', 'THERE IS NO EXIT', 'WE WARNED YOU',
-  'YOU CANNOT UNDO THIS', 'THE DOOR IS LOCKED',
-  'EVERY CLICK MAKES IT WORSE', 'WE ARE INSIDE YOUR SCREEN',
-  '너는 우리 거야', '도망칠 곳은 없어', '이미 늦었어',
-  'Ты наш', 'Выхода нет', 'Мы предупреждали',
-  '你的 IP 已被記錄', '攝影機指示燈為什麼在閃',
-  '你背後的影子動了一下', '不要回頭看窗戶',
-  '你有沒有注意到房間變冷了', '門把剛才轉了一下',
-  'ERROR: SOUL_NOT_FOUND', 'SIGNAL LOST', 'BREACH DETECTED',
-  '你以為重新整理就能逃嗎',
-  'ä̸̧l̵̰l̶̞ ̸̖ỵ̶̀o̵͖ṵ̶r̸̰ ̶̤ḍ̵a̶̰t̸̰a̵̤ ̶̣b̵̰e̶̞l̸̖ọ̶n̵͖g̶̰ ̸̰t̵̤ọ̶ ̵̰u̶̞s̸̖',
+  '每個角落', '回不去了', '這就是代價',
+  '門已經鎖了', '我們在你的螢幕裡', 'IP已被記錄',
+  '攝影機指示燈在閃', '你背後的影子動了', '房間變冷了',
+  '門把剛才轉了一下', 'ERROR: SOUL NOT FOUND',
+  '你以為重新整理就能逃嗎', 'all your data belong to us',
 ]
 
 // ── Apply cursed theme to document ──
@@ -80,14 +66,14 @@ function applyCursedTheme() {
 // ── Prevent tab close ──
 function onBeforeUnload(e) {
   e.preventDefault()
-  e.returnValue = '你確定要離開嗎？我們會記住的。'
+  e.returnValue = garble('你確定要離開嗎？我們會記住的。', 0.5)
   return e.returnValue
 }
 
 // ── Show warning when trying to close ──
 function onVisibilityChange() {
   if (document.hidden && cursed.value) {
-    closeWarningText.value = closeWarnings[Math.floor(Math.random() * closeWarnings.length)]
+    closeWarningText.value = garbleRandom(closeWarningSources, 0.6)
     showCloseWarning.value = true
     setTimeout(() => { showCloseWarning.value = false }, 2000)
   }
@@ -121,7 +107,7 @@ function spawnDrip() {
 // ── Random floating threat ──
 function showThreat() {
   if (!cursed.value) return
-  threatMsg.value = threats[Math.floor(Math.random() * threats.length)]
+  threatMsg.value = garbleRandom(threatSources, 0.5 + Math.random() * 0.4)
   threatStyle.value = {
     position: 'fixed',
     top: (10 + Math.random() * 70) + 'vh',
@@ -149,14 +135,13 @@ function cursedCorruption() {
     const idx = Math.floor(Math.random() * textNodes.length)
     const node = textNodes.splice(idx, 1)[0]
     const original = node.textContent
-    // Replace with creepy version
-    const creepy = [
-      '他們來了', '不要不要不要', '你逃不掉', '█████', '...你還在？', '已經結束了',
-      'たすけて', '逃げて逃げて', 'THEY ARE HERE', 'RUN', '도망쳐',
-      'Н̸е̵т̶ ̷в̸ы̵х̷о̸д̵а̶', '你為什麼還在這裡',
-      '你不該選不要的', '門已經鎖了', 'HELP',
+    // Replace with garbled version
+    const corruptSources = [
+      '他們來了', '不要不要不要', '你逃不掉', 'HELP',
+      '你還在？', '已經結束了', '快跑', '你為什麼還在這裡',
+      '門已經鎖了', '救救我',
     ]
-    node.textContent = creepy[Math.floor(Math.random() * creepy.length)]
+    node.textContent = garbleRandom(corruptSources, 0.7)
     setTimeout(() => {
       if (node.parentNode) node.textContent = original
     }, 800 + Math.random() * 600)
@@ -195,16 +180,19 @@ watch(cursed, (isCursed) => {
     scheduleRandom(redFlash, 8000, 20000)
 
     // Change page title
-    document.title = '你不該拒絕的'
+    const titleSources = [
+      '你不該拒絕的', '我們在看著你', '不要離開',
+      '已經太遲了', 'ERROR', 'HELP', '沒有出口',
+      '你背後有東西', '門把在轉', '聽到了嗎', 'SIGNAL LOST',
+    ]
+    document.title = garble('你不該拒絕的', 0.6)
     setInterval(() => {
       if (!cursed.value) return
-      const titles = [
-        '你不該拒絕的', '我們在看著你', '👁', '不要離開', '...', '已經太遲了',
-        '█████', 'たすけて', 'HELP ME', 'ERROR', '도와줘',
-        '逃げられない', 'NO EXIT', 'WE SEE YOU', 'Выхода нет',
-        '你背後有東西', '門把在轉', '聽到了嗎',
-      ]
-      document.title = titles[Math.floor(Math.random() * titles.length)]
+      if (Math.random() < 0.15) {
+        document.title = '👁'
+      } else {
+        document.title = garbleRandom(titleSources, 0.5 + Math.random() * 0.4)
+      }
     }, 3000)
   }
 })

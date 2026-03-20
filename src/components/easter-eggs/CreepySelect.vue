@@ -6,37 +6,19 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { garbleRandom } from '../../utils/garble.js'
 
 const showMessage = ref(false)
 const creepyMessage = ref('')
 const messageStyle = ref({})
 
-const messages = [
-  '你不該看到這個',
-  '停下來',
-  '他們知道了',
-  '已經太遲了',
-  '不要複製',
-  '我們看到你了',
-  '這些文字不屬於你',
-  '你在尋找什麼？',
-  '真相會找到你的',
-  '別再看了',
-  '為什麼要選這段',
-  '見ないで',
-  'やめて',
-  '触るな',
-  'DON\'T',
-  'STOP READING',
-  'THIS IS NOT FOR YOU',
-  '이것은 너의 것이 아니야',
-  '不要再碰了',
-  '你的手指在發抖嗎',
-  '每選一次 他們就靠近一步',
-  'Не трогай',
-  '你以為這是真的嗎',
-  '他們已經在你身後了',
-  '繼續看 我們不介意',
+const selectSources = [
+  '你不該看到這個', '停下來', '他們知道了', '已經太遲了',
+  '不要複製', '我們看到你了', '這些文字不屬於你',
+  '你在尋找什麼', '真相會找到你', '別再看了',
+  '為什麼要選這段', '不要再碰了', '你的手指在發抖嗎',
+  '每選一次他們就靠近一步', '你以為這是真的嗎',
+  '他們已經在你身後了', '繼續看 我們不介意',
 ]
 
 function onMouseUp() {
@@ -49,7 +31,7 @@ function onMouseUp() {
   const range = selection.getRangeAt(0)
   const rect = range.getBoundingClientRect()
 
-  creepyMessage.value = messages[Math.floor(Math.random() * messages.length)]
+  creepyMessage.value = garbleRandom(selectSources, 0.5 + Math.random() * 0.3)
   messageStyle.value = {
     position: 'fixed',
     left: rect.left + rect.width / 2 + 'px',
@@ -65,7 +47,7 @@ function onMouseUp() {
     const container = range.startContainer
     if (container.nodeType === Node.TEXT_NODE && container.parentNode) {
       const originalText = container.textContent
-      const msg = messages[Math.floor(Math.random() * messages.length)]
+      const msg = garbleRandom(selectSources, 0.6 + Math.random() * 0.3)
       container.textContent = msg
       // Restore after 1.5s with flicker
       setTimeout(() => {

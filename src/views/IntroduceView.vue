@@ -70,9 +70,8 @@
           "live forever, or die to dush."
         </p>
         <div class="introduce__final-horror">
-          <span>y̸̧o̵̰u̶̞ ̸̖ẁ̶i̵͖l̶̰l̸̰ ̵̤ḍ̶ḭ̵e̶̞</span>
-          <span>お前はもう死んでいる</span>
-          <span>你已經死了</span>
+          <span class="introduce__garble-line" data-src="you will die"></span>
+          <span class="introduce__garble-line" data-src="你已經死了"></span>
         </div>
       </div>
     </div>
@@ -80,8 +79,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
+import { garble } from '../utils/garble.js'
 
 const contentRef = ref(null)
 useCopyProtection(contentRef)
@@ -96,8 +96,21 @@ function typewrite(el) {
   }, 20)
 }
 
+let garbleInterval = null
+
 onMounted(async () => {
   await nextTick()
+
+  // Continuously re-garble horror text for living corruption effect
+  const garbleLines = contentRef.value?.querySelectorAll('.introduce__garble-line') || []
+  function refreshGarble() {
+    garbleLines.forEach(el => {
+      el.textContent = garble(el.dataset.src, 0.6 + Math.random() * 0.3)
+    })
+  }
+  refreshGarble()
+  garbleInterval = setInterval(refreshGarble, 800)
+
   const paragraphs = contentRef.value?.querySelectorAll('.tw') || []
 
   const observer = new IntersectionObserver((entries) => {
@@ -116,6 +129,10 @@ onMounted(async () => {
     p.style.minHeight = '1.5em'
     observer.observe(p)
   })
+})
+
+onUnmounted(() => {
+  if (garbleInterval) clearInterval(garbleInterval)
 })
 </script>
 
@@ -244,11 +261,8 @@ onMounted(async () => {
   font-size: 1.8rem;
 }
 .introduce__final-horror span:nth-child(2) {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: rgba(255, 100, 100, 0.8);
-}
-.introduce__final-horror span:nth-child(3) {
-  font-size: 1.4rem;
   animation: horrorPulse 0.8s ease-in-out infinite alternate;
 }
 
