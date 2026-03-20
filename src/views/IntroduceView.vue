@@ -65,9 +65,16 @@
 
       <span class="introduce__noise introduce__noise--bottom">✦ ◦ ✧ ༝ ✦</span>
 
-      <p class="introduce__final-quote introduce__pulse tw">
-        "live forever, or die to dush."
-      </p>
+      <div class="introduce__final-wrap">
+        <p class="introduce__final-quote introduce__pulse tw">
+          "live forever, or die to dush."
+        </p>
+        <div class="introduce__final-horror">
+          <span>y̸̧o̵̰u̶̞ ̸̖ẁ̶i̵͖l̶̰l̸̰ ̵̤ḍ̶ḭ̵e̶̞</span>
+          <span>お前はもう死んでいる</span>
+          <span>你已經死了</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -197,14 +204,66 @@ onMounted(async () => {
     -1px 0 0 rgba(68, 136, 255, 0.25);
 }
 
-/* --- Final quote pulsing --- */
-.introduce__final-quote {
+/* --- Final quote with horror hover --- */
+.introduce__final-wrap {
+  position: relative;
+  margin-top: 3rem;
   text-align: center;
+}
+
+.introduce__final-quote {
   font-size: 1.5rem;
   color: var(--color-text);
   font-weight: bold;
-  margin-top: 3rem;
   letter-spacing: 0.12em;
+  cursor: default;
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.introduce__final-horror {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.introduce__final-horror span {
+  font-family: var(--font-heading);
+  color: #ff0000;
+  text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 40px rgba(255, 0, 0, 0.3);
+  letter-spacing: 0.15em;
+}
+
+.introduce__final-horror span:nth-child(1) {
+  font-size: 1.8rem;
+}
+.introduce__final-horror span:nth-child(2) {
+  font-size: 1.2rem;
+  color: rgba(255, 100, 100, 0.8);
+}
+.introduce__final-horror span:nth-child(3) {
+  font-size: 1.4rem;
+  animation: horrorPulse 0.8s ease-in-out infinite alternate;
+}
+
+.introduce__final-wrap:hover .introduce__final-quote {
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.introduce__final-wrap:hover .introduce__final-horror {
+  opacity: 1;
+}
+
+@keyframes horrorPulse {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.05); }
 }
 
 .introduce__pulse {
