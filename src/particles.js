@@ -4,7 +4,7 @@
 export function initParticles() {
   const canvas = document.createElement('canvas')
   canvas.id = 'particle-canvas'
-  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;pointer-events:none;'
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2;pointer-events:none;'
   document.body.appendChild(canvas)
 
   const ctx = canvas.getContext('2d')
@@ -20,6 +20,24 @@ export function initParticles() {
     canvas.height = H
   })
 
+  // ── Background floating stars ──
+  const bgStars = []
+  const BG_STAR_COUNT = 80
+
+  for (let i = 0; i < BG_STAR_COUNT; i++) {
+    bgStars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      size: 1 + Math.random() * 2.5,
+      opacity: 0.2 + Math.random() * 0.5,
+      speed: 0.1 + Math.random() * 0.4,
+      drift: (Math.random() - 0.5) * 0.2,
+      twinkleSpeed: 0.005 + Math.random() * 0.015,
+      twinklePhase: Math.random() * Math.PI * 2,
+    })
+  }
+
+  // ── Mouse trail particles ──
   const particles = []
   let mouseX = 0
   let mouseY = 0
@@ -71,6 +89,34 @@ export function initParticles() {
   function frame() {
     ctx.clearRect(0, 0, W, H)
 
+    // ── Draw background floating stars ──
+    for (const star of bgStars) {
+      // Move slowly upward with slight drift
+      star.y -= star.speed
+      star.x += star.drift
+
+      // Wrap around
+      if (star.y < -10) { star.y = H + 10; star.x = Math.random() * W }
+      if (star.x < -10) star.x = W + 10
+      if (star.x > W + 10) star.x = -10
+
+      // Twinkle
+      star.twinklePhase += star.twinkleSpeed
+      const twinkle = 0.5 + 0.5 * Math.sin(star.twinklePhase)
+      const alpha = star.opacity * twinkle
+
+      ctx.save()
+      ctx.globalAlpha = alpha
+      ctx.shadowBlur = 6
+      ctx.shadowColor = 'rgba(255, 255, 255, 0.5)'
+      ctx.fillStyle = '#fff'
+      ctx.beginPath()
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.restore()
+    }
+
+    // ── Mouse trail particles ──
     if (mouseDown && Date.now() - mouseDownStart > 3000) {
       blackHole = true
     }
