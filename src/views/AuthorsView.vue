@@ -4,26 +4,36 @@
       <h2 class="authors__heading">作者介紹</h2>
 
       <div class="authors__grid">
-        <div class="author-card author-card--ej">
-          <h3 class="author-card__name author-card__name--pink">EJ_SU</h3>
-          <p class="author-card__id">蘇怡倢 / B34071149</p>
-          <ul class="author-card__points">
-            <li>致力於第三文明的美學</li>
-            <li>探討埃及文化與外星文明的學術研究</li>
-            <li>成大外星文明探索大使</li>
-          </ul>
+        <div class="author-block author-block--left author-block--float-a">
+          <div class="author-block__avatar author-block__avatar--pink">
+            <span class="author-block__initial">E</span>
+          </div>
+          <div class="author-block__info">
+            <h3 class="author-block__name author-block__name--pink">EJ_SU</h3>
+            <p class="author-block__id">蘇怡倢 / B34071149</p>
+            <ul class="author-block__points">
+              <li>致力於第三文明的美學</li>
+              <li>探討埃及文化與外星文明的學術研究</li>
+              <li>成大外星文明探索大使</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="author-card author-card--hs">
-          <h3 class="author-card__name author-card__name--blue">HsssU</h3>
-          <p class="author-card__id">許語宸 / F14061232</p>
-          <ul class="author-card__points">
-            <li>
-              <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
-            </li>
-            <li>探討麥田圈與外星繪畫創作之關聯的學術研究</li>
-            <li>雷爾運動的協助創辦人（台灣分部）</li>
-          </ul>
+        <div class="author-block author-block--right author-block--float-b">
+          <div class="author-block__avatar author-block__avatar--blue">
+            <span class="author-block__initial">H</span>
+          </div>
+          <div class="author-block__info">
+            <h3 class="author-block__name author-block__name--blue">HsssU</h3>
+            <p class="author-block__id">許語宸 / F14061232</p>
+            <ul class="author-block__points">
+              <li>
+                <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
+              </li>
+              <li>探討麥田圈與外星繪畫創作之關聯的學術研究</li>
+              <li>雷爾運動的協助創辦人（台灣分部）</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -74,57 +84,131 @@ function onThirdEyeClick() {
   font-family: var(--font-heading);
   font-size: 2rem;
   color: var(--color-primary);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   letter-spacing: 0.1em;
 }
 
 .authors__grid {
   display: flex;
   flex-direction: column;
+  gap: 3rem;
+}
+
+/* --- Author block layout --- */
+.author-block {
+  display: flex;
+  align-items: flex-start;
   gap: 1.5rem;
+  padding: 1.5rem;
 }
 
-.author-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 2rem;
-  transition: border-color 0.3s;
+.author-block--left {
+  margin-right: 6rem;
 }
 
-.author-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+.author-block--right {
+  margin-left: 6rem;
+  flex-direction: row-reverse;
+  text-align: right;
 }
 
-.author-card__name {
+.author-block--right .author-block__points {
+  direction: rtl;
+}
+
+.author-block--right .author-block__points li {
+  padding-left: 0;
+  padding-right: 1.2rem;
+}
+
+.author-block--right .author-block__points li::before {
+  left: auto;
+  right: 0;
+}
+
+/* --- Floating animation --- */
+.author-block--float-a {
+  animation: floatA 6s ease-in-out infinite;
+}
+
+.author-block--float-b {
+  animation: floatB 7s ease-in-out infinite;
+}
+
+/* --- Neon circle avatar --- */
+.author-block__avatar {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-block__avatar--pink {
+  border: 2px solid var(--color-accent, #ff00c8);
+  box-shadow:
+    0 0 12px rgba(255, 0, 200, 0.4),
+    0 0 30px rgba(255, 0, 200, 0.15),
+    inset 0 0 12px rgba(255, 0, 200, 0.1);
+}
+
+.author-block__avatar--blue {
+  border: 2px solid #4488ff;
+  box-shadow:
+    0 0 12px rgba(68, 136, 255, 0.4),
+    0 0 30px rgba(68, 136, 255, 0.15),
+    inset 0 0 12px rgba(68, 136, 255, 0.1);
+}
+
+.author-block__initial {
+  font-family: var(--font-display, monospace);
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.author-block__avatar--pink .author-block__initial {
+  color: var(--color-accent, #ff00c8);
+  text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
+}
+
+.author-block__avatar--blue .author-block__initial {
+  color: #4488ff;
+  text-shadow: 0 0 10px rgba(68, 136, 255, 0.5);
+}
+
+/* --- Info --- */
+.author-block__name {
   font-family: var(--font-display);
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
 }
 
-.author-card__name--pink {
+.author-block__name--pink {
   color: var(--color-accent);
   text-shadow: 0 0 10px rgba(255, 0, 200, 0.3);
 }
 
-.author-card__name--blue {
+.author-block__name--blue {
   color: #4488ff;
   text-shadow: 0 0 10px rgba(68, 136, 255, 0.3);
 }
 
-.author-card__id {
+.author-block__id {
   color: var(--color-text-dim);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
-.author-card__points {
+.author-block__points {
   list-style: none;
   padding: 0;
 }
 
-.author-card__points li {
+.author-block__points li {
   color: var(--color-text-dim);
   padding: 0.4rem 0;
   padding-left: 1.2rem;
@@ -132,13 +216,14 @@ function onThirdEyeClick() {
   line-height: 1.6;
 }
 
-.author-card__points li::before {
+.author-block__points li::before {
   content: '▹';
   position: absolute;
   left: 0;
   color: var(--color-primary);
 }
 
+/* --- Easter egg states --- */
 .authors--inverted {
   filter: invert(1) hue-rotate(180deg);
   transition: filter 0.5s ease;
@@ -169,6 +254,17 @@ function onThirdEyeClick() {
   letter-spacing: 0.1em;
 }
 
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .author-block--left {
+    margin-right: 1rem;
+  }
+  .author-block--right {
+    margin-left: 1rem;
+  }
+}
+
+/* --- Keyframes --- */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -189,5 +285,15 @@ function onThirdEyeClick() {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-2px) translateY(1px); }
   75% { transform: translateX(2px) translateY(-1px); }
+}
+
+@keyframes floatA {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes floatB {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 </style>
