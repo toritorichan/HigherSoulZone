@@ -15,6 +15,7 @@
             '--alien-color': alien.color,
             animationDelay: `${index * 0.1}s`
           }"
+          @click="playAlienSound(alien.soundType)"
         >
           <div class="alien-card__image-wrap">
             <img
@@ -38,9 +39,12 @@
 import { ref } from 'vue'
 import { aliens, alienIntro, alienIntro2 } from '../data/aliens.js'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
+import { useAudio } from '../composables/useAudio.js'
 
 const contentRef = ref(null)
 useCopyProtection(contentRef)
+
+const { playAlienSound } = useAudio()
 </script>
 
 <style scoped>

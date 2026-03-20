@@ -1,5 +1,5 @@
 <template>
-  <div class="authors">
+  <div class="authors" :class="{ 'authors--inverted': thirdEyeOpen, 'authors__shake': thirdEyeOpen }">
     <div ref="contentRef" class="authors__content">
       <h2 class="authors__heading">作者介紹</h2>
 
@@ -19,7 +19,7 @@
           <p class="author-card__id">許語宸 / F14061232</p>
           <ul class="author-card__points">
             <li>
-              <span ref="thirdEyeRef" class="authors__third-eye">致力於第三隻眼的研究</span>
+              <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
             </li>
             <li>探討麥田圈與外星繪畫創作之關聯的學術研究</li>
             <li>雷爾運動的協助創辦人（台灣分部）</li>
@@ -47,6 +47,16 @@ useCopyProtection(contentRef)
 
 const store = useEasterEggStore()
 const thirdEyeOpen = computed(() => store.thirdEyeOpen)
+
+const thirdEyeClicks = ref([])
+function onThirdEyeClick() {
+  const now = Date.now()
+  thirdEyeClicks.value = [...thirdEyeClicks.value.filter(t => now - t < 1000), now]
+  if (thirdEyeClicks.value.length >= 3) {
+    store.toggleThirdEye()
+    thirdEyeClicks.value = []
+  }
+}
 </script>
 
 <style scoped>
@@ -129,8 +139,18 @@ const thirdEyeOpen = computed(() => store.thirdEyeOpen)
   color: var(--color-primary);
 }
 
+.authors--inverted {
+  filter: invert(1) hue-rotate(180deg);
+  transition: filter 0.5s ease;
+}
+
+.authors__shake {
+  animation: authorShake 0.5s infinite;
+}
+
 .authors__third-eye {
-  cursor: default;
+  cursor: pointer;
+  user-select: none;
 }
 
 .authors__hidden {
@@ -163,5 +183,11 @@ const thirdEyeOpen = computed(() => store.thirdEyeOpen)
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes authorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px) translateY(1px); }
+  75% { transform: translateX(2px) translateY(-1px); }
 }
 </style>
