@@ -40,8 +40,10 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import gsap from 'gsap'
+import { useEasterEggStore } from '../stores/easterEgg'
 
 const router = useRouter()
+const store = useEasterEggStore()
 
 const deadRef = ref(null)
 const headingRef = ref(null)
@@ -201,28 +203,24 @@ async function handleReject() {
   }
   await wait(3500)
 
-  // Show 👁 then close
+  // Show 👁 briefly
   if (deadRef.value) {
     deadRef.value.style.opacity = '1'
     deadRef.value.style.background = '#000'
     deadRef.value.innerHTML = ''
     const eyeEl = document.createElement('div')
     eyeEl.textContent = '👁'
-    eyeEl.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.5rem;opacity:0;transition:opacity 0.5s;'
+    eyeEl.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;opacity:0;transition:opacity 0.5s;color:red;'
     deadRef.value.appendChild(eyeEl)
     requestAnimationFrame(() => { eyeEl.style.opacity = '1' })
-    await wait(2000)
+    await wait(1500)
     eyeEl.style.opacity = '0'
     await wait(500)
   }
 
-  try { window.close() } catch (_) {}
-  await wait(200)
-  if (deadRef.value) {
-    deadRef.value.style.opacity = '1'
-    deadRef.value.style.background = '#000'
-    deadRef.value.innerHTML = ''
-  }
+  // Activate CURSED MODE and go back to site
+  store.activateCursedMode()
+  router.push('/')
 }
 
 onMounted(() => { driftHeading() })

@@ -21,6 +21,7 @@
     <MouseParticles />
     <CreepyEffects />
     <CreepySelect />
+    <CursedMode />
   </div>
 </template>
 
@@ -35,6 +36,7 @@ import AlienLanguageFilter from './components/easter-eggs/AlienLanguageFilter.vu
 import MouseParticles from './components/easter-eggs/MouseParticles.vue'
 import CreepyEffects from './components/easter-eggs/CreepyEffects.vue'
 import CreepySelect from './components/easter-eggs/CreepySelect.vue'
+import CursedMode from './components/easter-eggs/CursedMode.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
 

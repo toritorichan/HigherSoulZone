@@ -7,6 +7,11 @@ export const useEasterEggStore = defineStore('easterEgg', () => {
   const alienLanguage = ref(false)
   const thirdEyeOpen = ref(false)
   const soundEnabled = ref(false)
+  const cursedMode = ref(false)
+
+  function activateCursedMode() {
+    cursedMode.value = true
+  }
 
   const clickTimestamps = ref([])
   const konamiSequence = ref([])
@@ -64,9 +69,9 @@ export const useEasterEggStore = defineStore('easterEgg', () => {
   }
 
   return {
-    konamiActivated, matrixMode, alienLanguage, thirdEyeOpen, soundEnabled,
+    konamiActivated, matrixMode, alienLanguage, thirdEyeOpen, soundEnabled, cursedMode,
     clickTimestamps, konamiSequence, triggeredUfoPositions,
     checkKonamiCode, registerClick, toggleAlienLanguage, toggleThirdEye,
-    markUfoTriggered, resetUfoPositions,
+    markUfoTriggered, resetUfoPositions, activateCursedMode,
   }
 })
