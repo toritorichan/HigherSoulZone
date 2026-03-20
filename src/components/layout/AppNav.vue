@@ -1,47 +1,62 @@
 <template>
-  <nav class="nav">
-    <ul class="nav__list">
-      <li v-for="(item, i) in displayItems" :key="i" class="nav__item">
-        <router-link
-          v-if="!item.isEasterEgg"
-          :to="item.to"
-          class="nav__link"
-        >
-          <span
-            v-for="(char, ci) in item.displayText.split('')"
-            :key="ci"
-            class="nav__char"
-            :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
-            :class="{ 'nav__char--glitch': glitchActive }"
-          >{{ char }}</span>
-        </router-link>
-        <a
-          v-else
-          href="#"
-          class="nav__link nav__link--garbled"
-          @click.prevent="triggerGarbledEgg"
-        >
-          <span
-            v-for="(char, ci) in item.displayText.split('')"
-            :key="ci"
-            class="nav__char"
-            :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
-            :class="{ 'nav__char--glitch': glitchActive }"
-          >{{ char }}</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <transition name="nav-fade">
+    <nav v-if="visible" class="nav">
+      <ul class="nav__list">
+        <li v-for="(item, i) in displayItems" :key="i" class="nav__item">
+          <router-link
+            v-if="!item.isEasterEgg"
+            :to="item.to"
+            class="nav__link"
+          >
+            <span
+              v-for="(char, ci) in item.displayText.split('')"
+              :key="ci"
+              class="nav__char"
+              :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
+              :class="{ 'nav__char--glitch': glitchActive }"
+            >{{ char }}</span>
+          </router-link>
+          <a
+            v-else
+            href="#"
+            class="nav__link nav__link--garbled"
+            @click.prevent="triggerGarbledEgg"
+          >
+            <span
+              v-for="(char, ci) in item.displayText.split('')"
+              :key="ci"
+              class="nav__char"
+              :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
+              :class="{ 'nav__char--glitch': glitchActive }"
+            >{{ char }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </transition>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
+const visible = ref(false)
 const garbledTriggered = ref(false)
 const glitchActive = ref(false)
+
+onMounted(() => {
+  setTimeout(() => { visible.value = true }, 2000)
+})
+
+watch(() => route.path, (newPath) => {
+  if (newPath === '/') {
+    visible.value = false
+    setTimeout(() => { visible.value = true }, 2000)
+  }
+})
 
 const navItems = [
   { label: '✦ 網 站 介 紹', to: '/introduce', isEasterEgg: false },
@@ -77,6 +92,12 @@ function triggerGarbledEgg() {
 </script>
 
 <style scoped>
+.nav-fade-enter-active {
+  transition: opacity 1.5s ease;
+}
+.nav-fade-enter-from {
+  opacity: 0;
+}
 .nav__list {
   display: flex;
   list-style: none;

@@ -1,8 +1,6 @@
 <template>
   <header class="banner">
-    <router-link to="/">
-      <img src="/media/logo.png" alt="Higher Soul Zone" class="banner__logo" />
-    </router-link>
+    <img src="/media/logo.png" alt="Higher Soul Zone" class="banner__logo" />
   </header>
 </template>
 
