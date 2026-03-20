@@ -1,5 +1,5 @@
 <template>
-  <div class="authors" :class="{ 'authors--inverted': thirdEyeOpen, 'authors__shake': thirdEyeOpen }">
+  <div class="authors">
     <div ref="contentRef" class="authors__content">
       <h2 class="authors__heading">作者介紹</h2>
 
@@ -40,16 +40,18 @@
 
     <teleport to="body">
       <div v-if="thirdEyeOpen" class="third-eye-overlay">
-        <p class="third-eye-overlay__text">25.0330° N, 121.5654° E</p>
-        <p class="third-eye-overlay__text third-eye-overlay__text--large">我們一直在看著你</p>
+        <p class="third-eye-overlay__text third-eye-overlay__text--coord">25.0330° N, 121.5654° E</p>
+        <p class="third-eye-overlay__text third-eye-overlay__text--main">我們一直在看著你</p>
         <p class="third-eye-overlay__text">真相就在你眼前</p>
+        <p class="third-eye-overlay__text third-eye-overlay__text--jp">第三の目が開いた</p>
+        <p class="third-eye-overlay__text third-eye-overlay__text--small">THE THIRD EYE IS OPEN</p>
       </div>
     </teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
 import { useEasterEggStore } from '../stores/easterEgg.js'
 
@@ -69,6 +71,24 @@ function onThirdEyeClick() {
     thirdEyeClicks.value = []
   }
 }
+
+watch(thirdEyeOpen, (isOpen) => {
+  if (isOpen) {
+    document.body.style.transition = 'background 0.3s'
+    document.body.style.background = '#000'
+    if (contentRef.value) {
+      contentRef.value.style.transition = 'opacity 0.3s'
+      contentRef.value.style.opacity = '0'
+    }
+  } else {
+    document.body.style.transition = 'background 1.5s'
+    document.body.style.background = ''
+    if (contentRef.value) {
+      contentRef.value.style.transition = 'opacity 1.5s'
+      contentRef.value.style.opacity = '1'
+    }
+  }
+})
 </script>
 
 <style scoped>
@@ -149,19 +169,13 @@ function onThirdEyeClick() {
 }
 
 .author-block__avatar--pink {
-  border: 2px solid var(--color-accent, #ff00c8);
-  box-shadow:
-    0 0 12px rgba(255, 0, 200, 0.4),
-    0 0 30px rgba(255, 0, 200, 0.15),
-    inset 0 0 12px rgba(255, 0, 200, 0.1);
+  border: none;
+  box-shadow: 0 0 15px rgba(255, 0, 200, 0.2);
 }
 
 .author-block__avatar--blue {
-  border: 2px solid #4488ff;
-  box-shadow:
-    0 0 12px rgba(68, 136, 255, 0.4),
-    0 0 30px rgba(68, 136, 255, 0.15),
-    inset 0 0 12px rgba(68, 136, 255, 0.1);
+  border: none;
+  box-shadow: 0 0 15px rgba(68, 136, 255, 0.2);
 }
 
 .author-block__initial {
@@ -226,15 +240,6 @@ function onThirdEyeClick() {
 }
 
 /* --- Easter egg states --- */
-.authors--inverted {
-  filter: invert(1) hue-rotate(180deg);
-  transition: filter 0.5s ease;
-}
-
-.authors__shake {
-  animation: authorShake 0.5s infinite;
-}
-
 .authors__third-eye {
   cursor: pointer;
   user-select: none;
@@ -267,12 +272,6 @@ function onThirdEyeClick() {
   to { opacity: 1; }
 }
 
-@keyframes authorShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px) translateY(1px); }
-  75% { transform: translateX(2px) translateY(-1px); }
-}
-
 @keyframes floatA {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -290,6 +289,7 @@ function onThirdEyeClick() {
   position: fixed;
   inset: 0;
   z-index: 9995;
+  background: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -304,13 +304,37 @@ function onThirdEyeClick() {
   letter-spacing: 0.3em;
   animation: thirdEyePulse 1.5s ease-in-out infinite alternate;
 }
-.third-eye-overlay__text--large {
-  font-size: 8vw;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+.third-eye-overlay__text--coord {
+  font-size: 2.5vw;
+  color: rgba(255, 0, 0, 0.7);
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  letter-spacing: 0.5em;
+}
+.third-eye-overlay__text--main {
+  font-size: 10vw;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow:
+    0 0 40px rgba(255, 0, 0, 0.6),
+    0 0 80px rgba(255, 0, 0, 0.3);
+  animation: thirdEyeRedPulse 1.2s ease-in-out infinite alternate;
+}
+.third-eye-overlay__text--jp {
+  font-size: 3.5vw;
+  color: rgba(255, 200, 200, 0.7);
+  text-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+}
+.third-eye-overlay__text--small {
+  font-size: 2vw;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1em;
+  text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 @keyframes thirdEyePulse {
   from { opacity: 0.6; transform: scale(1); }
   to { opacity: 1; transform: scale(1.02); }
+}
+@keyframes thirdEyeRedPulse {
+  from { opacity: 0.7; transform: scale(1); text-shadow: 0 0 40px rgba(255, 0, 0, 0.6), 0 0 80px rgba(255, 0, 0, 0.3); }
+  to { opacity: 1; transform: scale(1.03); text-shadow: 0 0 60px rgba(255, 0, 0, 0.8), 0 0 120px rgba(255, 0, 0, 0.5); }
 }
 </style>

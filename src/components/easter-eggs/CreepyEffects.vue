@@ -203,6 +203,44 @@ function cursorGlitch() {
   }, 300)
 }
 
+// --- Effect 9: Reverse scroll ---
+let reverseScrollActive = false
+let reverseScrollHandler = null
+
+function reverseScroll() {
+  if (reverseScrollActive) return
+  reverseScrollActive = true
+  reverseScrollHandler = (e) => {
+    e.preventDefault()
+    window.scrollBy({ top: -e.deltaY * 2, behavior: 'auto' })
+  }
+  window.addEventListener('wheel', reverseScrollHandler, { passive: false })
+  setTimeout(() => {
+    window.removeEventListener('wheel', reverseScrollHandler)
+    reverseScrollHandler = null
+    reverseScrollActive = false
+  }, 1000)
+}
+
+// --- Effect 10: Text shadow creep ---
+function textShadowCreep() {
+  const elements = document.querySelectorAll('p, h1, h2, h3, li, span, a')
+  if (elements.length === 0) return
+  const count = 2 + Math.floor(Math.random() * 4)
+  const chosen = []
+  for (let i = 0; i < count; i++) {
+    chosen.push(elements[Math.floor(Math.random() * elements.length)])
+  }
+  chosen.forEach(el => {
+    const orig = el.style.textShadow
+    el.style.textShadow = '0 0 8px rgba(255,0,0,0.6), 0 0 20px rgba(255,0,0,0.3)'
+    el.style.transition = 'text-shadow 0.3s'
+    setTimeout(() => {
+      el.style.textShadow = orig
+    }, 2000)
+  })
+}
+
 // --- Ambient drone ---
 function initAmbientDrone() {
   if (audioStarted) return
@@ -243,16 +281,19 @@ function scheduleRandom(fn, minMs, maxMs) {
 }
 
 onMounted(() => {
-  // Core unsettling effects
-  scheduleRandom(corruptRandomText, 8000, 20000)
-  scheduleRandom(screenFlicker, 20000, 45000)
+  // Core unsettling effects — more frequent and aggressive
+  scheduleRandom(corruptRandomText, 5000, 12000)
+  scheduleRandom(screenFlicker, 12000, 25000)
   scheduleRandom(spawnPhantom, 30000, 60000)
-  scheduleRandom(flashSubliminal, 25000, 50000)
+  scheduleRandom(flashSubliminal, 15000, 30000)
+  // Intensified effects
+  scheduleRandom(spawnEye, 12000, 30000)
+  scheduleRandom(staticBurst, 20000, 40000)
+  scheduleRandom(scrollJitter, 25000, 50000)
+  scheduleRandom(cursorGlitch, 15000, 35000)
   // New effects
-  scheduleRandom(spawnEye, 20000, 50000)
-  scheduleRandom(staticBurst, 35000, 70000)
-  scheduleRandom(scrollJitter, 40000, 80000)
-  scheduleRandom(cursorGlitch, 30000, 65000)
+  scheduleRandom(reverseScroll, 40000, 80000)
+  scheduleRandom(textShadowCreep, 10000, 20000)
   document.addEventListener('click', handleFirstClick)
 })
 
@@ -262,6 +303,9 @@ onUnmounted(() => {
     if (node.parentNode) node.textContent = original
   })
   document.removeEventListener('click', handleFirstClick)
+  if (reverseScrollHandler) {
+    window.removeEventListener('wheel', reverseScrollHandler)
+  }
   if (oscillator) oscillator.stop()
   if (lfo) lfo.stop()
   if (audioCtx) audioCtx.close()
