@@ -4,7 +4,7 @@
 export function initParticles() {
   const canvas = document.createElement('canvas')
   canvas.id = 'particle-canvas'
-  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:5;pointer-events:none;'
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;pointer-events:none;'
   document.body.appendChild(canvas)
 
   const ctx = canvas.getContext('2d')
@@ -30,14 +30,14 @@ export function initParticles() {
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX
     mouseY = e.clientY
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       if (particles.length < 150) {
         particles.push({
           x: mouseX + (Math.random() - 0.5) * 10,
           y: mouseY + (Math.random() - 0.5) * 10,
           vx: (Math.random() - 0.5) * 2,
           vy: (Math.random() - 0.5) * 2,
-          size: 3 + Math.random() * 5,
+          size: 5 + Math.random() * 7,
           life: 1,
         })
       }
@@ -97,9 +97,9 @@ export function initParticles() {
       }
 
       ctx.save()
-      ctx.globalAlpha = p.life
-      ctx.shadowBlur = 15
-      ctx.shadowColor = 'rgba(255,255,255,0.6)'
+      ctx.globalAlpha = Math.min(p.life * 1.2, 1)
+      ctx.shadowBlur = 20
+      ctx.shadowColor = 'rgba(255,255,255,0.8)'
       ctx.fillStyle = '#fff'
       ctx.beginPath()
       ctx.arc(p.x, p.y, Math.max(p.size, 0.5), 0, Math.PI * 2)
