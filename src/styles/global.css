@@ -1,0 +1,46 @@
+:root {
+  --color-bg: #000;
+  --color-primary: #00ff88;
+  --color-accent: #ff00c8;
+  --color-text: #fff;
+  --color-text-dim: rgba(255, 255, 255, 0.5);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --font-display: 'Russo One', sans-serif;
+  --font-heading: 'Staatliches', sans-serif;
+  --font-body: '微軟正黑體', 'Microsoft JhengHei', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+a:hover {
+  color: var(--color-accent);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
