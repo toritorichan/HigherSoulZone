@@ -1,30 +1,7 @@
 <template>
   <div class="contact">
-    <h2 class="contact__heading">友站連結</h2>
-
-    <div class="contact__links">
-      <a
-        href="https://www.space.com/area-51-what-is-it"
-        target="_blank"
-        rel="noopener"
-        class="contact__link-card"
-      >
-        <span class="contact__link-icon">✦</span>
-        <span>51區</span>
-      </a>
-
-      <a
-        href="https://www.facebook.com/UFO.TRM/"
-        target="_blank"
-        rel="noopener"
-        class="contact__link-card"
-      >
-        <span class="contact__link-icon">✧</span>
-        <span>台灣雷爾運動</span>
-      </a>
-    </div>
-
-    <div class="contact__hearts" ref="heartsRef">
+    <!-- Hearts floating in background of entire section -->
+    <div class="contact__hearts-bg" ref="heartsRef">
       <img
         v-for="heart in hearts"
         :key="heart.id"
@@ -47,6 +24,21 @@
         }"
       />
     </div>
+
+    <!-- Content on top -->
+    <div class="contact__content">
+      <h2 class="contact__heading">友站連結</h2>
+      <div class="contact__links">
+        <a href="https://www.space.com/area-51-what-is-it" target="_blank" rel="noopener" class="contact__link-card">
+          <span class="contact__link-icon">✦</span>
+          <span>51區</span>
+        </a>
+        <a href="https://www.facebook.com/UFO.TRM/" target="_blank" rel="noopener" class="contact__link-card">
+          <span class="contact__link-icon">✧</span>
+          <span>台灣雷爾運動</span>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -60,17 +52,17 @@ const heartsRef = ref(null)
 const particles = ref([])
 
 const hearts = ref(
-  Array.from({ length: 20 }, (_, i) => ({
+  Array.from({ length: 30 }, (_, i) => ({
     id: i,
     broken: false,
     style: {
-      left: Math.random() * 90 + '%',
-      top: Math.random() * 80 + '%',
-      width: (20 + Math.random() * 30) + 'px',
-      transform: `rotate(${(Math.random() - 0.5) * 40}deg)`,
-      opacity: 0.3 + Math.random() * 0.5,
-      animationDelay: Math.random() * 3 + 's',
-      animationDuration: (3 + Math.random() * 3) + 's',
+      left: Math.random() * 95 + '%',
+      top: Math.random() * 95 + '%',
+      width: (15 + Math.random() * 40) + 'px',
+      transform: `rotate(${(Math.random() - 0.5) * 50}deg)`,
+      opacity: 0.15 + Math.random() * 0.4,
+      animationDelay: Math.random() * 4 + 's',
+      animationDuration: (3 + Math.random() * 4) + 's',
     },
   }))
 )
@@ -108,10 +100,24 @@ function breakHeart(heart) {
 
 <style scoped>
 .contact {
+  position: relative;
+  min-height: 500px;
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
   animation: fadeIn 0.8s ease-out;
+}
+
+.contact__hearts-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.contact__content {
+  position: relative;
+  z-index: 1;
 }
 
 .contact__heading {
@@ -154,21 +160,17 @@ function breakHeart(heart) {
   color: var(--color-primary);
 }
 
-.contact__hearts {
-  position: relative;
-  height: 300px;
-  margin-top: 2rem;
-}
-
 .contact__heart {
   position: absolute;
   cursor: pointer;
-  transition: transform 0.3s;
   animation: heartFloat 4s ease-in-out infinite alternate;
+  filter: brightness(0.7);
+  transition: transform 0.3s, filter 0.3s;
 }
 
 .contact__heart:hover {
-  transform: scale(1.3) !important;
+  transform: scale(1.4) !important;
+  filter: brightness(1);
 }
 
 .contact__heart--broken {
