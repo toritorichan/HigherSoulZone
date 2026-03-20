@@ -36,7 +36,7 @@
               :style="imageWrapStyle(index)"
             >
               <img
-                :src="alien.image"
+                :src="`${base}${alien.image}`"
                 :alt="alien.nameCn"
                 class="alien-card__image"
               >
@@ -62,6 +62,8 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import { aliens, alienIntro, alienIntro2 } from '../data/aliens.js'
+
+const base = import.meta.env.BASE_URL
 import { useCopyProtection } from '../composables/useCopyProtection.js'
 import { useAudio } from '../composables/useAudio.js'
 

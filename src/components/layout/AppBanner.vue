@@ -1,8 +1,12 @@
 <template>
   <header class="banner">
-    <img src="/media/logo.png" alt="Higher Soul Zone" class="banner__logo" />
+    <img :src="`${base}media/logo.png`" alt="Higher Soul Zone" class="banner__logo" />
   </header>
 </template>
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
 
 <style scoped>
 .banner {

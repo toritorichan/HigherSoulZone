@@ -3,7 +3,7 @@
     <div class="dead__grain"></div>
 
     <!-- Single large alien background -->
-    <img src="/media/alien.png" ref="alienBgRef" class="dead__alien-bg" />
+    <img :src="`${base}media/alien.png`" ref="alienBgRef" class="dead__alien-bg" />
 
     <div class="dead__stars">
       <div class="dead__stars-layer"></div>
@@ -42,6 +42,8 @@ import { useRouter } from 'vue-router'
 import gsap from 'gsap'
 import { useEasterEggStore } from '../stores/easterEgg'
 import { garble, garbleRandom } from '../utils/garble.js'
+
+const base = import.meta.env.BASE_URL
 
 const router = useRouter()
 const store = useEasterEggStore()

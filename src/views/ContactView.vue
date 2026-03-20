@@ -5,7 +5,7 @@
       <img
         v-for="heart in hearts"
         :key="heart.id"
-        :src="heart.broken ? '/media/love2.png' : '/media/love.png'"
+        :src="heart.broken ? `${base}media/love2.png` : `${base}media/love.png`"
         :style="heart.style"
         class="contact__heart"
         :class="{ 'contact__heart--broken': heart.broken }"
@@ -45,6 +45,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useAudio } from '../composables/useAudio.js'
+
+const base = import.meta.env.BASE_URL
 
 const { playExplosion } = useAudio()
 
