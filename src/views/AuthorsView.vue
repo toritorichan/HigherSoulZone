@@ -295,38 +295,45 @@ watch(thirdEyeOpen, (isOpen) => {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  gap: 1.5vh;
+  padding: 5vh 5vw;
+  overflow: hidden;
 }
 .third-eye-overlay__text {
   font-family: var(--font-heading);
-  font-size: 4vw;
+  font-size: 3vw;
   color: rgba(0, 255, 136, 0.8);
   text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   animation: thirdEyePulse 1.5s ease-in-out infinite alternate;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
 }
 .third-eye-overlay__text--coord {
-  font-size: 2.5vw;
+  font-size: 2vw;
   color: rgba(255, 0, 0, 0.7);
   text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-  letter-spacing: 0.5em;
+  letter-spacing: 0.4em;
 }
 .third-eye-overlay__text--main {
-  font-size: 10vw;
+  font-size: 7vw;
   color: rgba(255, 255, 255, 0.95);
   text-shadow:
     0 0 40px rgba(255, 0, 0, 0.6),
     0 0 80px rgba(255, 0, 0, 0.3);
   animation: thirdEyeRedPulse 1.2s ease-in-out infinite alternate;
+  white-space: nowrap;
 }
 .third-eye-overlay__text--jp {
-  font-size: 3.5vw;
+  font-size: 2.5vw;
   color: rgba(255, 200, 200, 0.7);
   text-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
 }
 .third-eye-overlay__text--small {
-  font-size: 2vw;
+  font-size: 1.5vw;
   color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 1em;
+  letter-spacing: 0.8em;
   text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 @keyframes thirdEyePulse {

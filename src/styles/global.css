@@ -22,6 +22,16 @@ html, body {
   color: var(--color-text);
   font-family: var(--font-body);
   overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
 }
 
 a {
