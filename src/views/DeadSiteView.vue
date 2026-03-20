@@ -12,6 +12,8 @@
     </div>
 
     <div class="dead__content" ref="contentRef">
+      <img src="/media/alien.png" class="dead__alien dead__alien--top" />
+
       <h1 ref="headingRef" class="dead__heading">會幫我們保密嗎?</h1>
 
       <div v-if="!animating" class="dead__choices">
@@ -21,6 +23,8 @@
       </div>
 
       <p ref="messageRef" class="dead__message"></p>
+
+      <img src="/media/alien.png" class="dead__alien dead__alien--bottom" />
     </div>
 
     <!-- Reject: scattered "不要" -->
@@ -359,5 +363,25 @@ onUnmounted(() => {
 @keyframes scatterFadeIn {
   from { opacity: 0; transform: scale(0.5); }
   to { opacity: 0.7; }
+}
+
+/* Top/bottom alien images */
+.dead__alien {
+  width: 120px;
+  height: auto;
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+.dead__alien--top {
+  animation: alienFloat 3s ease-in-out infinite alternate;
+  margin-bottom: 2rem;
+}
+.dead__alien--bottom {
+  animation: alienFloat 3s ease-in-out 1.5s infinite alternate;
+  margin-top: 2rem;
+}
+@keyframes alienFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
 }
 </style>
