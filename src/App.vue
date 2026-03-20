@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app" @click="onClick">
     <div class="app__geometric app__geometric--circle"></div>
     <div class="app__geometric app__geometric--square"></div>
     <div class="app__layout">
@@ -15,6 +15,10 @@
       <AppFooter />
     </div>
     <KonamiOverlay />
+    <MatrixRain />
+    <UfoFlyby />
+    <AlienLanguageFilter />
+    <MouseParticles />
   </div>
 </template>
 
@@ -23,9 +27,15 @@ import AppBanner from './components/layout/AppBanner.vue'
 import AppNav from './components/layout/AppNav.vue'
 import AppFooter from './components/layout/AppFooter.vue'
 import KonamiOverlay from './components/easter-eggs/KonamiOverlay.vue'
+import MatrixRain from './components/easter-eggs/MatrixRain.vue'
+import UfoFlyby from './components/easter-eggs/UfoFlyby.vue'
+import AlienLanguageFilter from './components/easter-eggs/AlienLanguageFilter.vue'
+import MouseParticles from './components/easter-eggs/MouseParticles.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
+import { useRapidClick } from './composables/useRapidClick'
 
 useKonamiCode()
+const { onClick } = useRapidClick()
 </script>
 
 <style scoped>
