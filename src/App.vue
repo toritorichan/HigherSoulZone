@@ -20,6 +20,7 @@
     <AlienLanguageFilter />
     <MouseParticles />
     <CreepyEffects />
+    <CreepySelect />
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import UfoFlyby from './components/easter-eggs/UfoFlyby.vue'
 import AlienLanguageFilter from './components/easter-eggs/AlienLanguageFilter.vue'
 import MouseParticles from './components/easter-eggs/MouseParticles.vue'
 import CreepyEffects from './components/easter-eggs/CreepyEffects.vue'
+import CreepySelect from './components/easter-eggs/CreepySelect.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
 

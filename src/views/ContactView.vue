@@ -24,14 +24,16 @@
       </a>
     </div>
 
-    <div class="contact__heart-wrap" ref="heartWrapRef">
+    <div class="contact__hearts" ref="heartsRef">
       <img
-        :src="heartBroken ? '/media/love2.png' : '/media/love.png'"
-        alt="heart"
+        v-for="heart in hearts"
+        :key="heart.id"
+        :src="heart.broken ? '/media/love2.png' : '/media/love.png'"
+        :style="heart.style"
         class="contact__heart"
-        :class="{ 'contact__heart--shake': shaking, 'contact__heart--broken': heartBroken }"
-        @click="onHeartClick"
-      >
+        :class="{ 'contact__heart--broken': heart.broken }"
+        @click="breakHeart(heart)"
+      />
       <div
         v-for="particle in particles"
         :key="particle.id"
@@ -49,34 +51,47 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref } from 'vue'
 import { useAudio } from '../composables/useAudio.js'
 
 const { playExplosion } = useAudio()
 
-const heartBroken = ref(false)
-const shaking = ref(false)
+const heartsRef = ref(null)
 const particles = ref([])
-const heartWrapRef = ref(null)
 
-function spawnParticles() {
-  const wrap = heartWrapRef.value
+const hearts = ref(
+  Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    broken: false,
+    style: {
+      left: Math.random() * 90 + '%',
+      top: Math.random() * 80 + '%',
+      width: (20 + Math.random() * 30) + 'px',
+      transform: `rotate(${(Math.random() - 0.5) * 40}deg)`,
+      opacity: 0.3 + Math.random() * 0.5,
+      animationDelay: Math.random() * 3 + 's',
+      animationDuration: (3 + Math.random() * 3) + 's',
+    },
+  }))
+)
+
+function spawnParticles(event) {
+  const wrap = heartsRef.value
   if (!wrap) return
-  const img = wrap.querySelector('.contact__heart')
-  if (!img) return
-  const cx = img.offsetLeft + img.offsetWidth / 2
-  const cy = img.offsetTop + img.offsetHeight / 2
+  const wrapRect = wrap.getBoundingClientRect()
+  const cx = event.clientX - wrapRect.left
+  const cy = event.clientY - wrapRect.top
   const colors = ['#ff4488', '#ff6699', '#ff2266', '#cc1144', '#ff88aa', '#ff0044']
   const newParticles = []
-  for (let i = 0; i < 25; i++) {
-    const angle = (Math.PI * 2 * i) / 25 + (Math.random() - 0.5) * 0.5
-    const dist = 60 + Math.random() * 100
+  for (let i = 0; i < 20; i++) {
+    const angle = (Math.PI * 2 * i) / 20 + (Math.random() - 0.5) * 0.5
+    const dist = 40 + Math.random() * 80
     newParticles.push({
-      id: i,
+      id: Date.now() + i,
       x: cx,
       y: cy,
       dx: Math.cos(angle) * dist,
-      dy: Math.sin(angle) * dist - 30,
+      dy: Math.sin(angle) * dist - 20,
       color: colors[Math.floor(Math.random() * colors.length)],
     })
   }
@@ -84,17 +99,10 @@ function spawnParticles() {
   setTimeout(() => { particles.value = [] }, 1000)
 }
 
-function onHeartClick() {
-  if (heartBroken.value) return
-  shaking.value = true
+function breakHeart(heart) {
+  if (heart.broken) return
+  heart.broken = true
   playExplosion()
-  setTimeout(() => {
-    shaking.value = false
-    spawnParticles()
-    nextTick(() => {
-      heartBroken.value = true
-    })
-  }, 300)
 }
 </script>
 
@@ -146,30 +154,27 @@ function onHeartClick() {
   color: var(--color-primary);
 }
 
-.contact__heart-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+.contact__hearts {
   position: relative;
+  height: 300px;
+  margin-top: 2rem;
 }
 
 .contact__heart {
-  width: 120px;
+  position: absolute;
   cursor: pointer;
   transition: transform 0.3s;
+  animation: heartFloat 4s ease-in-out infinite alternate;
 }
 
 .contact__heart:hover {
-  transform: scale(1.1);
-}
-
-.contact__heart--shake {
-  animation: shake 0.3s ease-in-out;
+  transform: scale(1.3) !important;
 }
 
 .contact__heart--broken {
+  animation: heartShatter 0.5s ease forwards;
+  filter: grayscale(0.5);
   cursor: default;
-  filter: grayscale(0.3);
 }
 
 .contact__particle {
@@ -182,6 +187,18 @@ function onHeartClick() {
   animation: particleFly 0.8s ease-out forwards;
 }
 
+@keyframes heartFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-15px); }
+}
+
+@keyframes heartShatter {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.2) rotate(5deg); }
+  60% { transform: scale(0.9) rotate(-3deg); }
+  100% { transform: scale(1); }
+}
+
 @keyframes particleFly {
   0% {
     transform: translate(0, 0) scale(1);
@@ -191,14 +208,6 @@ function onHeartClick() {
     transform: translate(var(--dx), var(--dy)) scale(0);
     opacity: 0;
   }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
 }
 
 @keyframes fadeIn {
