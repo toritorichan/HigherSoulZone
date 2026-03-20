@@ -18,7 +18,6 @@
     <MatrixRain />
     <UfoFlyby />
     <AlienLanguageFilter />
-    <MouseParticles />
     <CreepyEffects />
     <CreepySelect />
     <CursedMode />
@@ -33,7 +32,6 @@ import KonamiOverlay from './components/easter-eggs/KonamiOverlay.vue'
 import MatrixRain from './components/easter-eggs/MatrixRain.vue'
 import UfoFlyby from './components/easter-eggs/UfoFlyby.vue'
 import AlienLanguageFilter from './components/easter-eggs/AlienLanguageFilter.vue'
-import MouseParticles from './components/easter-eggs/MouseParticles.vue'
 import CreepyEffects from './components/easter-eggs/CreepyEffects.vue'
 import CreepySelect from './components/easter-eggs/CreepySelect.vue'
 import CursedMode from './components/easter-eggs/CursedMode.vue'
