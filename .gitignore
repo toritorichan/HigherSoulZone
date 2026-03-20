@@ -1,3 +1,7 @@
 node_modules/
 dist/
 .vite/
+.claude/
+.superpowers/
+docs/superpowers/
+test_particles.*
