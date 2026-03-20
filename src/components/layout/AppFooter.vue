@@ -10,19 +10,20 @@
   text-align: center;
   padding: 16px 0;
   margin-top: 40px;
-  border-top: 1px solid var(--color-border);
-  opacity: 0.4;
-  transition: opacity 0.5s;
+  opacity: 0.25;
+  transition: opacity 0.8s;
 }
-.footer:hover { opacity: 1; }
+.footer:hover { opacity: 0.6; }
 .footer__text {
   font-size: 12px;
   color: var(--color-primary);
   letter-spacing: 4px;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.15);
 }
 .footer__copy {
   font-size: 11px;
   color: var(--color-text-dim);
   margin-top: 4px;
+  opacity: 0.6;
 }
 </style>

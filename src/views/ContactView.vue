@@ -63,6 +63,7 @@ const hearts = ref(
       opacity: 0.15 + Math.random() * 0.4,
       animationDelay: Math.random() * 4 + 's',
       animationDuration: (3 + Math.random() * 4) + 's',
+      filter: `hue-rotate(${Math.floor(Math.random() * 360)}deg) saturate(${0.5 + Math.random() * 1.5})`,
     },
   }))
 )
@@ -141,18 +142,17 @@ function breakHeart(heart) {
   gap: 1rem;
   padding: 1.2rem 1.5rem;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
+  border: none;
   border-radius: 4px;
   color: var(--color-text);
   font-size: 1.1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: color 0.3s, text-shadow 0.3s;
   text-decoration: none;
 }
 
 .contact__link-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
   color: var(--color-primary);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
 }
 
 .contact__link-icon {

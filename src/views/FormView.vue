@@ -65,7 +65,7 @@ function onSubmit() {
   max-width: 450px;
   padding: 2.5rem;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
+  border: none;
   border-radius: 4px;
   animation: fadeIn 0.8s ease-out;
 }
@@ -89,7 +89,7 @@ function onSubmit() {
   padding: 12px 10px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   color: var(--color-text);
   font-size: 1rem;
   font-family: var(--font-body);
@@ -139,9 +139,8 @@ function onSubmit() {
 }
 
 .neon-btn:hover {
-  background: #0f8;
-  color: #000;
-  box-shadow: 0 0 10px #0f8, 0 0 40px #0f8, 0 0 80px #0f8;
+  color: #0f8;
+  text-shadow: 0 0 10px #0f8, 0 0 30px rgba(0, 255, 136, 0.4);
   transition: 0.5s;
 }
 

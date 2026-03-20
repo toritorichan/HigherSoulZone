@@ -262,9 +262,9 @@ onMounted(async () => {
   display: flex;
   gap: 1.5rem;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--color-border);
+  border: none;
   border-radius: 4px;
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s;
   cursor: pointer;
   position: relative;
   animation-duration: 0.7s;
@@ -273,7 +273,6 @@ onMounted(async () => {
 }
 
 .alien-card:hover {
-  border-color: var(--alien-color);
   box-shadow: 0 0 20px color-mix(in srgb, var(--alien-color) 35%, transparent);
   z-index: 2;
 }

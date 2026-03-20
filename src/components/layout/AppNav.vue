@@ -117,19 +117,16 @@ function triggerGarbledEgg() {
   font-family: var(--font-display);
   font-size: 14px;
   letter-spacing: 3px;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
   transition: all 0.3s;
   white-space: nowrap;
 }
 .nav__link:hover {
   color: var(--color-primary);
-  border-color: rgba(0, 255, 136, 0.3);
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.15);
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.2);
 }
 .nav__link--garbled {
-  color: var(--color-primary);
-  border-color: rgba(0, 255, 136, 0.2);
+  color: rgba(255, 80, 80, 0.7);
+  text-shadow: 0 0 6px rgba(255, 50, 50, 0.3);
 }
 .nav__char--glitch {
   display: inline-block;
