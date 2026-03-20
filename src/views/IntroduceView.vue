@@ -5,34 +5,34 @@
       <span class="introduce__noise introduce__noise--top-right">✦ ◦ ✧</span>
       <span class="introduce__noise introduce__noise--left">༝ ✦</span>
 
-      <p class="introduce__text introduce__text--tilt-left introduce__text--large">
+      <p class="introduce__text introduce__text--tilt-left introduce__text--large tw">
         在我們的銀河系中有數以千億計的恆星，根據研究指出，平均每顆恆星至少有一個行星。
       </p>
 
       <span class="introduce__noise introduce__noise--inline">◦ ✧ ◦</span>
 
-      <p class="introduce__text introduce__text--tilt-right introduce__text--small introduce__text--offset-right">
+      <p class="introduce__text introduce__text--tilt-right introduce__text--small introduce__text--offset-right tw">
         在這些行星中，有些位於「適居帶」，也就是條件可能允許液態水存在的區域。
         這意味著在我們的銀河系中，可能有數十億個適合生命存在的世界。
       </p>
 
-      <p class="introduce__highlight introduce__glitch">
+      <p class="introduce__highlight introduce__glitch tw">
         但是到底外星人在哪裡？
       </p>
 
       <span class="introduce__noise introduce__noise--mid-left">✧ ༝ ✦ ◦</span>
 
-      <p class="introduce__text introduce__text--tilt-left introduce__text--offset-left">
+      <p class="introduce__text introduce__text--tilt-left introduce__text--offset-left tw">
         宇宙的年齡大約是138億年，而人類文明的歷史不過幾千年。
         如果將宇宙的歷史壓縮成一年，人類的存在只占最後一秒鐘的極小部分。
         在如此漫長的時間尺度中，其他文明有足夠的時間發展出遠超我們想像的技術。
       </p>
 
-      <p class="introduce__text introduce__text--tilt-right introduce__text--small">
+      <p class="introduce__text introduce__text--tilt-right introduce__text--small tw">
         這就是著名的費米悖論（Fermi Paradox）的核心問題：
       </p>
 
-      <blockquote class="introduce__quote introduce__quote--bleed introduce__flicker">
+      <blockquote class="introduce__quote introduce__quote--bleed introduce__flicker tw">
         <em>"Where is everybody?"</em>
         <br>
         「如果宇宙中存在大量的先進文明，那為什麼我們沒有發現任何外星生命的證據？」
@@ -40,11 +40,11 @@
 
       <span class="introduce__noise introduce__noise--right">✦ ✧</span>
 
-      <p class="introduce__text introduce__text--tilt-left introduce__text--large introduce__text--offset-left">
+      <p class="introduce__text introduce__text--tilt-left introduce__text--large introduce__text--offset-left tw">
         對於外星文明的存在，有兩種可能性，而兩種都同樣令人不安：
       </p>
 
-      <p class="introduce__text introduce__text--tilt-right introduce__text--offset-right introduce__flicker">
+      <p class="introduce__text introduce__text--tilt-right introduce__text--offset-right introduce__flicker tw">
         第一種可能：我們在宇宙中是孤獨的。在數十億個星系、數萬億顆恆星中，
         只有地球孕育了智慧生命。如果這是真的，那麼生命的誕生是一個近乎不可能的奇蹟，
         而我們肩負著宇宙中唯一文明的責任。
@@ -52,20 +52,20 @@
 
       <span class="introduce__noise introduce__noise--inline">༝ ◦ ✦ ✧ ◦ ༝</span>
 
-      <p class="introduce__text introduce__text--tilt-left introduce__text--small">
+      <p class="introduce__text introduce__text--tilt-left introduce__text--small tw">
         第二種可能：我們並不孤獨。宇宙中存在其他文明，但出於某種原因，
         我們還無法與他們接觸。也許他們在觀察我們，也許我們的技術太過原始，
         也許有某種我們尚未理解的「大過濾器」在阻止文明之間的接觸。
       </p>
 
-      <p class="introduce__text introduce__text--tilt-right introduce__text--large introduce__text--offset-right">
+      <p class="introduce__text introduce__text--tilt-right introduce__text--large introduce__text--offset-right tw">
         無論哪種可能性為真，它們都指向同一個令人敬畏的結論：
         我們對宇宙的認識還非常有限，而探索的旅程才剛剛開始。
       </p>
 
       <span class="introduce__noise introduce__noise--bottom">✦ ◦ ✧ ༝ ✦</span>
 
-      <p class="introduce__final-quote introduce__pulse">
+      <p class="introduce__final-quote introduce__pulse tw">
         "live forever, or die to dush."
       </p>
     </div>
@@ -73,11 +73,43 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
 
 const contentRef = ref(null)
 useCopyProtection(contentRef)
+
+function typewrite(el) {
+  const text = el.dataset.fullText
+  let i = 0
+  const interval = setInterval(() => {
+    el.textContent = text.slice(0, i + 1)
+    i++
+    if (i >= text.length) clearInterval(interval)
+  }, 20)
+}
+
+onMounted(async () => {
+  await nextTick()
+  const paragraphs = contentRef.value?.querySelectorAll('.tw') || []
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        typewrite(entry.target)
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.2 })
+
+  paragraphs.forEach(p => {
+    p.dataset.fullText = p.textContent
+    p.textContent = ''
+    p.style.opacity = '1'
+    p.style.minHeight = '1.5em'
+    observer.observe(p)
+  })
+})
 </script>
 
 <style scoped>

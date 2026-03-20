@@ -36,13 +36,15 @@
           </div>
         </div>
       </div>
-
-      <div v-if="thirdEyeOpen" class="authors__hidden">
-        <p>25.0330° N, 121.5654° E</p>
-        <p>我們一直在看著你</p>
-        <p>真相就在你眼前</p>
-      </div>
     </div>
+
+    <teleport to="body">
+      <div v-if="thirdEyeOpen" class="third-eye-overlay">
+        <p class="third-eye-overlay__text">25.0330° N, 121.5654° E</p>
+        <p class="third-eye-overlay__text third-eye-overlay__text--large">我們一直在看著你</p>
+        <p class="third-eye-overlay__text">真相就在你眼前</p>
+      </div>
+    </teleport>
   </div>
 </template>
 
@@ -238,22 +240,6 @@ function onThirdEyeClick() {
   user-select: none;
 }
 
-.authors__hidden {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  border: 1px solid var(--color-primary);
-  background: rgba(0, 255, 136, 0.05);
-  border-radius: 4px;
-  text-align: center;
-  animation: fadeIn 0.5s ease-out;
-}
-
-.authors__hidden p {
-  color: var(--color-primary);
-  margin: 0.5rem 0;
-  letter-spacing: 0.1em;
-}
-
 /* --- Responsive --- */
 @media (max-width: 600px) {
   .author-block--left {
@@ -295,5 +281,36 @@ function onThirdEyeClick() {
 @keyframes floatB {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+}
+</style>
+
+<style>
+/* Third eye overlay — global styles (teleported outside scoped root) */
+.third-eye-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.third-eye-overlay__text {
+  font-family: var(--font-heading);
+  font-size: 4vw;
+  color: rgba(0, 255, 136, 0.8);
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  letter-spacing: 0.3em;
+  animation: thirdEyePulse 1.5s ease-in-out infinite alternate;
+}
+.third-eye-overlay__text--large {
+  font-size: 8vw;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+}
+@keyframes thirdEyePulse {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.02); }
 }
 </style>

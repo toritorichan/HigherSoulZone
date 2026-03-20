@@ -7,9 +7,9 @@
       <h2 class="alien-types__heading">我們是誰</h2>
 
       <div class="alien-types__intro-scatter">
-        <p class="alien-types__intro alien-types__intro--left">{{ alienIntro }}</p>
+        <p class="alien-types__intro alien-types__intro--left tw">{{ alienIntro }}</p>
         <span class="noise-symbol noise-symbol--a">✧</span>
-        <p class="alien-types__intro alien-types__intro--right">{{ alienIntro2 }}</p>
+        <p class="alien-types__intro alien-types__intro--right tw">{{ alienIntro2 }}</p>
       </div>
 
       <div class="noise-divider">◦ ✦ ▽ △ ✧ ◦ ✦ ▽ △ ✧</div>
@@ -44,7 +44,7 @@
             <div class="alien-card__body">
               <h3 class="alien-card__name-cn" :style="{ color: alien.color }">{{ alien.nameCn }}</h3>
               <p class="alien-card__name-en">{{ alien.nameEn }}</p>
-              <p class="alien-card__desc">{{ alien.description }}</p>
+              <p class="alien-card__desc tw">{{ alien.description }}</p>
             </div>
             <div
               class="alien-card__glow"
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { aliens, alienIntro, alienIntro2 } from '../data/aliens.js'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
 import { useAudio } from '../composables/useAudio.js'
@@ -119,6 +119,38 @@ function hexToRgb(hex) {
   if (isNaN(r) || isNaN(g) || isNaN(b)) return '136, 136, 136'
   return `${r}, ${g}, ${b}`
 }
+
+function typewrite(el) {
+  const text = el.dataset.fullText
+  let i = 0
+  const interval = setInterval(() => {
+    el.textContent = text.slice(0, i + 1)
+    i++
+    if (i >= text.length) clearInterval(interval)
+  }, 20)
+}
+
+onMounted(async () => {
+  await nextTick()
+  const paragraphs = contentRef.value?.querySelectorAll('.tw') || []
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        typewrite(entry.target)
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.2 })
+
+  paragraphs.forEach(p => {
+    p.dataset.fullText = p.textContent
+    p.textContent = ''
+    p.style.opacity = '1'
+    p.style.minHeight = '1.5em'
+    observer.observe(p)
+  })
+})
 </script>
 
 <style scoped>
