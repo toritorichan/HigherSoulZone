@@ -156,7 +156,7 @@ onUnmounted(() => {
 .particles-canvas {
   position: fixed;
   inset: 0;
-  z-index: 9990;
+  z-index: 5;
   pointer-events: none;
 }
 </style>

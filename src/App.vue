@@ -46,7 +46,6 @@ const { onClick } = useRapidClick()
 .app {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 .app__geometric {
   position: fixed;
