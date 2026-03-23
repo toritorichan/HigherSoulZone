@@ -1,40 +1,50 @@
 <template>
   <transition name="nav-fade">
     <nav v-if="visible" class="nav">
+      <!-- Desktop: scattered over banner -->
       <div
         v-for="(item, i) in displayItems"
-        :key="i"
-        class="nav__item"
+        :key="'d-' + i"
+        class="nav__item nav__item--desktop"
         :style="positions[i]"
-        :class="{ 'nav__item--egg': item.isEasterEgg }"
       >
         <router-link
           v-if="!item.isEasterEgg"
           :to="item.to"
           class="nav__link"
-        >
-          <span
-            v-for="(char, ci) in item.displayText.split('')"
-            :key="ci"
-            class="nav__char"
-            :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
-            :class="{ 'nav__char--glitch': glitchActive }"
-          >{{ char }}</span>
-        </router-link>
+        >{{ item.displayText }}</router-link>
         <a
           v-else
           href="#"
           class="nav__link nav__link--garbled"
           @click.prevent="triggerGarbledEgg"
-        >
-          <span
-            v-for="(char, ci) in item.displayText.split('')"
-            :key="ci"
-            class="nav__char"
-            :style="{ animationDelay: glitchActive ? ci * 30 + 'ms' : '0ms' }"
-            :class="{ 'nav__char--glitch': glitchActive }"
-          >{{ char }}</span>
-        </a>
+        >{{ item.displayText }}</a>
+      </div>
+
+      <!-- Mobile: bottom floating bar -->
+      <div class="nav__mobile-bar">
+        <div class="nav__mobile-scroll">
+          <template v-for="(item, i) in displayItems" :key="'m-' + i">
+            <router-link
+              v-if="!item.isEasterEgg"
+              :to="item.to"
+              class="nav__mobile-link"
+              active-class="nav__mobile-link--active"
+            >
+              <span class="nav__mobile-icon">{{ mobileIcons[i] }}</span>
+              <span class="nav__mobile-label">{{ item.shortLabel }}</span>
+            </router-link>
+            <a
+              v-else
+              href="#"
+              class="nav__mobile-link nav__mobile-link--egg"
+              @click.prevent="triggerGarbledEgg"
+            >
+              <span class="nav__mobile-icon">{{ mobileIcons[i] }}</span>
+              <span class="nav__mobile-label">{{ item.shortLabel }}</span>
+            </a>
+          </template>
+        </div>
       </div>
     </nav>
   </transition>
@@ -52,15 +62,17 @@ const visible = ref(false)
 const garbledTriggered = ref(false)
 const glitchActive = ref(false)
 
-// Desktop: chaotic scattered positions overlaying the banner
+// Desktop scattered positions
 const positions = [
   { top: '8%', left: '2%', transform: 'rotate(-6deg)' },
   { top: '12%', right: '3%', transform: 'rotate(4deg)' },
   { top: '55%', left: '8%', transform: 'rotate(2deg)' },
-  { top: '70%', right: '12%', transform: 'rotate(-3deg)' },   // garbled link
+  { top: '70%', right: '12%', transform: 'rotate(-3deg)' },
   { top: '38%', right: '1%', transform: 'rotate(-5deg)' },
   { top: '82%', left: '18%', transform: 'rotate(7deg)' },
 ]
+
+const mobileIcons = ['✦', '👁', '📡', '?̷', '✧', '♡']
 
 onMounted(() => {
   setTimeout(() => { visible.value = true }, 2000)
@@ -76,37 +88,32 @@ watch(() => route.path, (newPath) => {
 })
 
 const navItems = [
-  { label: '✦ 網 站 介 紹', to: '/introduce', isEasterEgg: false },
-  { label: '✦ 我 們 是 誰', to: '/alien-types', isEasterEgg: false },
-  { label: '✦ 外 星 日 誌', to: '/diary', isEasterEgg: false },
-  { label: 'くぁwせfふじこ', to: '/form', isEasterEgg: true },
-  { label: '✦ 作 者 介 紹', to: '/authors', isEasterEgg: false },
-  { label: '✦ 友 站 連 結', to: '/contact', isEasterEgg: false },
+  { label: '✦ 網 站 介 紹', short: '介紹', to: '/introduce', isEasterEgg: false },
+  { label: '✦ 我 們 是 誰', short: '外星人', to: '/alien-types', isEasterEgg: false },
+  { label: '✦ 外 星 日 誌', short: '日誌', to: '/diary', isEasterEgg: false },
+  { label: 'くぁwせfふじこ', short: '?̶̡?̷̢', to: '/form', isEasterEgg: true },
+  { label: '✦ 作 者 介 紹', short: '作者', to: '/authors', isEasterEgg: false },
+  { label: '✦ 友 站 連 結', short: '友站', to: '/contact', isEasterEgg: false },
 ]
 
 const garbledTexts = [
-  '快點 聯絡我們',
-  '我們在 等你唷',
-  '他們在 寫日記',
-  '快點快點快點',
-  '快來跟我們玩',
-  '快點快點快點',
+  '快點 聯絡我們', '我們在 等你唷', '他們在 寫日記',
+  '快點快點快點', '快來跟我們玩', '快點快點快點',
 ]
 
-// Garble tick — re-garble nav labels periodically
+// Re-garble periodically
 const garbleTick = ref(0)
 let garbleTimer = null
-
-onMounted(() => {
-  garbleTimer = setInterval(() => { garbleTick.value++ }, 2000)
-})
+onMounted(() => { garbleTimer = setInterval(() => { garbleTick.value++ }, 2000) })
 onUnmounted(() => { if (garbleTimer) clearInterval(garbleTimer) })
 
 const displayItems = computed(() => {
-  // touch garbleTick to trigger reactivity
   void garbleTick.value
   return navItems.map((item, i) => ({
     ...item,
+    shortLabel: garbledTriggered.value
+      ? garble(garbledTexts[i].slice(0, 3), 0.5)
+      : item.isEasterEgg ? garble(item.short, 0.6) : item.short,
     displayText: garbledTriggered.value
       ? garble(garbledTexts[i], 0.4)
       : garble(item.label, 0.25),
@@ -124,19 +131,17 @@ function triggerGarbledEgg() {
 </script>
 
 <style scoped>
-.nav-fade-enter-active {
-  transition: opacity 1.5s ease;
-}
-.nav-fade-enter-from {
-  opacity: 0;
-}
+.nav-fade-enter-active { transition: opacity 1.5s ease; }
+.nav-fade-enter-from { opacity: 0; }
+
+/* ===== Desktop: scattered over banner ===== */
 .nav {
   position: absolute;
   inset: 0;
   z-index: 10;
   pointer-events: none;
 }
-.nav__item {
+.nav__item--desktop {
   position: absolute;
   white-space: nowrap;
   pointer-events: auto;
@@ -150,13 +155,12 @@ function triggerGarbledEgg() {
   letter-spacing: 3px;
   transition: all 0.3s;
   white-space: nowrap;
+  text-decoration: none;
 }
 .nav__link:hover {
   color: var(--color-primary);
   text-shadow: 0 0 8px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.2);
 }
-
-/* Garbled link: nearly invisible until hovered at its exact spot */
 .nav__link--garbled {
   color: rgba(255, 80, 80, 0.08);
   text-shadow: none;
@@ -167,77 +171,76 @@ function triggerGarbledEgg() {
   text-shadow: 0 0 8px rgba(255, 50, 50, 0.5);
 }
 
-.nav__char--glitch {
-  display: inline-block;
-  animation: charGlitch 0.4s ease forwards;
-}
-@keyframes charGlitch {
-  0%, 30% { opacity: 0; transform: translateY(-4px); }
-  60% { opacity: 0.5; }
-  100% { opacity: 1; transform: translateY(0); }
-}
+/* Hide mobile bar on desktop */
+.nav__mobile-bar { display: none; }
 
-/* ===== Mobile: vertical list along left edge ===== */
+/* ===== Mobile: bottom floating bar ===== */
 @media (max-width: 768px) {
   .nav {
-    position: absolute;
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 9990;
+    pointer-events: auto;
+  }
+  .nav__item--desktop { display: none; }
+  .nav__mobile-bar {
+    display: block;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(0, 255, 136, 0.1);
+    padding: 6px 0;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+  .nav__mobile-scroll {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 100%;
+    padding: 0 4px;
+  }
+  .nav__mobile-link {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    padding: 1rem 0;
-  }
-
-  .nav__item {
-    /* Override desktop absolute positions */
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    /* Staggered rotations and margins via nth-child */
-    min-height: 44px;
-    display: flex;
     align-items: center;
+    gap: 2px;
+    padding: 6px 4px;
+    min-width: 50px;
+    text-decoration: none;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
   }
-
-  .nav__item:nth-child(1) {
-    margin-left: 4px;
-    transform: rotate(-1deg) !important;
+  .nav__mobile-icon {
+    font-size: 18px;
+    line-height: 1;
+    filter: grayscale(0.3);
+    transition: filter 0.2s, transform 0.2s;
   }
-  .nav__item:nth-child(2) {
-    margin-left: 12px;
-    transform: rotate(2deg) !important;
+  .nav__mobile-label {
+    font-family: var(--font-body);
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: color 0.2s;
   }
-  .nav__item:nth-child(3) {
-    margin-left: 1px;
-    transform: rotate(-3deg) !important;
+  .nav__mobile-link--active .nav__mobile-icon {
+    filter: grayscale(0) drop-shadow(0 0 4px rgba(0, 255, 136, 0.5));
+    transform: scale(1.15);
   }
-  .nav__item:nth-child(4) {
-    margin-left: 8px;
-    transform: rotate(1deg) !important;
+  .nav__mobile-link--active .nav__mobile-label {
+    color: var(--color-primary);
   }
-  .nav__item:nth-child(5) {
-    margin-left: 15px;
-    transform: rotate(-2deg) !important;
+  /* Easter egg link — very subtle */
+  .nav__mobile-link--egg .nav__mobile-icon {
+    opacity: 0.15;
   }
-  .nav__item:nth-child(6) {
-    margin-left: 6px;
-    transform: rotate(3deg) !important;
+  .nav__mobile-link--egg .nav__mobile-label {
+    color: rgba(255, 80, 80, 0.12);
   }
-
-  .nav__link {
-    font-size: 12px;
-    letter-spacing: 2px;
-    padding: 8px 12px;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-  }
-
-  /* Garbled link stays nearly invisible on mobile too, until tapped */
-  .nav__link--garbled {
-    color: rgba(255, 80, 80, 0.06);
+  .nav__mobile-link--egg:active .nav__mobile-icon {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 6px rgba(255, 50, 50, 0.5));
   }
 }
 </style>

@@ -119,6 +119,7 @@ const { onClick } = useRapidClick()
 @media (max-width: 768px) {
   .app__layout {
     padding: 0 10px;
+    padding-bottom: 70px; /* space for fixed bottom nav */
   }
 }
 </style>
