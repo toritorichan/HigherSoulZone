@@ -1,12 +1,17 @@
 <template>
   <div class="app" @click="onClick">
-    <!-- Wormhole entrance gate -->
+    <!-- Phase 1: Wormhole entrance -->
     <transition name="gate-fade">
-      <WormholeGate v-if="!entered" @enter="onEnter" />
+      <WormholeGate v-if="phase === 'wormhole'" @enter="onWormholeDone" />
     </transition>
 
-    <!-- Main site (hidden until wormhole completes) -->
-    <template v-if="entered">
+    <!-- Phase 2: Banner reveal (mobile: centered, fades in then out) -->
+    <div v-if="phase === 'banner'" class="app__banner-reveal">
+      <AppBanner />
+    </div>
+
+    <!-- Phase 3: Full site -->
+    <template v-if="phase === 'site'">
       <div class="app__geometric app__geometric--circle"></div>
       <div class="app__geometric app__geometric--square"></div>
       <div class="app__layout">
@@ -56,10 +61,14 @@ import MobileEggs from './components/easter-eggs/MobileEggs.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
 
-const entered = ref(false)
+const phase = ref('wormhole') // 'wormhole' → 'banner' → 'site'
 
-function onEnter() {
-  entered.value = true
+function onWormholeDone() {
+  phase.value = 'banner'
+  // Banner fades in, stays 2.5s, fades out, then show site
+  setTimeout(() => {
+    phase.value = 'site'
+  }, 3500)
 }
 
 useKonamiCode()
@@ -87,13 +96,33 @@ const { onClick } = useRapidClick()
   bottom: 15%; right: 8%;
   transform: rotate(45deg);
 }
+
+/* Banner reveal phase */
+.app__banner-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bannerReveal 3.5s ease-in-out forwards;
+}
+
+@keyframes bannerReveal {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 .app__layout {
   position: relative;
   z-index: 1;
   max-width: 900px;
   margin: 0 auto;
   padding: 0 20px;
-  animation: siteEnter 1.2s ease-out;
+  animation: siteEnter 1s ease-out;
 }
 .app__content {
   min-height: 60vh;
@@ -112,14 +141,14 @@ const { onClick } = useRapidClick()
 }
 
 @keyframes siteEnter {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (max-width: 768px) {
   .app__layout {
     padding: 0 10px;
-    padding-bottom: 70px; /* space for fixed bottom nav */
+    padding-bottom: 70px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <header class="banner" :class="{ 'banner--hidden': hiddenOnMobile }">
+  <header class="banner">
     <img
       :src="`${base}media/logo.png`"
       alt="Higher Soul Zone"
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { garble } from '../../utils/garble.js'
 
 const base = import.meta.env.BASE_URL
@@ -22,11 +22,9 @@ const base = import.meta.env.BASE_URL
 const clickCount = ref(0)
 const spinning = ref(false)
 const secretMessage = ref('')
-const hiddenOnMobile = ref(false)
 const TARGET_CLICKS = 7
 
 let resetTimer = null
-let hideTimer = null
 
 function onLogoClick() {
   clearTimeout(resetTimer)
@@ -49,22 +47,6 @@ function triggerSecret() {
   }, 2500)
 }
 
-function checkMobile() {
-  return window.innerWidth <= 768
-}
-
-onMounted(() => {
-  // On mobile: show banner centered for 3s, then fade out
-  if (checkMobile()) {
-    hideTimer = setTimeout(() => {
-      hiddenOnMobile.value = true
-    }, 3000)
-  }
-})
-
-onUnmounted(() => {
-  if (hideTimer) clearTimeout(hideTimer)
-})
 </script>
 
 <style scoped>
@@ -105,13 +87,17 @@ onUnmounted(() => {
 .banner-msg-enter-from { opacity: 0; transform: translateY(-10px); }
 .banner-msg-leave-to { opacity: 0; transform: translateY(10px); }
 
-/* Mobile: fade out after 3s */
+/* Mobile: centered, then fade out after 3s */
 @media (max-width: 768px) {
-  .banner--hidden {
-    opacity: 0;
-    max-height: 0;
-    padding: 0;
-    pointer-events: none;
+  .banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0 8px;
+  }
+  .banner__logo {
+    max-width: 85%;
   }
 }
 </style>

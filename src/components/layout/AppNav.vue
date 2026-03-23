@@ -72,7 +72,7 @@ const positions = [
   { top: '82%', left: '18%', transform: 'rotate(7deg)' },
 ]
 
-const mobileIcons = ['✦', '👁', '📡', '?̷', '✧', '♡']
+const mobileIcons = ['✦', '◎', '◈', '⊘', '✧', '⟐']
 
 onMounted(() => {
   setTimeout(() => { visible.value = true }, 2000)
