@@ -23,6 +23,8 @@
     <CreepyEffects />
     <CreepySelect />
     <CursedMode />
+    <MorseCodeEgg />
+    <SecretWordEgg />
   </div>
 </template>
 
@@ -37,6 +39,8 @@ import AlienLanguageFilter from './components/easter-eggs/AlienLanguageFilter.vu
 import CreepyEffects from './components/easter-eggs/CreepyEffects.vue'
 import CreepySelect from './components/easter-eggs/CreepySelect.vue'
 import CursedMode from './components/easter-eggs/CursedMode.vue'
+import MorseCodeEgg from './components/easter-eggs/MorseCodeEgg.vue'
+import SecretWordEgg from './components/easter-eggs/SecretWordEgg.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
 
