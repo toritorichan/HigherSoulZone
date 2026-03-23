@@ -32,6 +32,7 @@
       <CursedMode />
       <MorseCodeEgg />
       <SecretWordEgg />
+      <MobileEggs />
     </template>
   </div>
 </template>
@@ -51,6 +52,7 @@ import CreepySelect from './components/easter-eggs/CreepySelect.vue'
 import CursedMode from './components/easter-eggs/CursedMode.vue'
 import MorseCodeEgg from './components/easter-eggs/MorseCodeEgg.vue'
 import SecretWordEgg from './components/easter-eggs/SecretWordEgg.vue'
+import MobileEggs from './components/easter-eggs/MobileEggs.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
 

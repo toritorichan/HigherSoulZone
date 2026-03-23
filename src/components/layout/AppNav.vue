@@ -6,6 +6,7 @@
         :key="i"
         class="nav__item"
         :style="positions[i]"
+        :class="{ 'nav__item--egg': item.isEasterEgg }"
       >
         <router-link
           v-if="!item.isEasterEgg"
@@ -51,7 +52,7 @@ const visible = ref(false)
 const garbledTriggered = ref(false)
 const glitchActive = ref(false)
 
-// Chaotic scattered positions overlaying the banner
+// Desktop: chaotic scattered positions overlaying the banner
 const positions = [
   { top: '8%', left: '2%', transform: 'rotate(-6deg)' },
   { top: '12%', right: '3%', transform: 'rotate(4deg)' },
@@ -176,11 +177,67 @@ function triggerGarbledEgg() {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== Mobile: vertical list along left edge ===== */
 @media (max-width: 768px) {
+  .nav {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 1rem 0;
+  }
+
+  .nav__item {
+    /* Override desktop absolute positions */
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    /* Staggered rotations and margins via nth-child */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav__item:nth-child(1) {
+    margin-left: 4px;
+    transform: rotate(-1deg) !important;
+  }
+  .nav__item:nth-child(2) {
+    margin-left: 12px;
+    transform: rotate(2deg) !important;
+  }
+  .nav__item:nth-child(3) {
+    margin-left: 1px;
+    transform: rotate(-3deg) !important;
+  }
+  .nav__item:nth-child(4) {
+    margin-left: 8px;
+    transform: rotate(1deg) !important;
+  }
+  .nav__item:nth-child(5) {
+    margin-left: 15px;
+    transform: rotate(-2deg) !important;
+  }
+  .nav__item:nth-child(6) {
+    margin-left: 6px;
+    transform: rotate(3deg) !important;
+  }
+
   .nav__link {
-    font-size: 10px;
-    letter-spacing: 1px;
-    padding: 2px 6px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 8px 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Garbled link stays nearly invisible on mobile too, until tapped */
+  .nav__link--garbled {
+    color: rgba(255, 80, 80, 0.06);
   }
 }
 </style>

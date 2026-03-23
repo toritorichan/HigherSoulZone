@@ -218,4 +218,29 @@ function breakHeart(heart) {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+  .contact {
+    min-height: 300px;
+    padding: 1.5rem 1rem;
+  }
+
+  .contact__heading {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact__link-card {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .contact__link-icon {
+    font-size: 1.1rem;
+  }
+
+  .contact__heart {
+    max-width: 30px;
+  }
+}
 </style>
