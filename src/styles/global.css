@@ -8,6 +8,7 @@
   --font-display: 'Russo One', sans-serif;
   --font-heading: 'Staatliches', sans-serif;
   --font-body: '微軟正黑體', 'Microsoft JhengHei', sans-serif;
+  --font-cursive: 'Dancing Script', cursive;
 }
 
 *, *::before, *::after {
@@ -46,6 +47,18 @@ a:hover {
 ::selection {
   background: var(--color-accent);
   color: var(--color-bg);
+}
+
+/* Typewriter cursor for .tw elements */
+.tw--typing::after {
+  content: '▌';
+  color: var(--color-primary);
+  animation: twCursorBlink 0.6s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes twCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

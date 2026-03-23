@@ -3,8 +3,10 @@
     <div class="app__geometric app__geometric--circle"></div>
     <div class="app__geometric app__geometric--square"></div>
     <div class="app__layout">
-      <AppBanner />
-      <AppNav />
+      <div class="app__header">
+        <AppBanner />
+        <AppNav />
+      </div>
       <main class="app__content">
         <router-view v-slot="{ Component }">
           <transition name="wormhole" mode="out-in">
@@ -73,5 +75,14 @@ const { onClick } = useRapidClick()
 .app__content {
   min-height: 60vh;
   padding: 30px 0;
+}
+
+.app__header {
+  position: relative;
+}
+@media (max-width: 768px) {
+  .app__layout {
+    padding: 0 10px;
+  }
 }
 </style>

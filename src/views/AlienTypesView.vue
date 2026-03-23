@@ -65,10 +65,12 @@ import { aliens, alienIntro, alienIntro2 } from '../data/aliens.js'
 
 const base = import.meta.env.BASE_URL
 import { useCopyProtection } from '../composables/useCopyProtection.js'
+import { useTypewriter } from '../composables/useTypewriter.js'
 import { useAudio } from '../composables/useAudio.js'
 
 const contentRef = ref(null)
 useCopyProtection(contentRef)
+useTypewriter(contentRef)
 
 const { playAlienSound } = useAudio()
 
@@ -122,36 +124,8 @@ function hexToRgb(hex) {
   return `${r}, ${g}, ${b}`
 }
 
-function typewrite(el) {
-  const text = el.dataset.fullText
-  let i = 0
-  const interval = setInterval(() => {
-    el.textContent = text.slice(0, i + 1)
-    i++
-    if (i >= text.length) clearInterval(interval)
-  }, 20)
-}
-
 onMounted(async () => {
   await nextTick()
-  const paragraphs = contentRef.value?.querySelectorAll('.tw') || []
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        typewrite(entry.target)
-        observer.unobserve(entry.target)
-      }
-    })
-  }, { threshold: 0.2 })
-
-  paragraphs.forEach(p => {
-    p.dataset.fullText = p.textContent
-    p.textContent = ''
-    p.style.opacity = '1'
-    p.style.minHeight = '1.5em'
-    observer.observe(p)
-  })
 })
 </script>
 
@@ -430,6 +404,38 @@ onMounted(async () => {
 
   .alien-card--size-normal {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .alien-types {
+    padding: 1.5rem 1rem;
+  }
+  .alien-types__heading {
+    font-size: 1.5rem;
+  }
+  .alien-types__intro--left {
+    margin-right: 0;
+  }
+  .alien-types__intro--right {
+    margin-left: 0;
+  }
+  .alien-card {
+    flex-direction: column;
+    margin-left: 0 !important;
+  }
+  .alien-card__image-wrap {
+    width: 100% !important;
+    height: 180px !important;
+  }
+  .alien-card--size-normal {
+    max-width: 100%;
+  }
+  .alien-card__name-cn {
+    font-size: 1.1rem;
+  }
+  .alien-card__desc {
+    font-size: 0.85rem;
   }
 }
 </style>

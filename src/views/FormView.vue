@@ -256,4 +256,20 @@ function onSubmit() {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+  .form-page {
+    padding: 1.5rem 0.75rem;
+  }
+  .form-box {
+    padding: 1.5rem;
+  }
+  .form-box__title {
+    font-size: 1.2rem;
+  }
+  .neon-btn {
+    padding: 10px 30px;
+    font-size: 0.9rem;
+  }
+}
 </style>

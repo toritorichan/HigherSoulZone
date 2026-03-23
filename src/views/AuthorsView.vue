@@ -10,11 +10,11 @@
           </div>
           <div class="author-block__info">
             <h3 class="author-block__name author-block__name--pink">EJ_SU</h3>
-            <p class="author-block__id">蘇怡倢 / B34071149</p>
+            <p class="author-block__id tw">蘇怡倢 / B34071149</p>
             <ul class="author-block__points">
-              <li>致力於第三文明的美學</li>
-              <li>探討埃及文化與外星文明的學術研究</li>
-              <li>成大外星文明探索大使</li>
+              <li class="tw">致力於第三文明的美學</li>
+              <li class="tw">探討埃及文化與外星文明的學術研究</li>
+              <li class="tw">成大外星文明探索大使</li>
             </ul>
           </div>
         </div>
@@ -25,13 +25,13 @@
           </div>
           <div class="author-block__info">
             <h3 class="author-block__name author-block__name--blue">HsssU</h3>
-            <p class="author-block__id">許語宸 / F14061232</p>
+            <p class="author-block__id tw">許語宸 / F14061232</p>
             <ul class="author-block__points">
-              <li>
+              <li class="tw">
                 <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
               </li>
-              <li>探討麥田圈與外星繪畫創作之關聯的學術研究</li>
-              <li>雷爾運動的協助創辦人（台灣分部）</li>
+              <li class="tw">探討麥田圈與外星繪畫創作之關聯的學術研究</li>
+              <li class="tw">雷爾運動的協助創辦人（台灣分部）</li>
             </ul>
           </div>
         </div>
@@ -53,11 +53,13 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
+import { useTypewriter } from '../composables/useTypewriter.js'
 import { useEasterEggStore } from '../stores/easterEgg.js'
 
 const contentRef = ref(null)
 const thirdEyeRef = ref(null)
 useCopyProtection(contentRef)
+useTypewriter(contentRef)
 
 const store = useEasterEggStore()
 const thirdEyeOpen = computed(() => store.thirdEyeOpen)
@@ -252,6 +254,40 @@ watch(thirdEyeOpen, (isOpen) => {
   }
   .author-block--right {
     margin-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .author-block {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .author-block--left {
+    margin-right: 0;
+  }
+  .author-block--right {
+    flex-direction: column;
+    margin-left: 0;
+    text-align: left;
+  }
+  .author-block--right .author-block__points {
+    direction: ltr;
+  }
+  .author-block--right .author-block__points li {
+    padding-right: 0;
+    padding-left: 1.2rem;
+  }
+  .author-block--right .author-block__points li::before {
+    right: auto;
+    left: 0;
+  }
+  .author-block__avatar {
+    width: 60px;
+    height: 60px;
+  }
+  .author-block__initial {
+    font-size: 1.8rem;
   }
 }
 

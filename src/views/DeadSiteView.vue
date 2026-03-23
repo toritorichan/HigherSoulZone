@@ -14,7 +14,6 @@
 
       <div v-if="!animating" class="dead__choices">
         <button class="dead__choice" @click="handleAccept">我會保密</button>
-        <span class="dead__divider">/</span>
         <button class="dead__choice dead__choice--danger" @click="handleReject">不要</button>
       </div>
 
@@ -26,7 +25,6 @@
       v-for="(nope, i) in scatteredNopes"
       :key="'nope-' + i"
       class="dead__scattered"
-      :class="{ 'dead__scattered--drift': nope.drifting, 'dead__scattered--grow': nope.growing }"
       :style="nope.style"
     >
       {{ nope.text }}
@@ -89,8 +87,6 @@ function generateNopes(count) {
         fontSize: `${0.8 + Math.random() * 3}rem`,
         transform: `rotate(${(Math.random() - 0.5) * 60}deg)`,
       },
-      drifting: false,
-      growing: false,
     })
   }
   return items
@@ -145,11 +141,14 @@ async function handleAccept() {
   }
   await wait(2000)
 
-  // Fade out and go home
+  // Fade out and go directly home (no repeat)
   if (deadRef.value) {
     gsap.to(deadRef.value, {
       opacity: 0, duration: 1.5,
-      onComplete: () => router.push('/'),
+      onComplete: () => {
+        // Skip dead site on next garbled egg click — go straight home
+        router.push('/')
+      },
     })
   } else {
     router.push('/')
@@ -180,12 +179,7 @@ async function handleReject() {
 
   await wait(500)
 
-  // Start drifting + growing
-  scatteredNopes.value = scatteredNopes.value.map((nope, idx) => ({
-    ...nope,
-    drifting: true,
-    growing: idx % 5 === 0,
-  }))
+  // All nopes stay static — pasted on feeling
 
   screenPulse.value = true
 
@@ -386,10 +380,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
 
 .dead__choice:hover { opacity: 1; }
 
-.dead__divider {
-  color: rgba(255, 255, 255, 0.2);
-  font-size: 1.5rem;
-}
 
 .dead__message {
   font-size: 1.5rem;
@@ -404,33 +394,7 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   font-family: var(--font-heading);
   pointer-events: none;
   z-index: 3;
-  animation: scatterFadeIn 0.5s ease-out forwards;
-}
-
-.dead__scattered--drift {
-  animation: scatterFadeIn 0.5s ease-out forwards, nopeDrift 3s ease-in-out infinite alternate;
-}
-
-.dead__scattered--grow {
-  animation: scatterFadeIn 0.5s ease-out forwards, nopeDrift 3s ease-in-out infinite alternate, nopeGrow 2s ease-in-out infinite alternate;
-}
-
-@keyframes scatterFadeIn {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 0.7; }
-}
-
-@keyframes nopeDrift {
-  0% { translate: 0 0; }
-  25% { translate: 20px -15px; }
-  50% { translate: -10px 20px; }
-  75% { translate: 15px 10px; }
-  100% { translate: -20px -10px; }
-}
-
-@keyframes nopeGrow {
-  0% { scale: 1; }
-  100% { scale: 2.5; }
+  opacity: 0.7;
 }
 
 .dead__pulse {
@@ -445,5 +409,11 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
 @keyframes screenPulse {
   0%, 100% { transform: scale(1); opacity: 0; }
   50% { transform: scale(1.02); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .dead__heading {
+    font-size: 8vw;
+  }
 }
 </style>

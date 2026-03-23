@@ -6,6 +6,7 @@ const routes = [
   { path: '/alien-types', name: 'alienTypes', component: () => import('../views/AlienTypesView.vue') },
   { path: '/authors', name: 'authors', component: () => import('../views/AuthorsView.vue') },
   { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue') },
+  { path: '/diary', name: 'diary', component: () => import('../views/DiaryView.vue') },
   { path: '/form', name: 'form', component: () => import('../views/FormView.vue') },
   { path: '/dead', name: 'dead', component: () => import('../views/DeadSiteView.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/' },

@@ -12,9 +12,12 @@ const base = import.meta.env.BASE_URL
 .banner {
   text-align: center;
   padding: 20px 0 10px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .banner__logo {
   max-width: 100%;
   height: auto;
+  pointer-events: none;
 }
 </style>

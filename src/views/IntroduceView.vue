@@ -81,20 +81,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useCopyProtection } from '../composables/useCopyProtection.js'
+import { useTypewriter } from '../composables/useTypewriter.js'
 import { garble } from '../utils/garble.js'
 
 const contentRef = ref(null)
 useCopyProtection(contentRef)
-
-function typewrite(el) {
-  const text = el.dataset.fullText
-  let i = 0
-  const interval = setInterval(() => {
-    el.textContent = text.slice(0, i + 1)
-    i++
-    if (i >= text.length) clearInterval(interval)
-  }, 20)
-}
+useTypewriter(contentRef)
 
 let garbleInterval = null
 
@@ -110,25 +102,6 @@ onMounted(async () => {
   }
   refreshGarble()
   garbleInterval = setInterval(refreshGarble, 800)
-
-  const paragraphs = contentRef.value?.querySelectorAll('.tw') || []
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        typewrite(entry.target)
-        observer.unobserve(entry.target)
-      }
-    })
-  }, { threshold: 0.2 })
-
-  paragraphs.forEach(p => {
-    p.dataset.fullText = p.textContent
-    p.textContent = ''
-    p.style.opacity = '1'
-    p.style.minHeight = '1.5em'
-    observer.observe(p)
-  })
 })
 
 onUnmounted(() => {
@@ -229,10 +202,11 @@ onUnmounted(() => {
 }
 
 .introduce__final-quote {
-  font-size: 1.5rem;
+  font-family: var(--font-cursive);
+  font-size: 1.8rem;
   color: var(--color-text);
-  font-weight: bold;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   cursor: default;
   transition: opacity 0.3s, filter 0.3s;
 }
@@ -383,6 +357,20 @@ onUnmounted(() => {
   50% {
     opacity: 1;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(0, 255, 136, 0.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .introduce__highlight {
+    font-size: 1.5rem;
+  }
+  .introduce__text--offset-left {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .introduce__text--offset-right {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 </style>
