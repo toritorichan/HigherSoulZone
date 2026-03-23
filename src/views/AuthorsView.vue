@@ -27,7 +27,7 @@
             <h3 class="author-block__name author-block__name--blue">HsssU</h3>
             <p class="author-block__id tw">許語宸 / F14061232</p>
             <ul class="author-block__points">
-              <li class="tw">
+              <li>
                 <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
               </li>
               <li class="tw">探討麥田圈與外星繪畫創作之關聯的學術研究</li>
