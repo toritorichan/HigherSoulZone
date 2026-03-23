@@ -248,27 +248,27 @@ watch(thirdEyeOpen, (isOpen) => {
 }
 
 /* --- Responsive --- */
-@media (max-width: 600px) {
-  .author-block--left {
-    margin-right: 1rem;
-  }
-  .author-block--right {
-    margin-left: 1rem;
-  }
-}
-
 @media (max-width: 768px) {
+  .authors {
+    padding: 1.5rem 1rem;
+  }
+  .authors__heading {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .authors__grid {
+    gap: 2rem;
+  }
   .author-block {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .author-block--left {
-    margin-right: 0;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
   .author-block--right {
     flex-direction: column;
-    margin-left: 0;
     text-align: left;
   }
   .author-block--right .author-block__points {
@@ -283,11 +283,21 @@ watch(thirdEyeOpen, (isOpen) => {
     left: 0;
   }
   .author-block__avatar {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
   }
   .author-block__initial {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+  }
+  .author-block__name {
+    font-size: 1.2rem;
+  }
+  .author-block__id {
+    font-size: 0.8rem;
+  }
+  .author-block__points li {
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
 }
 
