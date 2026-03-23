@@ -1,34 +1,44 @@
 <template>
   <div class="app" @click="onClick">
-    <div class="app__geometric app__geometric--circle"></div>
-    <div class="app__geometric app__geometric--square"></div>
-    <div class="app__layout">
-      <div class="app__header">
-        <AppBanner />
-        <AppNav />
+    <!-- Wormhole entrance gate -->
+    <transition name="gate-fade">
+      <WormholeGate v-if="!entered" @enter="onEnter" />
+    </transition>
+
+    <!-- Main site (hidden until wormhole completes) -->
+    <template v-if="entered">
+      <div class="app__geometric app__geometric--circle"></div>
+      <div class="app__geometric app__geometric--square"></div>
+      <div class="app__layout">
+        <div class="app__header">
+          <AppBanner />
+          <AppNav />
+        </div>
+        <main class="app__content">
+          <router-view v-slot="{ Component }">
+            <transition name="wormhole" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
+        </main>
+        <AppFooter />
       </div>
-      <main class="app__content">
-        <router-view v-slot="{ Component }">
-          <transition name="wormhole" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-      </main>
-      <AppFooter />
-    </div>
-    <KonamiOverlay />
-    <MatrixRain />
-    <UfoFlyby />
-    <AlienLanguageFilter />
-    <CreepyEffects />
-    <CreepySelect />
-    <CursedMode />
-    <MorseCodeEgg />
-    <SecretWordEgg />
+      <KonamiOverlay />
+      <MatrixRain />
+      <UfoFlyby />
+      <AlienLanguageFilter />
+      <CreepyEffects />
+      <CreepySelect />
+      <CursedMode />
+      <MorseCodeEgg />
+      <SecretWordEgg />
+    </template>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import WormholeGate from './components/WormholeGate.vue'
 import AppBanner from './components/layout/AppBanner.vue'
 import AppNav from './components/layout/AppNav.vue'
 import AppFooter from './components/layout/AppFooter.vue'
@@ -43,6 +53,12 @@ import MorseCodeEgg from './components/easter-eggs/MorseCodeEgg.vue'
 import SecretWordEgg from './components/easter-eggs/SecretWordEgg.vue'
 import { useKonamiCode } from './composables/useKonamiCode'
 import { useRapidClick } from './composables/useRapidClick'
+
+const entered = ref(false)
+
+function onEnter() {
+  entered.value = true
+}
 
 useKonamiCode()
 const { onClick } = useRapidClick()
@@ -75,15 +91,29 @@ const { onClick } = useRapidClick()
   max-width: 900px;
   margin: 0 auto;
   padding: 0 20px;
+  animation: siteEnter 1.2s ease-out;
 }
 .app__content {
   min-height: 60vh;
   padding: 30px 0;
 }
-
 .app__header {
   position: relative;
 }
+
+/* Gate fade out */
+.gate-fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.gate-fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes siteEnter {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 @media (max-width: 768px) {
   .app__layout {
     padding: 0 10px;

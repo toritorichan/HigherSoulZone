@@ -67,6 +67,7 @@ function triggerSecret() {
   height: auto;
   pointer-events: auto;
   cursor: pointer;
+  mix-blend-mode: screen;
 }
 .banner__logo--spinning {
   animation: banner-spin 0.6s ease-in-out 2;
