@@ -77,34 +77,23 @@ function triggerSecret() {
 .win-frame {
   max-width: 520px;
   margin: 0 auto;
-  border-radius: 8px 8px 0 0;
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px #0033a0,
-    0 4px 16px rgba(0, 0, 0, 0.6);
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #000000;
+  border-right: 2px solid #000000;
 }
 
 .win-frame__titlebar {
-  background: linear-gradient(
-    to bottom,
-    #0997ff,
-    #0053ee 8%,
-    #0050ee 40%,
-    #0055e5 88%,
-    #1b8bff 93%,
-    #3c9aff 95%,
-    #65b5ff 96%,
-    #6cb6ff
-  );
+  background: #000080;
   color: #ffffff;
-  font-family: 'Trebuchet MS', 'Tahoma', sans-serif;
+  font-family: 'Tahoma', 'MS Sans Serif', sans-serif;
   font-size: 12px;
   font-weight: bold;
   padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .win-frame__title {
@@ -120,32 +109,30 @@ function triggerSecret() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 21px;
-  height: 21px;
-  font-size: 11px;
+  width: 16px;
+  height: 14px;
+  font-size: 10px;
   font-weight: normal;
-  background: linear-gradient(to bottom, #f0f0f0, #d4d0c8);
+  background: #c0c0c0;
   color: #000;
-  border: 1px solid #0033a0;
-  border-radius: 3px;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-bottom: 1px solid #000000;
+  border-right: 1px solid #000000;
   cursor: default;
-  text-shadow: none;
   line-height: 1;
 }
 
 .win-frame__btn:hover {
-  background: linear-gradient(to bottom, #fff, #e0dcd4);
+  background: #d0d0d0;
 }
 
 .win-frame__btn--close {
-  background: linear-gradient(to bottom, #e88c6c, #d44820);
-  color: #fff;
-  border-color: #933a1a;
   cursor: pointer;
 }
 
 .win-frame__btn--close:hover {
-  background: linear-gradient(to bottom, #ff9c7c, #e45830);
+  background: #d0d0d0;
 }
 
 .win-frame__body {
@@ -175,9 +162,8 @@ function triggerSecret() {
 .banner__secret {
   margin-top: 8px;
   font-size: clamp(0.8rem, 2vw, 1.2rem);
-  color: #00ff88;
+  color: var(--color-primary);
   font-family: var(--font-heading, monospace);
-  text-shadow: 0 0 8px rgba(0, 255, 136, 0.6), 0 0 20px rgba(0, 255, 136, 0.3);
   letter-spacing: 0.1em;
 }
 

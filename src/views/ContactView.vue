@@ -131,7 +131,6 @@ function breakHeart(heart) {
   color: var(--color-primary);
   margin-bottom: 0.4rem;
   letter-spacing: 0.1em;
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
 }
 
 .contact__status {
@@ -155,8 +154,8 @@ function breakHeart(heart) {
   align-items: center;
   gap: 0.8rem;
   padding: 1rem 1.2rem;
-  background: rgba(0, 255, 0, 0.02);
-  border: 1px dashed rgba(0, 255, 0, 0.15);
+  background: rgba(136, 204, 136, 0.02);
+  border: 1px dashed rgba(136, 204, 136, 0.15);
   color: var(--color-primary);
   font-family: var(--font-body);
   font-size: 1rem;
@@ -164,9 +163,8 @@ function breakHeart(heart) {
 }
 
 .contact__link-card:hover {
-  border-color: rgba(0, 255, 0, 0.5);
-  background: rgba(0, 255, 0, 0.05);
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+  border-color: rgba(136, 204, 136, 0.5);
+  background: rgba(136, 204, 136, 0.05);
 }
 
 .contact__link-prompt {
@@ -178,7 +176,7 @@ function breakHeart(heart) {
 
 .contact__link-text {
   text-decoration: underline;
-  text-decoration-color: rgba(0, 255, 0, 0.4);
+  text-decoration-color: rgba(136, 204, 136, 0.4);
   text-underline-offset: 3px;
 }
 
@@ -198,7 +196,6 @@ function breakHeart(heart) {
 
 .contact__heart:hover {
   transform: scale(1.4) !important;
-  filter: brightness(1.2) hue-rotate(90deg) !important;
 }
 
 .contact__heart--broken {

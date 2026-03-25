@@ -118,7 +118,6 @@ watch(thirdEyeOpen, (isOpen) => {
   color: var(--color-primary);
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
 }
 
 .authors__status {
@@ -138,8 +137,8 @@ watch(thirdEyeOpen, (isOpen) => {
 
 /* --- Author block / classified file style --- */
 .author-block {
-  border: 1px dashed rgba(0, 255, 0, 0.2);
-  background: rgba(0, 255, 0, 0.02);
+  border: 1px dashed rgba(136, 204, 136, 0.2);
+  background: rgba(136, 204, 136, 0.02);
 }
 
 .author-block__header {
@@ -148,8 +147,8 @@ watch(thirdEyeOpen, (isOpen) => {
   color: var(--color-accent);
   letter-spacing: 0.15em;
   padding: 0.6rem 1rem;
-  background: rgba(255, 0, 0, 0.05);
-  border-bottom: 1px dashed rgba(0, 255, 0, 0.15);
+  background: rgba(204, 0, 0, 0.05);
+  border-bottom: 1px dashed rgba(136, 204, 136, 0.15);
 }
 
 .author-block__row {
@@ -164,12 +163,12 @@ watch(thirdEyeOpen, (isOpen) => {
   flex-shrink: 0;
   width: 80px;
   height: 80px;
-  border: 1px dashed rgba(0, 255, 0, 0.3);
+  border: 1px dashed rgba(136, 204, 136, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: rgba(0, 255, 0, 0.03);
+  background: rgba(136, 204, 136, 0.03);
 }
 
 .author-block__initial {
@@ -177,7 +176,6 @@ watch(thirdEyeOpen, (isOpen) => {
   font-size: 2.2rem;
   font-weight: 700;
   color: var(--color-primary);
-  text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
   opacity: 0.3;
 }
 
@@ -204,7 +202,6 @@ watch(thirdEyeOpen, (isOpen) => {
   color: var(--color-primary);
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
-  text-shadow: 0 0 6px rgba(0, 255, 0, 0.3);
 }
 
 .author-block__id {
@@ -295,8 +292,7 @@ watch(thirdEyeOpen, (isOpen) => {
 .third-eye-overlay__text {
   font-family: var(--font-heading);
   font-size: 3vw;
-  color: rgba(0, 255, 136, 0.8);
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  color: rgba(136, 204, 136, 0.8);
   letter-spacing: 0.2em;
   text-align: center;
   margin: 0;
@@ -304,27 +300,21 @@ watch(thirdEyeOpen, (isOpen) => {
 }
 .third-eye-overlay__text--coord {
   font-size: 2vw;
-  color: rgba(255, 0, 0, 0.7);
-  text-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  color: rgba(204, 0, 0, 0.7);
   letter-spacing: 0.4em;
 }
 .third-eye-overlay__text--main {
   font-size: 7vw;
   color: rgba(255, 255, 255, 0.95);
-  text-shadow:
-    0 0 40px rgba(255, 0, 0, 0.6),
-    0 0 80px rgba(255, 0, 0, 0.3);
   white-space: nowrap;
 }
 .third-eye-overlay__text--jp {
   font-size: 2.5vw;
   color: rgba(255, 200, 200, 0.7);
-  text-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
 }
 .third-eye-overlay__text--small {
   font-size: 1.5vw;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.8em;
-  text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 </style>

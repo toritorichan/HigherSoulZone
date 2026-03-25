@@ -178,7 +178,6 @@ onMounted(async () => {
   color: var(--color-primary);
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
 }
 
 .alien-types__status {
@@ -256,16 +255,15 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: rgba(0, 255, 0, 0.02);
-  border: 1px dashed rgba(0, 255, 0, 0.2);
+  background: rgba(136, 204, 136, 0.02);
+  border: 1px dashed rgba(136, 204, 136, 0.2);
   padding: 0;
   cursor: pointer;
   position: relative;
 }
 
 .alien-card:hover {
-  border-color: rgba(0, 255, 0, 0.5);
-  box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+  border-color: rgba(136, 204, 136, 0.5);
   z-index: 2;
 }
 
@@ -275,8 +273,8 @@ onMounted(async () => {
   align-items: center;
   gap: 0.8rem;
   padding: 0.6rem 1rem;
-  background: rgba(0, 255, 0, 0.05);
-  border-bottom: 1px dashed rgba(0, 255, 0, 0.15);
+  background: rgba(136, 204, 136, 0.05);
+  border-bottom: 1px dashed rgba(136, 204, 136, 0.15);
   font-family: var(--font-system);
   font-size: 0.75rem;
   letter-spacing: 0.1em;
@@ -285,11 +283,10 @@ onMounted(async () => {
 
 .alien-card__record-id {
   color: var(--color-primary);
-  text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
 }
 
 .alien-card__record-sep {
-  color: rgba(0, 255, 0, 0.3);
+  color: rgba(136, 204, 136, 0.3);
 }
 
 .alien-card__record-name {
@@ -334,14 +331,14 @@ onMounted(async () => {
   flex-shrink: 0;
   overflow: hidden;
   position: relative;
-  border: 1px dashed rgba(0, 255, 0, 0.15);
+  border: 1px dashed rgba(136, 204, 136, 0.15);
 }
 
 .alien-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.4) brightness(0.85) sepia(0.15) hue-rotate(80deg);
+  filter: saturate(0.4) brightness(0.85) sepia(0.15);
 }
 
 .alien-card__image-scanlines {

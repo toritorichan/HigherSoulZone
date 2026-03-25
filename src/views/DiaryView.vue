@@ -132,14 +132,11 @@ onUnmounted(() => {
   font-size: 2.4rem;
   color: var(--color-primary);
   letter-spacing: 0.3em;
-  text-shadow:
-    0 0 10px rgba(0, 255, 0, 0.6),
-    0 0 30px rgba(0, 255, 0, 0.2);
 }
 
 .diary__header-noise {
   display: block;
-  color: rgba(0, 255, 0, 0.04);
+  color: rgba(136, 204, 136, 0.04);
   font-family: var(--font-system);
   font-size: 0.75rem;
   letter-spacing: 0.3em;
@@ -161,15 +158,15 @@ onUnmounted(() => {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 255, 0, 0.015) 2px,
-    rgba(0, 255, 0, 0.015) 4px
+    rgba(136, 204, 136, 0.015) 2px,
+    rgba(136, 204, 136, 0.015) 4px
   );
   pointer-events: none;
 }
 
 /* --- Terminal frame --- */
 .diary__terminal {
-  border: 1px dashed rgba(0, 255, 0, 0.2);
+  border: 1px dashed rgba(136, 204, 136, 0.2);
   background: rgba(0, 10, 5, 0.6);
   overflow: hidden;
   position: relative;
@@ -186,8 +183,8 @@ onUnmounted(() => {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 255, 0, 0.02) 2px,
-    rgba(0, 255, 0, 0.02) 4px
+    rgba(136, 204, 136, 0.02) 2px,
+    rgba(136, 204, 136, 0.02) 4px
   );
   pointer-events: none;
   z-index: 1;
@@ -198,8 +195,8 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: rgba(0, 255, 0, 0.05);
-  border-bottom: 1px dashed rgba(0, 255, 0, 0.15);
+  background: rgba(136, 204, 136, 0.05);
+  border-bottom: 1px dashed rgba(136, 204, 136, 0.15);
 }
 
 .diary__terminal-dot {
@@ -230,10 +227,10 @@ onUnmounted(() => {
 }
 
 .diary__entry {
-  border: 1px dashed rgba(0, 255, 0, 0.15);
+  border: 1px dashed rgba(136, 204, 136, 0.15);
   border-left: 3px dashed var(--color-primary);
   padding: 1rem 1.2rem;
-  background: rgba(0, 255, 0, 0.02);
+  background: rgba(136, 204, 136, 0.02);
   position: relative;
 }
 
@@ -249,7 +246,6 @@ onUnmounted(() => {
   font-size: 0.85rem;
   color: var(--color-primary);
   letter-spacing: 0.15em;
-  text-shadow: 0 0 6px rgba(0, 255, 0, 0.3);
 }
 
 .diary__entry-weather {
@@ -264,8 +260,8 @@ onUnmounted(() => {
   height: 1px;
   background: linear-gradient(
     90deg,
-    rgba(0, 255, 0, 0.3),
-    rgba(0, 255, 0, 0.1),
+    rgba(136, 204, 136, 0.3),
+    rgba(136, 204, 136, 0.1),
     transparent
   );
   margin-bottom: 0.8rem;
@@ -285,7 +281,7 @@ onUnmounted(() => {
   margin-top: 0.6rem;
   font-family: var(--font-system);
   font-size: 0.65rem;
-  color: rgba(0, 255, 0, 0.06);
+  color: rgba(136, 204, 136, 0.06);
   letter-spacing: 0.2em;
   user-select: none;
   pointer-events: none;

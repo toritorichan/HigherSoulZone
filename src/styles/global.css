@@ -1,10 +1,10 @@
 :root {
   --color-bg: #0a0a12;
   --color-surface: #c0c0c0;
-  --color-primary: #00ff00;
-  --color-accent: #ff0000;
-  --color-text: #d0d0d0;
-  --color-text-dim: rgba(200, 200, 200, 0.5);
+  --color-primary: #88cc88;
+  --color-accent: #cc0000;
+  --color-text: #cccccc;
+  --color-text-dim: rgba(180, 180, 180, 0.6);
   --color-border: rgba(200, 200, 200, 0.15);
   --color-win-title: #000080;
   --color-win-title-xp: #0055e5;

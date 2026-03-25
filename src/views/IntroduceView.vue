@@ -151,12 +151,11 @@ onUnmounted(() => {
   border-left: 2px solid #ffffff;
   border-bottom: 2px solid #000000;
   border-right: 2px solid #000000;
-  box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
   background: #0a0a12;
 }
 
 .notepad__titlebar {
-  background: linear-gradient(to right, #000080, #1084d0);
+  background: #000080;
   color: #ffffff;
   font-family: 'Tahoma', 'MS Sans Serif', sans-serif;
   font-size: 12px;
@@ -245,10 +244,6 @@ onUnmounted(() => {
   text-align: center;
   margin: 2.5rem 0;
   letter-spacing: 0.15em;
-  text-shadow:
-    0 0 8px rgba(0, 255, 0, 0.6),
-    2px 2px 0 rgba(255, 0, 0, 0.3),
-    -2px -1px 0 rgba(0, 30, 255, 0.3);
 }
 
 /* --- Quote --- */
@@ -260,9 +255,6 @@ onUnmounted(() => {
   font-family: var(--font-body);
   font-style: italic;
   line-height: 1.8;
-  text-shadow:
-    1px 0 0 rgba(255, 0, 0, 0.25),
-    -1px 0 0 rgba(0, 30, 255, 0.25);
 }
 
 /* --- Final quote with horror hover --- */
@@ -295,8 +287,7 @@ onUnmounted(() => {
 
 .introduce__final-horror span {
   font-family: var(--font-heading);
-  color: #ff0000;
-  text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 40px rgba(255, 0, 0, 0.3);
+  color: var(--color-accent);
   letter-spacing: 0.15em;
 }
 
@@ -310,7 +301,6 @@ onUnmounted(() => {
 
 .introduce__final-wrap:hover .introduce__final-quote {
   opacity: 0;
-  filter: blur(4px);
 }
 
 .introduce__final-wrap:hover .introduce__final-horror {
@@ -330,7 +320,7 @@ onUnmounted(() => {
 /* --- Decorative noise (dimmed more) --- */
 .introduce__noise {
   display: block;
-  color: rgba(0, 255, 0, 0.04);
+  color: rgba(136, 204, 136, 0.04);
   font-size: 1rem;
   letter-spacing: 0.6em;
   user-select: none;

@@ -144,7 +144,7 @@ function triggerGarbledEgg() {
 .nav__file-list {
   pointer-events: auto;
   padding: 8px 0;
-  border: 1px solid rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(136, 204, 136, 0.1);
   background: rgba(0, 0, 0, 0.3);
   margin-top: 4px;
 }
@@ -152,9 +152,9 @@ function triggerGarbledEgg() {
 .nav__file-header {
   font-family: var(--font-system, monospace);
   font-size: 11px;
-  color: rgba(0, 255, 0, 0.3);
+  color: rgba(136, 204, 136, 0.3);
   padding: 2px 12px 6px;
-  border-bottom: 1px solid rgba(0, 255, 0, 0.08);
+  border-bottom: 1px solid rgba(136, 204, 136, 0.08);
   margin-bottom: 4px;
   letter-spacing: 1px;
 }
@@ -164,14 +164,14 @@ function triggerGarbledEgg() {
 }
 
 .nav__file-icon {
-  color: var(--color-primary, #00ff00);
+  color: var(--color-primary);
   opacity: 0.6;
 }
 
 .nav__file-link {
   display: block;
   padding: 4px 12px;
-  color: rgba(0, 255, 0, 0.55);
+  color: rgba(136, 204, 136, 0.55);
   font-family: var(--font-system, monospace);
   font-size: 14px;
   letter-spacing: 2px;
@@ -180,20 +180,17 @@ function triggerGarbledEgg() {
 }
 
 .nav__file-link:hover {
-  color: #00ff00;
-  background: rgba(0, 255, 0, 0.05);
-  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.2);
+  color: var(--color-primary);
+  background: rgba(136, 204, 136, 0.05);
 }
 
 .nav__file-link--garbled {
-  color: rgba(255, 40, 40, 0.08);
-  text-shadow: none;
+  color: rgba(204, 0, 0, 0.08);
 }
 
 .nav__file-link--garbled:hover {
-  color: rgba(255, 40, 40, 0.7);
-  background: rgba(255, 0, 0, 0.03);
-  text-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+  color: rgba(204, 0, 0, 0.7);
+  background: rgba(204, 0, 0, 0.03);
 }
 
 /* Hide mobile bar on desktop */
@@ -213,7 +210,7 @@ function triggerGarbledEgg() {
     background: rgba(5, 5, 10, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(0, 255, 0, 0.15);
+    border-top: 1px solid rgba(136, 204, 136, 0.15);
     padding: 6px 0;
     padding-bottom: max(6px, env(safe-area-inset-bottom));
   }
@@ -237,35 +234,33 @@ function triggerGarbledEgg() {
   .nav__mobile-icon {
     font-size: 18px;
     line-height: 1;
-    color: rgba(0, 255, 0, 0.4);
+    color: rgba(136, 204, 136, 0.4);
     font-family: var(--font-system, monospace);
   }
   .nav__mobile-label {
     font-family: var(--font-body, monospace);
     font-size: 9px;
-    color: rgba(0, 255, 0, 0.35);
+    color: rgba(136, 204, 136, 0.35);
     letter-spacing: 0.5px;
     white-space: nowrap;
   }
   .nav__mobile-link--active .nav__mobile-icon {
-    color: #00ff00;
-    text-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
+    color: var(--color-primary);
     transform: scale(1.15);
   }
   .nav__mobile-link--active .nav__mobile-label {
-    color: var(--color-primary, #00ff00);
+    color: var(--color-primary);
   }
   /* Easter egg link — very subtle */
   .nav__mobile-link--egg .nav__mobile-icon {
     opacity: 0.15;
-    color: rgba(255, 40, 40, 0.3);
+    color: rgba(204, 0, 0, 0.3);
   }
   .nav__mobile-link--egg .nav__mobile-label {
-    color: rgba(255, 80, 80, 0.1);
+    color: rgba(204, 0, 0, 0.1);
   }
   .nav__mobile-link--egg:active .nav__mobile-icon {
     opacity: 0.8;
-    text-shadow: 0 0 6px rgba(255, 50, 50, 0.5);
   }
 }
 </style>

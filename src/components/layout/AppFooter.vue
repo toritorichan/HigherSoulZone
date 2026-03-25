@@ -25,12 +25,12 @@
 }
 
 .footer__rec {
-  color: rgba(255, 0, 0, 0.6);
+  color: rgba(204, 0, 0, 0.6);
   font-weight: bold;
 }
 
 .footer__dot {
-  color: #ff0000;
+  color: var(--color-accent);
   font-size: 10px;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .footer__copy {
-  color: rgba(0, 255, 0, 0.25);
+  color: rgba(136, 204, 136, 0.25);
 }
 
 .footer__time {
