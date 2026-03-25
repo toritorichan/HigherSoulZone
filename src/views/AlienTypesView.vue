@@ -259,12 +259,8 @@ onMounted(async () => {
   background: rgba(0, 255, 0, 0.02);
   border: 1px dashed rgba(0, 255, 0, 0.2);
   padding: 0;
-  transition: box-shadow 0.3s, border-color 0.3s;
   cursor: pointer;
   position: relative;
-  animation-duration: 0.7s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: both;
 }
 
 .alien-card:hover {
@@ -399,37 +395,6 @@ onMounted(async () => {
   margin-top: 1rem;
   letter-spacing: 0.1em;
   opacity: 0.4;
-}
-
-/* Entry animations */
-.alien-card--entry-left {
-  animation-name: slideFromLeft;
-}
-.alien-card--entry-right {
-  animation-name: slideFromRight;
-}
-.alien-card--entry-top {
-  animation-name: slideFromTop;
-}
-.alien-card--entry-bottom {
-  animation-name: slideFromBottom;
-}
-
-@keyframes slideFromLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideFromRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideFromTop {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes slideFromBottom {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {

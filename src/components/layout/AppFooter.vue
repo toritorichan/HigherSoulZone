@@ -32,7 +32,6 @@
 .footer__dot {
   color: #ff0000;
   font-size: 10px;
-  animation: rec-blink 1s steps(1) infinite;
 }
 
 .footer__sep {
@@ -47,8 +46,4 @@
   color: rgba(160, 160, 160, 0.3);
 }
 
-@keyframes rec-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
 </style>

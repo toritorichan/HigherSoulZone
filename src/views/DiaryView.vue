@@ -117,7 +117,6 @@ onUnmounted(() => {
 }
 
 .diary__content {
-  animation: slideIn 0.8s ease-out;
   position: relative;
 }
 
@@ -136,7 +135,6 @@ onUnmounted(() => {
   text-shadow:
     0 0 10px rgba(0, 255, 0, 0.6),
     0 0 30px rgba(0, 255, 0, 0.2);
-  animation: glitchFlicker 4s infinite;
 }
 
 .diary__header-noise {
@@ -167,7 +165,6 @@ onUnmounted(() => {
     rgba(0, 255, 0, 0.015) 4px
   );
   pointer-events: none;
-  animation: scanlineScroll 8s linear infinite;
 }
 
 /* --- Terminal frame --- */
@@ -238,7 +235,6 @@ onUnmounted(() => {
   padding: 1rem 1.2rem;
   background: rgba(0, 255, 0, 0.02);
   position: relative;
-  animation: entrySlideIn 0.8s ease-out both;
 }
 
 .diary__entry-header {
@@ -317,56 +313,6 @@ onUnmounted(() => {
   background: var(--color-primary);
   margin-left: 4px;
   vertical-align: text-bottom;
-  animation: cursorBlink 1s step-end infinite;
-}
-
-/* --- Keyframes --- */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes entrySlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-@keyframes glitchFlicker {
-  0%, 100% { opacity: 1; }
-  7% { opacity: 0.85; transform: translate(-1px, 0); }
-  8% { opacity: 1; transform: translate(1px, 0); }
-  9% { opacity: 0.9; }
-  10% { opacity: 1; }
-  47% { opacity: 1; }
-  48% { opacity: 0.7; transform: translate(2px, -1px); }
-  49% { opacity: 0.85; }
-  50% { opacity: 1; transform: translate(0); }
-  82% { opacity: 1; }
-  83% { opacity: 0.6; }
-  84% { opacity: 0.9; transform: translate(-2px, 1px); }
-  85% { opacity: 1; transform: translate(0); }
-}
-
-@keyframes scanlineScroll {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100vh; }
 }
 
 /* --- Responsive --- */

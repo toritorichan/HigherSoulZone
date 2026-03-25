@@ -111,7 +111,6 @@ function breakHeart(heart) {
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
-  animation: fadeIn 0.8s ease-out;
 }
 
 .contact__hearts-bg {
@@ -162,7 +161,6 @@ function breakHeart(heart) {
   font-family: var(--font-body);
   font-size: 1rem;
   text-decoration: none;
-  transition: border-color 0.3s, background 0.3s, text-shadow 0.3s;
 }
 
 .contact__link-card:hover {
@@ -196,8 +194,6 @@ function breakHeart(heart) {
 .contact__heart {
   position: absolute;
   cursor: pointer;
-  animation: heartFloat 4s ease-in-out infinite alternate;
-  transition: transform 0.3s, filter 0.3s;
 }
 
 .contact__heart:hover {
@@ -206,7 +202,6 @@ function breakHeart(heart) {
 }
 
 .contact__heart--broken {
-  animation: heartShatter 0.5s ease forwards;
   filter: grayscale(0.5) hue-rotate(90deg);
   cursor: default;
 }
@@ -218,35 +213,6 @@ function breakHeart(heart) {
   border-radius: 50%;
   background: var(--color);
   pointer-events: none;
-  animation: particleFly 0.8s ease-out forwards;
-}
-
-@keyframes heartFloat {
-  from { transform: translateY(0); }
-  to { transform: translateY(-15px); }
-}
-
-@keyframes heartShatter {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.2) rotate(5deg); }
-  60% { transform: scale(0.9) rotate(-3deg); }
-  100% { transform: scale(1); }
-}
-
-@keyframes particleFly {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--dx), var(--dy)) scale(0);
-    opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {

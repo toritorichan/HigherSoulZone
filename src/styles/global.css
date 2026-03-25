@@ -34,26 +34,7 @@ html, body {
   scrollbar-width: none;
 }
 
-body {
-  position: relative;
-  box-shadow: inset 0 0 100px rgba(0, 255, 0, 0.03);
-}
-
-/* CRT vignette on body */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
-  );
-  pointer-events: none;
-  z-index: 9000;
-}
-
-/* Permanent faint scanline overlay */
+/* Scanline overlay — static, no animation */
 body::after {
   content: '';
   position: fixed;
@@ -62,8 +43,8 @@ body::after {
     to bottom,
     transparent 0px,
     transparent 2px,
-    rgba(0, 0, 0, 0.12) 2px,
-    rgba(0, 0, 0, 0.12) 4px
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
   );
   pointer-events: none;
   z-index: 9001;
@@ -73,40 +54,22 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
-
-html {
-  -ms-overflow-style: none;
-}
+html { -ms-overflow-style: none; }
 
 a {
   color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.3s;
 }
-a:hover {
-  color: var(--color-accent);
-}
+a:hover { color: var(--color-accent); }
 
 ::selection {
   background: var(--color-primary);
   color: #000;
 }
 
-/* Typewriter cursor for .tw elements */
+/* Typewriter cursor — only animation kept (functional, not decorative) */
 .tw--typing::after {
-  content: '\u258C';
+  content: '_';
   color: var(--color-primary);
-  animation: twCursorBlink 0.6s step-end infinite;
   margin-left: 1px;
-}
-@keyframes twCursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
 }

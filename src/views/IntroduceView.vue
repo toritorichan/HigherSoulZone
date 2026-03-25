@@ -142,7 +142,6 @@ onUnmounted(() => {
 }
 
 .introduce__content {
-  animation: slideIn 0.8s ease-out;
   position: relative;
 }
 
@@ -280,7 +279,6 @@ onUnmounted(() => {
   font-weight: 700;
   letter-spacing: 0.05em;
   cursor: default;
-  transition: opacity 0.3s, filter 0.3s;
 }
 
 .introduce__final-horror {
@@ -292,7 +290,6 @@ onUnmounted(() => {
   justify-content: center;
   gap: 0.3rem;
   opacity: 0;
-  transition: opacity 0.2s;
   pointer-events: none;
 }
 
@@ -309,7 +306,6 @@ onUnmounted(() => {
 .introduce__final-horror span:nth-child(2) {
   font-size: 1.3rem;
   color: rgba(255, 100, 100, 0.8);
-  animation: horrorPulse 0.8s ease-in-out infinite alternate;
 }
 
 .introduce__final-wrap:hover .introduce__final-quote {
@@ -321,22 +317,14 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-@keyframes horrorPulse {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.05); }
-}
-
 .introduce__pulse {
-  animation: eerePulse 3s ease-in-out infinite;
 }
 
 /* --- Glitch flicker --- */
 .introduce__glitch {
-  animation: glitchFlicker 4s infinite;
 }
 
 .introduce__flicker {
-  animation: subtleFlicker 5s infinite;
 }
 
 /* --- Decorative noise (dimmed more) --- */
@@ -382,55 +370,6 @@ onUnmounted(() => {
   text-align: center;
   margin-top: 1.5rem;
   margin-bottom: -0.5rem;
-}
-
-/* --- Keyframes --- */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes glitchFlicker {
-  0%, 100% { opacity: 1; }
-  7% { opacity: 0.85; transform: translate(-1px, 0); }
-  8% { opacity: 1; transform: translate(1px, 0); }
-  9% { opacity: 0.9; }
-  10% { opacity: 1; }
-  47% { opacity: 1; }
-  48% { opacity: 0.7; transform: translate(2px, -1px); }
-  49% { opacity: 0.85; }
-  50% { opacity: 1; transform: translate(0); }
-  82% { opacity: 1; }
-  83% { opacity: 0.6; }
-  84% { opacity: 0.9; transform: translate(-2px, 1px); }
-  85% { opacity: 1; }
-}
-
-@keyframes subtleFlicker {
-  0%, 100% { opacity: 1; }
-  20% { opacity: 0.92; }
-  21% { opacity: 1; }
-  55% { opacity: 0.85; }
-  56% { opacity: 1; }
-  78% { opacity: 0.88; }
-  80% { opacity: 1; }
-}
-
-@keyframes eerePulse {
-  0%, 100% {
-    opacity: 0.6;
-    text-shadow: 0 0 4px rgba(0, 255, 0, 0.1);
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 20px rgba(0, 255, 0, 0.3), 0 0 40px rgba(0, 255, 0, 0.15);
-  }
 }
 
 @media (max-width: 768px) {

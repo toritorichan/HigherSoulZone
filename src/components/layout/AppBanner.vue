@@ -70,7 +70,6 @@ function triggerSecret() {
   padding: 20px 0 10px;
   user-select: none;
   -webkit-user-select: none;
-  transition: opacity 1.5s ease, max-height 1.5s ease, padding 1.5s ease;
   overflow: hidden;
 }
 
@@ -171,7 +170,6 @@ function triggerSecret() {
 }
 
 .banner__logo--spinning {
-  animation: banner-spin 0.6s ease-in-out 2;
 }
 
 .banner__secret {
@@ -182,16 +180,6 @@ function triggerSecret() {
   text-shadow: 0 0 8px rgba(0, 255, 136, 0.6), 0 0 20px rgba(0, 255, 136, 0.3);
   letter-spacing: 0.1em;
 }
-
-@keyframes banner-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.banner-msg-enter-active { transition: opacity 0.3s ease, transform 0.3s ease; }
-.banner-msg-leave-active { transition: opacity 0.5s ease, transform 0.5s ease; }
-.banner-msg-enter-from { opacity: 0; transform: translateY(-10px); }
-.banner-msg-leave-to { opacity: 0; transform: translateY(10px); }
 
 /* Mobile */
 @media (max-width: 768px) {

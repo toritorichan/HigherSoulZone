@@ -80,7 +80,6 @@ function onSubmit() {
   box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
   background: #c0c0c0;
   padding: 3px;
-  animation: fadeIn 0.8s ease-out;
 }
 
 .win-dialog__titlebar {
@@ -156,7 +155,6 @@ function onSubmit() {
   font-size: 0.95rem;
   font-family: var(--font-body);
   outline: none;
-  transition: border-color 0.3s;
   letter-spacing: 0.03em;
 }
 
@@ -233,7 +231,6 @@ function onSubmit() {
 .form-box__links a {
   color: var(--color-text-dim);
   font-family: var(--font-body);
-  transition: color 0.3s;
 }
 
 .form-box__links a:hover {
@@ -249,20 +246,6 @@ function onSubmit() {
   font-size: 0.95rem;
   letter-spacing: 0.1em;
   text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {

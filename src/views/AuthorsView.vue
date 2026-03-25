@@ -110,7 +110,6 @@ watch(thirdEyeOpen, (isOpen) => {
 }
 
 .authors__content {
-  animation: slideIn 0.8s ease-out;
 }
 
 .authors__heading {
@@ -275,17 +274,6 @@ watch(thirdEyeOpen, (isOpen) => {
   }
 }
 
-/* --- Keyframes --- */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 </style>
 
 <style>
@@ -310,7 +298,6 @@ watch(thirdEyeOpen, (isOpen) => {
   color: rgba(0, 255, 136, 0.8);
   text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
   letter-spacing: 0.2em;
-  animation: thirdEyePulse 1.5s ease-in-out infinite alternate;
   text-align: center;
   margin: 0;
   line-height: 1.2;
@@ -327,7 +314,6 @@ watch(thirdEyeOpen, (isOpen) => {
   text-shadow:
     0 0 40px rgba(255, 0, 0, 0.6),
     0 0 80px rgba(255, 0, 0, 0.3);
-  animation: thirdEyeRedPulse 1.2s ease-in-out infinite alternate;
   white-space: nowrap;
 }
 .third-eye-overlay__text--jp {
@@ -340,13 +326,5 @@ watch(thirdEyeOpen, (isOpen) => {
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.8em;
   text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-}
-@keyframes thirdEyePulse {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.02); }
-}
-@keyframes thirdEyeRedPulse {
-  from { opacity: 0.7; transform: scale(1); text-shadow: 0 0 40px rgba(255, 0, 0, 0.6), 0 0 80px rgba(255, 0, 0, 0.3); }
-  to { opacity: 1; transform: scale(1.03); text-shadow: 0 0 60px rgba(255, 0, 0, 0.8), 0 0 120px rgba(255, 0, 0, 0.5); }
 }
 </style>

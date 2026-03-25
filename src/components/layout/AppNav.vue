@@ -133,8 +133,6 @@ function triggerGarbledEgg() {
 </script>
 
 <style scoped>
-.nav-fade-enter-active { transition: opacity 1.5s ease; }
-.nav-fade-enter-from { opacity: 0; }
 
 /* ===== Desktop: file explorer listing ===== */
 .nav {
@@ -177,7 +175,6 @@ function triggerGarbledEgg() {
   font-family: var(--font-system, monospace);
   font-size: 14px;
   letter-spacing: 2px;
-  transition: all 0.2s;
   white-space: nowrap;
   text-decoration: none;
 }
@@ -191,7 +188,6 @@ function triggerGarbledEgg() {
 .nav__file-link--garbled {
   color: rgba(255, 40, 40, 0.08);
   text-shadow: none;
-  transition: color 0.2s, text-shadow 0.2s;
 }
 
 .nav__file-link--garbled:hover {
@@ -236,7 +232,6 @@ function triggerGarbledEgg() {
     padding: 6px 4px;
     min-width: 50px;
     text-decoration: none;
-    transition: color 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
   .nav__mobile-icon {
@@ -244,7 +239,6 @@ function triggerGarbledEgg() {
     line-height: 1;
     color: rgba(0, 255, 0, 0.4);
     font-family: var(--font-system, monospace);
-    transition: color 0.2s, text-shadow 0.2s, transform 0.2s;
   }
   .nav__mobile-label {
     font-family: var(--font-body, monospace);
@@ -252,7 +246,6 @@ function triggerGarbledEgg() {
     color: rgba(0, 255, 0, 0.35);
     letter-spacing: 0.5px;
     white-space: nowrap;
-    transition: color 0.2s;
   }
   .nav__mobile-link--active .nav__mobile-icon {
     color: #00ff00;

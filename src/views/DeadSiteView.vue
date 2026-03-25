@@ -270,12 +270,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   justify-content: center;
   cursor: crosshair;
   overflow: hidden;
-  animation: breathe 4s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.008); }
 }
 
 .dead__grain {
@@ -299,7 +293,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   pointer-events: none;
   z-index: 0;
   filter: grayscale(1) brightness(0.8) sepia(0.1) hue-rotate(80deg);
-  transition: opacity 3s, transform 3s;
 }
 
 /* CRT overlay for green tint */
@@ -347,7 +340,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
     920px 350px #fff, 1010px 150px #fff, 1100px 420px #fff, 1200px 60px #fff;
   width: 1px;
   height: 1px;
-  animation: starTwinkle 4s ease-in-out infinite alternate;
 }
 
 .dead__stars::after {
@@ -357,7 +349,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
     60px 300px #fff, 200px 450px #fff, 340px 580px #fff, 480px 150px #fff;
   width: 2px;
   height: 2px;
-  animation: starTwinkle 6s ease-in-out infinite alternate-reverse;
 }
 
 .dead__stars .dead__stars-layer {
@@ -366,12 +357,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
     900px 310px #fff, 1050px 120px #fff, 130px 530px #fff, 320px 680px #fff;
   width: 3px;
   height: 3px;
-  animation: starTwinkle 8s ease-in-out infinite alternate;
-}
-
-@keyframes starTwinkle {
-  0% { opacity: 0.5; }
-  100% { opacity: 1; }
 }
 
 .dead__content {
@@ -388,13 +373,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   letter-spacing: 0.15em;
   margin-bottom: 1.5rem;
   opacity: 0.7;
-  animation: vhsBlink 2s ease-in-out infinite;
-}
-
-@keyframes vhsBlink {
-  0%, 85%, 100% { opacity: 0.7; }
-  88% { opacity: 0.3; }
-  91% { opacity: 0.8; }
 }
 
 .dead__heading {
@@ -403,7 +381,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   color: var(--color-accent);
   letter-spacing: 0.2em;
   margin-bottom: 3rem;
-  transition: transform 0.8s ease;
   text-shadow:
     0 0 10px rgba(255, 0, 0, 0.4),
     2px 2px 0 rgba(255, 0, 0, 0.2);
@@ -432,7 +409,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   padding: 6px 24px;
   min-width: 85px;
   min-height: 25px;
-  transition: none;
 }
 
 .dead__choice:active {
@@ -458,7 +434,6 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   color: var(--color-primary);
   letter-spacing: 0.2em;
   opacity: 0;
-  transition: opacity 1s;
   text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
@@ -475,13 +450,7 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   inset: 0;
   z-index: 10;
   pointer-events: none;
-  animation: screenPulse 0.3s ease-in-out infinite;
   background: rgba(0, 255, 0, 0.02);
-}
-
-@keyframes screenPulse {
-  0%, 100% { transform: scale(1); opacity: 0; }
-  50% { transform: scale(1.02); opacity: 1; }
 }
 
 @media (max-width: 768px) {
