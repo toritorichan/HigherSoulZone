@@ -1,35 +1,76 @@
 <template>
   <div class="gate" @click="skipToEnd">
-    <!-- Scan lines -->
+    <!-- CRT scanlines overlay -->
     <div class="gate__scanlines"></div>
 
-    <!-- Floating particles drifting inward -->
-    <span
-      v-for="p in particles"
-      :key="p.id"
-      class="gate__particle"
-      :style="p.style"
-    ></span>
+    <!-- Static noise SVG filter (hidden) -->
+    <svg class="gate__svg-defs" width="0" height="0">
+      <filter id="staticNoise">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.85"
+          numOctaves="4"
+          stitchTiles="stitch"
+          :seed="noiseSeed"
+        />
+      </filter>
+    </svg>
 
-    <!-- Wormhole concentric rings -->
-    <div class="gate__wormhole" :class="{ 'gate__wormhole--collapse': collapsing }">
+    <!-- VHS tracking distortion bars -->
+    <div v-if="phase === 'tracking'" class="gate__tracking">
       <div
-        v-for="ring in rings"
-        :key="ring.id"
-        class="gate__ring"
-        :style="ring.style"
+        v-for="bar in trackingBars"
+        :key="bar.id"
+        class="gate__tracking-bar"
+        :style="bar.style"
       ></div>
     </div>
 
-    <!-- Center text -->
-    <div class="gate__text">
-      <span v-if="phase === 'dots'" class="gate__dots">{{ dots }}</span>
-      <span v-else-if="phase === 'typing'" class="gate__typed">{{ displayText }}</span>
-      <span v-else-if="phase === 'ready'" class="gate__ready">✦</span>
+    <!-- Static noise overlay -->
+    <div
+      v-if="showStatic"
+      class="gate__static"
+      :style="{ opacity: staticOpacity }"
+    ></div>
+
+    <!-- BIOS boot text -->
+    <div v-if="phase === 'bios'" class="gate__bios">
+      <div
+        v-for="(line, idx) in biosLines"
+        :key="idx"
+        class="gate__bios-line"
+        :class="{
+          'gate__bios-line--warn': line.startsWith('[WARN]'),
+          'gate__bios-line--err': line.startsWith('[ERR]'),
+        }"
+      >{{ line }}</div>
+      <span class="gate__bios-cursor">_</span>
     </div>
 
+    <!-- VHS timestamp + center message -->
+    <div v-if="phase === 'message'" class="gate__message-screen">
+      <!-- VHS REC indicator -->
+      <div class="gate__rec">
+        <span class="gate__rec-dot">●</span>
+        <span class="gate__rec-text">REC</span>
+        <span class="gate__rec-timestamp">2002.03.25 04:44:44</span>
+      </div>
+
+      <!-- Center typed message -->
+      <div class="gate__center-text">
+        <span class="gate__typed">{{ displayText }}</span>
+        <span v-if="showTypingCursor" class="gate__cursor">_</span>
+      </div>
+
+      <!-- VHS counter bottom -->
+      <div class="gate__vhs-counter">{{ vhsCounter }}</div>
+    </div>
+
+    <!-- Final static burst -->
+    <div v-if="phase === 'burst'" class="gate__burst"></div>
+
     <!-- Skip hint -->
-    <div v-if="phase !== 'collapsing'" class="gate__skip">click anywhere</div>
+    <div v-if="phase !== 'burst'" class="gate__skip">click anywhere</div>
   </div>
 </template>
 
@@ -39,13 +80,53 @@ import { garble } from '../utils/garble.js'
 
 const emit = defineEmits(['enter'])
 
-const phase = ref('dots')
-const dots = ref('')
+const phase = ref('bios')
+const biosLines = ref([])
 const displayText = ref('')
-const collapsing = ref(false)
-const fullMessage = '你準備好了嗎'
+const showTypingCursor = ref(false)
+const vhsCounter = ref('--:--:--')
+const showStatic = ref(false)
+const staticOpacity = ref(0)
+const noiseSeed = ref(0)
 
 let timers = []
+let noiseInterval = null
+
+const BIOS_MESSAGES = [
+  'AMIBIOS (C) 2001 American Megatrends, Inc.',
+  'ASUS P4B-MX ACPI BIOS Revision 1008',
+  '',
+  'Intel(R) Pentium(R) 4 CPU 1.80GHz',
+  'MEMORY TEST... 640K OK',
+  'EXTENDED MEMORY: 261120K',
+  '',
+  'Detecting IDE drives...',
+  'Primary Master: MAXTOR 6Y080L0',
+  'Primary Slave: SAMSUNG CD-ROM SC-148C',
+  '',
+  'LOADING SECTOR 0x7C00...',
+  'INIT KERNEL MODULES...',
+  '[OK] PCI Bus enumeration complete',
+  '[OK] USB Host Controller initialized',
+  '[WARN] UNKNOWN DEVICE DETECTED',
+  '[WARN] IRQ CONFLICT ON CHANNEL 7',
+  '[ERR] SIGNAL SOURCE: ????????',
+  '[ERR] CANNOT IDENTIFY BROADCAST ORIGIN',
+]
+
+const trackingBars = []
+for (let i = 0; i < 8; i++) {
+  trackingBars.push({
+    id: i,
+    style: {
+      top: `${Math.random() * 100}%`,
+      height: `${8 + Math.random() * 30}px`,
+      opacity: 0.08 + Math.random() * 0.15,
+      animationDuration: `${0.3 + Math.random() * 0.7}s`,
+      animationDelay: `${Math.random() * 0.5}s`,
+    },
+  })
+}
 
 function schedule(fn, ms) {
   const id = setTimeout(fn, ms)
@@ -53,100 +134,126 @@ function schedule(fn, ms) {
   return id
 }
 
+function startNoiseAnimation() {
+  noiseInterval = setInterval(() => {
+    noiseSeed.value = Math.floor(Math.random() * 9999)
+  }, 80)
+}
+
+function stopNoiseAnimation() {
+  if (noiseInterval) {
+    clearInterval(noiseInterval)
+    noiseInterval = null
+  }
+}
+
 function startSequence() {
-  phase.value = 'dots'
-  dots.value = ''
+  startNoiseAnimation()
 
-  schedule(() => { dots.value = '.' }, 400)
-  schedule(() => { dots.value = '..' }, 800)
-  schedule(() => { dots.value = '...' }, 1200)
+  // Phase 1: BIOS boot text (1.5s)
+  phase.value = 'bios'
+  biosLines.value = []
 
+  const lineDelay = 1500 / BIOS_MESSAGES.length
+  BIOS_MESSAGES.forEach((msg, idx) => {
+    schedule(() => {
+      const shouldGarble = idx > 14 && Math.random() < 0.3
+      const line = shouldGarble ? garble(msg, 0.4) : msg
+      biosLines.value = [...biosLines.value, line]
+    }, idx * lineDelay)
+  })
+
+  // Phase 2: VHS tracking (1s)
   schedule(() => {
-    phase.value = 'typing'
+    phase.value = 'tracking'
+    showStatic.value = true
+    staticOpacity.value = 0.3
+  }, 1500)
+
+  // Phase 3: Timestamp + message (2.5s)
+  schedule(() => {
+    phase.value = 'message'
+    showStatic.value = false
+    staticOpacity.value = 0
+    showTypingCursor.value = true
     displayText.value = ''
+    vhsCounter.value = '--:--:--'
+
+    // Start VHS counter
+    let counterSeconds = 0
+    const counterInterval = setInterval(() => {
+      counterSeconds++
+      const h = String(Math.floor(counterSeconds / 3600)).padStart(2, '0')
+      const m = String(Math.floor((counterSeconds % 3600) / 60)).padStart(2, '0')
+      const s = String(counterSeconds % 60).padStart(2, '0')
+      vhsCounter.value = `${h}:${m}:${s}`
+    }, 200)
+    timers.push(counterInterval)
+
+    // Type message character by character
+    const fullMessage = '你 準 備 好 了 嗎'
     const chars = [...fullMessage]
 
     chars.forEach((_, idx) => {
       schedule(() => {
+        // Show garbled version first
         displayText.value = garble(fullMessage.slice(0, idx + 1), 0.4)
-      }, idx * 160)
+      }, idx * 180)
       schedule(() => {
+        // Then reveal correct character
         displayText.value = fullMessage.slice(0, idx + 1)
-      }, idx * 160 + 110)
+      }, idx * 180 + 120)
     })
 
-    const done = chars.length * 160 + 500
-    // Garble flicker
-    schedule(() => { displayText.value = garble(fullMessage, 0.6) }, done)
-    schedule(() => { displayText.value = fullMessage }, done + 150)
-    schedule(() => { displayText.value = garble(fullMessage, 0.8) }, done + 350)
-    schedule(() => { displayText.value = fullMessage }, done + 500)
+    const typingDone = chars.length * 180 + 300
 
-    // Show ready star then collapse
-    schedule(() => { phase.value = 'ready' }, done + 1200)
-    schedule(() => { doCollapse() }, done + 2800)
-  }, 2000)
+    // Garble flicker after typing
+    schedule(() => { displayText.value = garble(fullMessage, 0.6) }, typingDone)
+    schedule(() => { displayText.value = fullMessage }, typingDone + 150)
+    schedule(() => { displayText.value = garble(fullMessage, 0.8) }, typingDone + 350)
+    schedule(() => {
+      displayText.value = fullMessage
+      showTypingCursor.value = false
+    }, typingDone + 500)
+  }, 2500)
+
+  // Phase 4: Static burst -> black -> emit enter (0.8s)
+  schedule(() => {
+    doBurst()
+  }, 5000)
 }
 
-function doCollapse() {
-  phase.value = 'collapsing'
-  collapsing.value = true
-  schedule(() => { emit('enter') }, 800)
+function doBurst() {
+  phase.value = 'burst'
+  showStatic.value = true
+  staticOpacity.value = 1
+
+  schedule(() => {
+    showStatic.value = false
+    staticOpacity.value = 0
+    stopNoiseAnimation()
+    emit('enter')
+  }, 800)
 }
 
 function skipToEnd() {
-  timers.forEach(clearTimeout)
+  timers.forEach((id) => {
+    clearTimeout(id)
+    clearInterval(id)
+  })
   timers = []
-  doCollapse()
-}
-
-// --- Rings ---
-const RING_COUNT = 14
-const rings = []
-for (let i = 0; i < RING_COUNT; i++) {
-  const size = 95 - i * 5.5
-  const duration = 7 + i * 1.2
-  const delay = i * 0.25
-  const opacity = 0.12 + (i / RING_COUNT) * 0.5
-  const hue = i < RING_COUNT / 2 ? '152, 100%, 50%' : `${300 + i * 4}, 100%, 60%`
-  rings.push({
-    id: i,
-    style: {
-      width: `${size}%`,
-      height: `${size}%`,
-      borderColor: `hsla(${hue}, ${opacity})`,
-      boxShadow: `0 0 ${6 + i * 2}px hsla(${hue}, ${opacity * 0.5}), inset 0 0 ${3 + i}px hsla(${hue}, ${opacity * 0.25})`,
-      animationDuration: `${duration}s`,
-      animationDelay: `-${delay}s`,
-    },
-  })
-}
-
-// --- Particles ---
-const PARTICLE_COUNT = 50
-const particles = []
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  const angle = Math.random() * 360
-  const dist = 35 + Math.random() * 55
-  const size = 1 + Math.random() * 3
-  const duration = 3 + Math.random() * 7
-  const delay = Math.random() * duration
-  const color = Math.random() > 0.3 ? '#00ff88' : '#ff00c8'
-  particles.push({
-    id: i,
-    style: {
-      '--angle': `${angle}deg`,
-      '--dist': `${dist}vh`,
-      '--size': `${size}px`,
-      '--color': color,
-      animationDuration: `${duration}s`,
-      animationDelay: `-${delay}s`,
-    },
-  })
+  doBurst()
 }
 
 onMounted(() => { startSequence() })
-onUnmounted(() => { timers.forEach(clearTimeout); timers = [] })
+onUnmounted(() => {
+  timers.forEach((id) => {
+    clearTimeout(id)
+    clearInterval(id)
+  })
+  timers = []
+  stopNoiseAnimation()
+})
 </script>
 
 <style scoped>
@@ -162,138 +269,247 @@ onUnmounted(() => { timers.forEach(clearTimeout); timers = [] })
   cursor: pointer;
 }
 
-/* Scan lines */
+/* SVG defs hidden */
+.gate__svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* ---- CRT Scanlines ---- */
 .gate__scanlines {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 10;
+  z-index: 50;
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
     transparent 2px,
-    rgba(0, 255, 136, 0.012) 2px,
-    rgba(0, 255, 136, 0.012) 4px
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
   );
 }
 
-/* Wormhole */
-.gate__wormhole {
+/* ---- Static noise overlay ---- */
+.gate__static {
   position: absolute;
-  width: min(90vw, 90vh);
-  height: min(90vw, 90vh);
-  transition: transform 0.8s cubic-bezier(0.5, 0, 1, 0.5), opacity 0.8s ease;
-}
-.gate__wormhole--collapse {
-  transform: scale(15);
-  opacity: 0;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  animation: staticMove 0.15s steps(8) infinite;
+  pointer-events: none;
+  z-index: 40;
 }
 
-/* Rings */
-.gate__ring {
+@keyframes staticMove {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-5%, -8%); }
+  50%  { transform: translate(8%, 5%); }
+  75%  { transform: translate(-8%, 10%); }
+  100% { transform: translate(5%, -5%); }
+}
+
+/* ---- VHS Tracking bars ---- */
+.gate__tracking {
   position: absolute;
-  border: 1px solid;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  animation: gateRingRotate linear infinite;
-}
-.gate__ring:nth-child(odd) {
-  animation-direction: reverse;
-}
-
-@keyframes gateRingRotate {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Text */
-.gate__text {
-  position: relative;
-  z-index: 20;
-  text-align: center;
+  inset: 0;
+  z-index: 30;
   pointer-events: none;
 }
 
-.gate__dots {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4rem);
-  color: var(--color-primary);
-  text-shadow: 0 0 20px #00ff88, 0 0 50px #00ff8866;
-  letter-spacing: 0.4em;
+.gate__tracking-bar {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  background: rgba(255, 255, 255, 0.12);
+  filter: blur(2px);
+  animation: trackingSlide linear infinite;
 }
 
-.gate__typed {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  color: #fff;
-  text-shadow: 0 0 15px #00ff88, 0 0 40px #ff00c855;
-  letter-spacing: 0.15em;
-  white-space: nowrap;
-}
-.gate__typed::after {
-  content: '▌';
-  color: var(--color-primary);
-  animation: cursorBlink 0.6s step-end infinite;
-  margin-left: 2px;
+@keyframes trackingSlide {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
 }
 
-.gate__ready {
-  font-size: clamp(3rem, 7vw, 6rem);
-  color: var(--color-primary);
-  text-shadow: 0 0 30px #00ff88, 0 0 60px #00ff88, 0 0 100px #ff00c8;
-  animation: starPulse 1.5s ease-in-out infinite;
+/* ---- BIOS boot text ---- */
+.gate__bios {
+  position: absolute;
+  inset: 0;
+  padding: 3vh 4vw;
+  z-index: 20;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-@keyframes cursorBlink {
+.gate__bios-line {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  color: #00ff00;
+  line-height: 1.5;
+  white-space: pre;
+  text-shadow: 0 0 4px rgba(0, 255, 0, 0.4);
+}
+
+.gate__bios-line--warn {
+  color: #ffcc00;
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
+}
+
+.gate__bios-line--err {
+  color: #ff0000;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+}
+
+.gate__bios-cursor {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  color: #00ff00;
+  animation: biosCursorBlink 0.5s step-end infinite;
+}
+
+@keyframes biosCursorBlink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
-@keyframes starPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+/* ---- Message screen (VHS playback) ---- */
+.gate__message-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
 }
 
-/* Particles */
-.gate__particle {
+/* REC indicator */
+.gate__rec {
   position: absolute;
-  width: var(--size);
-  height: var(--size);
-  background: var(--color);
-  border-radius: 50%;
+  top: 4vh;
+  left: 4vw;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+  color: #ff0000;
+  z-index: 25;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+}
+
+.gate__rec-dot {
+  animation: recBlink 1s step-end infinite;
+}
+
+@keyframes recBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.gate__rec-text {
+  font-weight: bold;
+  letter-spacing: 0.15em;
+}
+
+.gate__rec-timestamp {
+  color: #d0d0d0;
+  text-shadow: none;
+  margin-left: 1em;
+}
+
+/* Center text */
+.gate__center-text {
+  position: absolute;
   top: 50%;
   left: 50%;
-  box-shadow: 0 0 4px var(--color);
-  animation: gateDrift linear infinite;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 25;
+}
+
+.gate__typed {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  color: #d0d0d0;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+  text-shadow:
+    0 0 10px rgba(0, 255, 0, 0.3),
+    0 0 30px rgba(0, 255, 0, 0.1);
+}
+
+.gate__cursor {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  color: #00ff00;
+  animation: msgCursorBlink 0.5s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes msgCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* VHS counter */
+.gate__vhs-counter {
+  position: absolute;
+  bottom: 4vh;
+  right: 4vw;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: clamp(0.7rem, 1.4vw, 1rem);
+  color: #d0d0d0;
+  letter-spacing: 0.1em;
+  z-index: 25;
+  text-shadow: 0 0 4px rgba(200, 200, 200, 0.2);
+}
+
+/* ---- Static burst (final) ---- */
+.gate__burst {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: #000;
+  animation: burstFlash 0.8s steps(1) forwards;
+}
+
+@keyframes burstFlash {
+  0%   { background: #fff; }
+  10%  { background: #888; }
+  20%  { background: #fff; }
+  35%  { background: #333; }
+  50%  { background: #fff; }
+  65%  { background: #111; }
+  80%  { background: #000; }
+  100% { background: #000; }
+}
+
+/* ---- Vignette on entire gate ---- */
+.gate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
   pointer-events: none;
-  z-index: 5;
+  z-index: 45;
 }
 
-@keyframes gateDrift {
-  0% {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) scale(1);
-    opacity: 0;
-  }
-  15% { opacity: 0.8; }
-  85% { opacity: 0.3; }
-  100% {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(0);
-    opacity: 0;
-  }
-}
-
-/* Skip hint */
+/* ---- Skip hint ---- */
 .gate__skip {
   position: absolute;
   bottom: 5vh;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
-  font-family: var(--font-display);
+  z-index: 55;
+  font-family: 'VT323', 'Courier New', monospace;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(200, 200, 200, 0.15);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   animation: skipPulse 2s ease-in-out infinite;

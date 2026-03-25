@@ -11,10 +11,10 @@
 
       <div class="diary__terminal">
         <div class="diary__terminal-bar">
-          <span class="diary__terminal-dot diary__terminal-dot--red"></span>
-          <span class="diary__terminal-dot diary__terminal-dot--yellow"></span>
-          <span class="diary__terminal-dot diary__terminal-dot--green"></span>
-          <span class="diary__terminal-label">alien_log_v0.3x — corrupted</span>
+          <span class="diary__terminal-dot"></span>
+          <span class="diary__terminal-dot"></span>
+          <span class="diary__terminal-dot"></span>
+          <span class="diary__terminal-label">alien_log.dat — [CORRUPTED]</span>
         </div>
 
         <div class="diary__entries">
@@ -129,19 +129,20 @@ onUnmounted(() => {
 }
 
 .diary__title {
-  font-family: var(--font-heading);
+  font-family: var(--font-system);
   font-size: 2.4rem;
   color: var(--color-primary);
   letter-spacing: 0.3em;
   text-shadow:
-    0 0 10px rgba(0, 255, 136, 0.6),
-    0 0 30px rgba(0, 255, 136, 0.2);
+    0 0 10px rgba(0, 255, 0, 0.6),
+    0 0 30px rgba(0, 255, 0, 0.2);
   animation: glitchFlicker 4s infinite;
 }
 
 .diary__header-noise {
   display: block;
-  color: rgba(255, 255, 255, 0.06);
+  color: rgba(0, 255, 0, 0.04);
+  font-family: var(--font-system);
   font-size: 0.75rem;
   letter-spacing: 0.3em;
   user-select: none;
@@ -162,8 +163,8 @@ onUnmounted(() => {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 255, 136, 0.015) 2px,
-    rgba(0, 255, 136, 0.015) 4px
+    rgba(0, 255, 0, 0.015) 2px,
+    rgba(0, 255, 0, 0.015) 4px
   );
   pointer-events: none;
   animation: scanlineScroll 8s linear infinite;
@@ -171,8 +172,7 @@ onUnmounted(() => {
 
 /* --- Terminal frame --- */
 .diary__terminal {
-  border: 1px solid rgba(0, 255, 136, 0.15);
-  border-radius: 6px;
+  border: 1px dashed rgba(0, 255, 0, 0.2);
   background: rgba(0, 10, 5, 0.6);
   overflow: hidden;
   position: relative;
@@ -189,8 +189,8 @@ onUnmounted(() => {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 255, 136, 0.02) 2px,
-    rgba(0, 255, 136, 0.02) 4px
+    rgba(0, 255, 0, 0.02) 2px,
+    rgba(0, 255, 0, 0.02) 4px
   );
   pointer-events: none;
   z-index: 1;
@@ -201,26 +201,25 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+  background: rgba(0, 255, 0, 0.05);
+  border-bottom: 1px dashed rgba(0, 255, 0, 0.15);
 }
 
 .diary__terminal-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  background: var(--color-primary);
+  opacity: 0.5;
 }
-
-.diary__terminal-dot--red { background: #ff5f56; }
-.diary__terminal-dot--yellow { background: #ffbd2e; }
-.diary__terminal-dot--green { background: #27c93f; }
 
 .diary__terminal-label {
   margin-left: 8px;
-  font-family: var(--font-display);
+  font-family: var(--font-system);
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--color-primary);
   letter-spacing: 0.1em;
+  opacity: 0.4;
 }
 
 /* --- Entries --- */
@@ -234,10 +233,10 @@ onUnmounted(() => {
 }
 
 .diary__entry {
-  border: 1px solid rgba(0, 255, 136, 0.08);
-  border-left: 3px solid var(--color-primary);
+  border: 1px dashed rgba(0, 255, 0, 0.15);
+  border-left: 3px dashed var(--color-primary);
   padding: 1rem 1.2rem;
-  background: rgba(0, 255, 136, 0.02);
+  background: rgba(0, 255, 0, 0.02);
   position: relative;
   animation: entrySlideIn 0.8s ease-out both;
 }
@@ -250,11 +249,11 @@ onUnmounted(() => {
 }
 
 .diary__entry-date {
-  font-family: var(--font-display);
+  font-family: var(--font-system);
   font-size: 0.85rem;
   color: var(--color-primary);
   letter-spacing: 0.15em;
-  text-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.3);
 }
 
 .diary__entry-weather {
@@ -269,8 +268,8 @@ onUnmounted(() => {
   height: 1px;
   background: linear-gradient(
     90deg,
-    rgba(0, 255, 136, 0.2),
-    rgba(255, 0, 200, 0.1),
+    rgba(0, 255, 0, 0.3),
+    rgba(0, 255, 0, 0.1),
     transparent
   );
   margin-bottom: 0.8rem;
@@ -279,16 +278,18 @@ onUnmounted(() => {
 .diary__entry-content {
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: var(--color-text-dim);
+  color: var(--color-primary);
   line-height: 1.9;
   letter-spacing: 0.05em;
+  opacity: 0.8;
 }
 
 .diary__entry-noise {
   display: block;
   margin-top: 0.6rem;
+  font-family: var(--font-system);
   font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.05);
+  color: rgba(0, 255, 0, 0.06);
   letter-spacing: 0.2em;
   user-select: none;
   pointer-events: none;
@@ -303,7 +304,7 @@ onUnmounted(() => {
 }
 
 .diary__prompt {
-  font-family: var(--font-display);
+  font-family: var(--font-system);
   font-size: 0.8rem;
   color: var(--color-primary);
   opacity: 0.6;

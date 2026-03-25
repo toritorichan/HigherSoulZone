@@ -12,8 +12,8 @@
 
     <!-- Phase 3: Full site -->
     <template v-if="phase === 'site'">
-      <div class="app__geometric app__geometric--circle"></div>
-      <div class="app__geometric app__geometric--square"></div>
+      <!-- CRT Vignette overlay — always on top -->
+      <div class="app__crt-vignette"></div>
       <div class="app__layout">
         <div class="app__header">
           <AppBanner />
@@ -80,21 +80,19 @@ const { onClick } = useRapidClick()
   min-height: 100vh;
   position: relative;
 }
-.app__geometric {
+
+/* CRT vignette: dark edges simulating monitor falloff */
+.app__crt-vignette {
   position: fixed;
+  inset: 0;
   pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  z-index: 0;
-}
-.app__geometric--circle {
-  width: 300px; height: 300px;
-  border-radius: 50%;
-  top: 10%; left: 5%;
-}
-.app__geometric--square {
-  width: 150px; height: 150px;
-  bottom: 15%; right: 8%;
-  transform: rotate(45deg);
+  z-index: 9000;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
 }
 
 /* Banner reveal phase */

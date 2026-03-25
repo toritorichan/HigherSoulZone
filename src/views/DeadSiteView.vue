@@ -9,7 +9,12 @@
       <div class="dead__stars-layer"></div>
     </div>
 
+    <!-- CRT scanlines -->
+    <div class="dead__crt-overlay"></div>
+
     <div class="dead__content" ref="contentRef">
+      <!-- VHS timestamp style question -->
+      <div class="dead__vhs-timestamp">REC ● 19██/██/██ ██:██:██</div>
       <h1 ref="headingRef" class="dead__heading">會幫我們保密嗎?</h1>
 
       <div v-if="!animating" class="dead__choices">
@@ -79,6 +84,7 @@ const nopeSources = [
 function generateNopes(count) {
   const items = []
   for (let i = 0; i < count; i++) {
+    const isRed = Math.random() > 0.5
     items.push({
       text: garbleRandom(nopeSources, 0.5 + Math.random() * 0.4),
       style: {
@@ -86,6 +92,10 @@ function generateNopes(count) {
         left: `${Math.random() * 90}vw`,
         fontSize: `${0.8 + Math.random() * 3}rem`,
         transform: `rotate(${(Math.random() - 0.5) * 60}deg)`,
+        color: isRed ? '#ff0000' : '#00ff00',
+        textShadow: isRed
+          ? '0 0 8px rgba(255, 0, 0, 0.5)'
+          : '0 0 8px rgba(0, 255, 0, 0.5)',
       },
     })
   }
@@ -224,13 +234,13 @@ async function handleReject() {
   }
   await wait(3500)
 
-  // Show 👁 briefly
+  // Show eye briefly
   if (deadRef.value) {
     deadRef.value.style.opacity = '1'
     deadRef.value.style.background = '#000'
     deadRef.value.innerHTML = ''
     const eyeEl = document.createElement('div')
-    eyeEl.textContent = '👁'
+    eyeEl.textContent = '\uD83D\uDC41'
     eyeEl.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;opacity:0;transition:opacity 0.5s;color:red;'
     deadRef.value.appendChild(eyeEl)
     requestAnimationFrame(() => { eyeEl.style.opacity = '1' })
@@ -288,8 +298,28 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   opacity: 0.08;
   pointer-events: none;
   z-index: 0;
-  filter: grayscale(1);
+  filter: grayscale(1) brightness(0.8) sepia(0.1) hue-rotate(80deg);
   transition: opacity 3s, transform 3s;
+}
+
+/* CRT overlay for green tint */
+.dead__crt-overlay {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.15) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 5;
 }
 
 .dead__stars {
@@ -346,16 +376,37 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
 
 .dead__content {
   position: relative;
-  z-index: 2;
+  z-index: 6;
   text-align: center;
 }
 
+/* VHS timestamp */
+.dead__vhs-timestamp {
+  font-family: var(--font-system);
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+  animation: vhsBlink 2s ease-in-out infinite;
+}
+
+@keyframes vhsBlink {
+  0%, 85%, 100% { opacity: 0.7; }
+  88% { opacity: 0.3; }
+  91% { opacity: 0.8; }
+}
+
 .dead__heading {
-  font-family: var(--font-heading);
+  font-family: var(--font-system);
   font-size: 6vw;
+  color: var(--color-accent);
   letter-spacing: 0.2em;
   margin-bottom: 3rem;
   transition: transform 0.8s ease;
+  text-shadow:
+    0 0 10px rgba(255, 0, 0, 0.4),
+    2px 2px 0 rgba(255, 0, 0, 0.2);
 }
 
 .dead__choices {
@@ -365,35 +416,57 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   gap: 2rem;
 }
 
+/* Windows-style beveled buttons */
 .dead__choice {
-  background: none;
-  border: none;
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 1.2rem;
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #000000;
+  border-right: 2px solid #000000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf;
+  color: #000;
+  font-family: 'Tahoma', 'MS Sans Serif', sans-serif;
+  font-size: 12px;
   cursor: pointer;
-  letter-spacing: 0.1em;
-  opacity: 0.6;
-  transition: opacity 0.3s;
-  padding: 0.5rem 1rem;
+  letter-spacing: 0.05em;
+  padding: 6px 24px;
+  min-width: 85px;
+  min-height: 25px;
+  transition: none;
 }
 
-.dead__choice:hover { opacity: 1; }
+.dead__choice:active {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #dfdfdf;
+  padding: 7px 23px 5px 25px;
+}
 
+.dead__choice:hover {
+  opacity: 1;
+}
+
+.dead__choice--danger {
+  color: #cc0000;
+}
 
 .dead__message {
+  font-family: var(--font-system);
   font-size: 1.5rem;
+  color: var(--color-primary);
   letter-spacing: 0.2em;
   opacity: 0;
   transition: opacity 1s;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
 }
 
 .dead__scattered {
   position: fixed;
-  color: #fff;
-  font-family: var(--font-heading);
+  font-family: var(--font-system);
   pointer-events: none;
-  z-index: 3;
+  z-index: 7;
   opacity: 0.7;
 }
 
@@ -403,7 +476,7 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
   z-index: 10;
   pointer-events: none;
   animation: screenPulse 0.3s ease-in-out infinite;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 255, 0, 0.02);
 }
 
 @keyframes screenPulse {
@@ -414,6 +487,11 @@ onUnmounted(() => { if (driftTimer) clearTimeout(driftTimer) })
 @media (max-width: 768px) {
   .dead__heading {
     font-size: 8vw;
+  }
+  .dead__choice {
+    font-size: 11px;
+    padding: 5px 16px;
+    min-width: 70px;
   }
 }
 </style>

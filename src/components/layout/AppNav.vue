@@ -1,27 +1,29 @@
 <template>
   <transition name="nav-fade">
     <nav v-if="visible" class="nav">
-      <!-- Desktop: scattered over banner -->
-      <div
-        v-for="(item, i) in displayItems"
-        :key="'d-' + i"
-        class="nav__item nav__item--desktop"
-        :style="positions[i]"
-      >
-        <router-link
-          v-if="!item.isEasterEgg"
-          :to="item.to"
-          class="nav__link"
-        >{{ item.displayText }}</router-link>
-        <a
-          v-else
-          href="#"
-          class="nav__link nav__link--garbled"
-          @click.prevent="triggerGarbledEgg"
-        >{{ item.displayText }}</a>
+      <!-- Desktop: file explorer listing -->
+      <div class="nav__file-list">
+        <div class="nav__file-header">C:\HIGHER_SOUL_ZONE\</div>
+        <div
+          v-for="(item, i) in displayItems"
+          :key="'d-' + i"
+          class="nav__file-entry"
+        >
+          <router-link
+            v-if="!item.isEasterEgg"
+            :to="item.to"
+            class="nav__file-link"
+          ><span class="nav__file-icon">▸</span> {{ item.displayText }}</router-link>
+          <a
+            v-else
+            href="#"
+            class="nav__file-link nav__file-link--garbled"
+            @click.prevent="triggerGarbledEgg"
+          ><span class="nav__file-icon">▸</span> {{ item.displayText }}</a>
+        </div>
       </div>
 
-      <!-- Mobile: bottom floating bar -->
+      <!-- Mobile: bottom bar -->
       <div class="nav__mobile-bar">
         <div class="nav__mobile-scroll">
           <template v-for="(item, i) in displayItems" :key="'m-' + i">
@@ -62,7 +64,7 @@ const visible = ref(false)
 const garbledTriggered = ref(false)
 const glitchActive = ref(false)
 
-// Desktop scattered positions
+// Desktop scattered positions (kept for reference but no longer used in template)
 const positions = [
   { top: '8%', left: '2%', transform: 'rotate(-6deg)' },
   { top: '12%', right: '3%', transform: 'rotate(4deg)' },
@@ -72,7 +74,7 @@ const positions = [
   { top: '82%', left: '18%', transform: 'rotate(7deg)' },
 ]
 
-const mobileIcons = ['✦', '◎', '◈', '⊘', '✧', '⟐']
+const mobileIcons = ['▸', '◎', '◈', '⊘', '✧', '⟐']
 
 onMounted(() => {
   setTimeout(() => { visible.value = true }, 2000)
@@ -88,12 +90,12 @@ watch(() => route.path, (newPath) => {
 })
 
 const navItems = [
-  { label: '✦ 網 站 介 紹', short: '介紹', to: '/introduce', isEasterEgg: false },
-  { label: '✦ 我 們 是 誰', short: '外星人', to: '/alien-types', isEasterEgg: false },
-  { label: '✦ 外 星 日 誌', short: '日誌', to: '/diary', isEasterEgg: false },
-  { label: 'くぁwせfふじこ', short: '?̶̡?̷̢', to: '/form', isEasterEgg: true },
-  { label: '✦ 作 者 介 紹', short: '作者', to: '/authors', isEasterEgg: false },
-  { label: '✦ 友 站 連 結', short: '友站', to: '/contact', isEasterEgg: false },
+  { label: '▸ 介紹.sys', short: '介紹', to: '/introduce', isEasterEgg: false },
+  { label: '▸ 外星人.dat', short: '外星人', to: '/alien-types', isEasterEgg: false },
+  { label: '▸ 日誌.log', short: '日誌', to: '/diary', isEasterEgg: false },
+  { label: '▸ ???.exe', short: '?̶̡?̷̢', to: '/form', isEasterEgg: true },
+  { label: '▸ 作者.txt', short: '作者', to: '/authors', isEasterEgg: false },
+  { label: '▸ 友站.lnk', short: '友站', to: '/contact', isEasterEgg: false },
 ]
 
 const garbledTexts = [
@@ -134,47 +136,74 @@ function triggerGarbledEgg() {
 .nav-fade-enter-active { transition: opacity 1.5s ease; }
 .nav-fade-enter-from { opacity: 0; }
 
-/* ===== Desktop: scattered over banner ===== */
+/* ===== Desktop: file explorer listing ===== */
 .nav {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 10;
   pointer-events: none;
 }
-.nav__item--desktop {
-  position: absolute;
-  white-space: nowrap;
+
+.nav__file-list {
   pointer-events: auto;
+  padding: 8px 0;
+  border: 1px solid rgba(0, 255, 0, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  margin-top: 4px;
 }
-.nav__link {
+
+.nav__file-header {
+  font-family: var(--font-system, monospace);
+  font-size: 11px;
+  color: rgba(0, 255, 0, 0.3);
+  padding: 2px 12px 6px;
+  border-bottom: 1px solid rgba(0, 255, 0, 0.08);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.nav__file-entry {
+  white-space: nowrap;
+}
+
+.nav__file-icon {
+  color: var(--color-primary, #00ff00);
+  opacity: 0.6;
+}
+
+.nav__file-link {
   display: block;
-  padding: 4px 10px;
-  color: rgba(255, 255, 255, 0.45);
-  font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 3px;
-  transition: all 0.3s;
+  padding: 4px 12px;
+  color: rgba(0, 255, 0, 0.55);
+  font-family: var(--font-system, monospace);
+  font-size: 14px;
+  letter-spacing: 2px;
+  transition: all 0.2s;
   white-space: nowrap;
   text-decoration: none;
 }
-.nav__link:hover {
-  color: var(--color-primary);
-  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.2);
+
+.nav__file-link:hover {
+  color: #00ff00;
+  background: rgba(0, 255, 0, 0.05);
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.2);
 }
-.nav__link--garbled {
-  color: rgba(255, 80, 80, 0.08);
+
+.nav__file-link--garbled {
+  color: rgba(255, 40, 40, 0.08);
   text-shadow: none;
   transition: color 0.2s, text-shadow 0.2s;
 }
-.nav__link--garbled:hover {
-  color: rgba(255, 80, 80, 0.85);
-  text-shadow: 0 0 8px rgba(255, 50, 50, 0.5);
+
+.nav__file-link--garbled:hover {
+  color: rgba(255, 40, 40, 0.7);
+  background: rgba(255, 0, 0, 0.03);
+  text-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
 }
 
 /* Hide mobile bar on desktop */
 .nav__mobile-bar { display: none; }
 
-/* ===== Mobile: bottom floating bar ===== */
+/* ===== Mobile: bottom bar ===== */
 @media (max-width: 768px) {
   .nav {
     position: fixed;
@@ -182,13 +211,13 @@ function triggerGarbledEgg() {
     z-index: 9990;
     pointer-events: auto;
   }
-  .nav__item--desktop { display: none; }
+  .nav__file-list { display: none; }
   .nav__mobile-bar {
     display: block;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(5, 5, 10, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(0, 255, 136, 0.1);
+    border-top: 1px solid rgba(0, 255, 0, 0.15);
     padding: 6px 0;
     padding-bottom: max(6px, env(safe-area-inset-bottom));
   }
@@ -213,34 +242,37 @@ function triggerGarbledEgg() {
   .nav__mobile-icon {
     font-size: 18px;
     line-height: 1;
-    filter: grayscale(0.3);
-    transition: filter 0.2s, transform 0.2s;
+    color: rgba(0, 255, 0, 0.4);
+    font-family: var(--font-system, monospace);
+    transition: color 0.2s, text-shadow 0.2s, transform 0.2s;
   }
   .nav__mobile-label {
-    font-family: var(--font-body);
+    font-family: var(--font-body, monospace);
     font-size: 9px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(0, 255, 0, 0.35);
     letter-spacing: 0.5px;
     white-space: nowrap;
     transition: color 0.2s;
   }
   .nav__mobile-link--active .nav__mobile-icon {
-    filter: grayscale(0) drop-shadow(0 0 4px rgba(0, 255, 136, 0.5));
+    color: #00ff00;
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
     transform: scale(1.15);
   }
   .nav__mobile-link--active .nav__mobile-label {
-    color: var(--color-primary);
+    color: var(--color-primary, #00ff00);
   }
   /* Easter egg link — very subtle */
   .nav__mobile-link--egg .nav__mobile-icon {
     opacity: 0.15;
+    color: rgba(255, 40, 40, 0.3);
   }
   .nav__mobile-link--egg .nav__mobile-label {
-    color: rgba(255, 80, 80, 0.12);
+    color: rgba(255, 80, 80, 0.1);
   }
   .nav__mobile-link--egg:active .nav__mobile-icon {
     opacity: 0.8;
-    filter: drop-shadow(0 0 6px rgba(255, 50, 50, 0.5));
+    text-shadow: 0 0 6px rgba(255, 50, 50, 0.5);
   }
 }
 </style>

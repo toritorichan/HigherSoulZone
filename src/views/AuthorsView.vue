@@ -1,38 +1,47 @@
 <template>
   <div class="authors">
     <div ref="contentRef" class="authors__content">
-      <h2 class="authors__heading">作者介紹</h2>
+      <h2 class="authors__heading">[CLASSIFIED] PERSONNEL DATABASE</h2>
+      <div class="authors__status">ACCESS LEVEL: ██████ | CLEARANCE: OMEGA-7</div>
 
       <div class="authors__grid">
-        <div class="author-block author-block--left author-block--float-a">
-          <div class="author-block__avatar author-block__avatar--pink">
-            <span class="author-block__initial">E</span>
-          </div>
-          <div class="author-block__info">
-            <h3 class="author-block__name author-block__name--pink">EJ_SU</h3>
-            <p class="author-block__id tw">蘇怡倢 / B34071149</p>
-            <ul class="author-block__points">
-              <li class="tw">致力於第三文明的美學</li>
-              <li class="tw">探討埃及文化與外星文明的學術研究</li>
-              <li class="tw">成大外星文明探索大使</li>
-            </ul>
+        <div class="author-block">
+          <div class="author-block__header">[CLASSIFIED] PERSONNEL FILE #001</div>
+          <div class="author-block__row">
+            <div class="author-block__avatar">
+              <span class="author-block__initial">E</span>
+              <div class="author-block__redacted-overlay">PHOTO<br>REDACTED</div>
+            </div>
+            <div class="author-block__info">
+              <h3 class="author-block__name">EJ_SU</h3>
+              <p class="author-block__id tw">蘇怡倢 / B34071149</p>
+              <ul class="author-block__points">
+                <li class="tw">&gt; 致力於第三文明的美學</li>
+                <li class="tw">&gt; 探討埃及文化與外星文明的學術研究</li>
+                <li class="tw">&gt; 成大外星文明探索大使</li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div class="author-block author-block--right author-block--float-b">
-          <div class="author-block__avatar author-block__avatar--blue">
-            <span class="author-block__initial">H</span>
-          </div>
-          <div class="author-block__info">
-            <h3 class="author-block__name author-block__name--blue">HsssU</h3>
-            <p class="author-block__id tw">許語宸 / F14061232</p>
-            <ul class="author-block__points">
-              <li>
-                <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">致力於第三隻眼的研究</span>
-              </li>
-              <li class="tw">探討麥田圈與外星繪畫創作之關聯的學術研究</li>
-              <li class="tw">雷爾運動的協助創辦人（台灣分部）</li>
-            </ul>
+        <div class="author-block">
+          <div class="author-block__header">[CLASSIFIED] PERSONNEL FILE #002</div>
+          <div class="author-block__row">
+            <div class="author-block__avatar">
+              <span class="author-block__initial">H</span>
+              <div class="author-block__redacted-overlay">PHOTO<br>REDACTED</div>
+            </div>
+            <div class="author-block__info">
+              <h3 class="author-block__name">HsssU</h3>
+              <p class="author-block__id tw">許語宸 / F14061232</p>
+              <ul class="author-block__points">
+                <li>
+                  <span ref="thirdEyeRef" class="authors__third-eye" @click="onThirdEyeClick">&gt; 致力於第三隻眼的研究</span>
+                </li>
+                <li class="tw">&gt; 探討麥田圈與外星繪畫創作之關聯的學術研究</li>
+                <li class="tw">&gt; 雷爾運動的協助創辦人（台灣分部）</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -105,119 +114,104 @@ watch(thirdEyeOpen, (isOpen) => {
 }
 
 .authors__heading {
-  font-family: var(--font-heading);
-  font-size: 2rem;
+  font-family: var(--font-system);
+  font-size: 1.6rem;
   color: var(--color-primary);
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+}
+
+.authors__status {
+  font-family: var(--font-system);
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  letter-spacing: 0.15em;
+  margin-bottom: 2.5rem;
+  opacity: 0.6;
 }
 
 .authors__grid {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 }
 
-/* --- Author block layout --- */
+/* --- Author block / classified file style --- */
 .author-block {
+  border: 1px dashed rgba(0, 255, 0, 0.2);
+  background: rgba(0, 255, 0, 0.02);
+}
+
+.author-block__header {
+  font-family: var(--font-system);
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  letter-spacing: 0.15em;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 0, 0, 0.05);
+  border-bottom: 1px dashed rgba(0, 255, 0, 0.15);
+}
+
+.author-block__row {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
   padding: 1.5rem;
 }
 
-.author-block--left {
-  margin-right: 6rem;
-}
-
-.author-block--right {
-  margin-left: 6rem;
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-.author-block--right .author-block__points {
-  direction: rtl;
-}
-
-.author-block--right .author-block__points li {
-  padding-left: 0;
-  padding-right: 1.2rem;
-}
-
-.author-block--right .author-block__points li::before {
-  left: auto;
-  right: 0;
-}
-
-/* --- Floating animation --- */
-.author-block--float-a {
-  animation: floatA 6s ease-in-out infinite;
-}
-
-.author-block--float-b {
-  animation: floatB 7s ease-in-out infinite;
-}
-
-/* --- Neon circle avatar --- */
+/* --- Avatar with PHOTO REDACTED overlay --- */
 .author-block__avatar {
   flex-shrink: 0;
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border: 1px dashed rgba(0, 255, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.author-block__avatar--pink {
-  border: none;
-  box-shadow: 0 0 15px rgba(255, 0, 200, 0.2);
-}
-
-.author-block__avatar--blue {
-  border: none;
-  box-shadow: 0 0 15px rgba(68, 136, 255, 0.2);
+  position: relative;
+  background: rgba(0, 255, 0, 0.03);
 }
 
 .author-block__initial {
-  font-family: var(--font-display, monospace);
+  font-family: var(--font-system);
   font-size: 2.2rem;
   font-weight: 700;
-  letter-spacing: 0;
+  color: var(--color-primary);
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  opacity: 0.3;
 }
 
-.author-block__avatar--pink .author-block__initial {
-  color: var(--color-accent, #ff00c8);
-  text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
-}
-
-.author-block__avatar--blue .author-block__initial {
-  color: #4488ff;
-  text-shadow: 0 0 10px rgba(68, 136, 255, 0.5);
+.author-block__redacted-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-system);
+  font-size: 0.55rem;
+  color: var(--color-accent);
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0.7;
 }
 
 /* --- Info --- */
 .author-block__name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-family: var(--font-system);
+  font-size: 1.4rem;
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
-}
-
-.author-block__name--pink {
-  color: var(--color-accent);
-  text-shadow: 0 0 10px rgba(255, 0, 200, 0.3);
-}
-
-.author-block__name--blue {
-  color: #4488ff;
-  text-shadow: 0 0 10px rgba(68, 136, 255, 0.3);
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.3);
 }
 
 .author-block__id {
+  font-family: var(--font-body);
   color: var(--color-text-dim);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
@@ -227,18 +221,12 @@ watch(thirdEyeOpen, (isOpen) => {
 }
 
 .author-block__points li {
-  color: var(--color-text-dim);
-  padding: 0.4rem 0;
-  padding-left: 1.2rem;
-  position: relative;
-  line-height: 1.6;
-}
-
-.author-block__points li::before {
-  content: '▹';
-  position: absolute;
-  left: 0;
+  font-family: var(--font-body);
   color: var(--color-primary);
+  padding: 0.35rem 0;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 /* --- Easter egg states --- */
@@ -253,34 +241,17 @@ watch(thirdEyeOpen, (isOpen) => {
     padding: 1.5rem 1rem;
   }
   .authors__heading {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
   }
   .authors__grid {
-    gap: 2rem;
+    gap: 1.5rem;
   }
-  .author-block {
+  .author-block__row {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
     padding: 1rem;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  .author-block--right {
-    flex-direction: column;
-    text-align: left;
-  }
-  .author-block--right .author-block__points {
-    direction: ltr;
-  }
-  .author-block--right .author-block__points li {
-    padding-right: 0;
-    padding-left: 1.2rem;
-  }
-  .author-block--right .author-block__points li::before {
-    right: auto;
-    left: 0;
   }
   .author-block__avatar {
     width: 56px;
@@ -289,6 +260,9 @@ watch(thirdEyeOpen, (isOpen) => {
   .author-block__initial {
     font-size: 1.6rem;
   }
+  .author-block__redacted-overlay {
+    font-size: 0.45rem;
+  }
   .author-block__name {
     font-size: 1.2rem;
   }
@@ -296,7 +270,7 @@ watch(thirdEyeOpen, (isOpen) => {
     font-size: 0.8rem;
   }
   .author-block__points li {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     line-height: 1.5;
   }
 }
@@ -311,21 +285,6 @@ watch(thirdEyeOpen, (isOpen) => {
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes floatA {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes floatB {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 </style>
 
